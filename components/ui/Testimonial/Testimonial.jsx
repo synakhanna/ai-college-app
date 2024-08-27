@@ -1,52 +1,38 @@
-import SectionWrapper from "@/components/SectionWrapper"
 import GradientWrapper from "@/components/GradientWrapper"
+import LayoutEffect from "@/components/LayoutEffect"
+import SectionWrapper from "@/components/SectionWrapper"
 import user1 from "@/public/testimonial/user1.webp"
 import user2 from "@/public/testimonial/user2.webp"
 import user3 from "@/public/testimonial/user3.webp"
 import user4 from "@/public/testimonial/user4.webp"
-import user5 from "@/public/testimonial/user5.webp"
-import user6 from "@/public/testimonial/user6.webp"
 import Image from "next/image"
-import LayoutEffect from "@/components/LayoutEffect"
 
 const Testimonial = () => {
 
     const testimonials = [
         {
             avatar: user1,
-            name: "Mark Zuckerberg",
-            title: "Founder of meta",
-            quote: "we've been using Mailgo for almost a year now and have nothing but great things to say. It's super easy to set up campaigns and its reporting features are incredibly detailed."
+            name: "Mukut Sharma",
+            title: "Co-Founder of AI-COLLEGE",
+            quote: "At AI-COLLEGE, our mission is to leverage AI to simplify the college application process for students everywhere. We believe that with the right tools, anyone can achieve their educational dreams."
         },
         {
             avatar: user2,
-            name: "Guillermo Rauch",
-            title: "Founder of Vercel",
-            quote: "Mailgo has been a great addition to our email marketing strategy. It's so user-friendly, yet powerful and effective. I'm able to quickly create beautiful emails."
+            name: "Syna Patel",
+            title: "Co-Founder of AI-COLLEGE",
+            quote: "We created AI-COLLEGE to make applying to colleges less stressful and more accessible. With personalized AI-driven guidance, students can feel confident and empowered as they navigate their path to higher education."
         },
         {
             avatar: user3,
-            name: "Sidi jeddou",
-            title: "Founder of Float UI",
-            quote: "I highly recommend Mailgo for anyone looking for an easy-to-use and reliable email marketing tool! It's simple to use and has been a great help."
+            name: "Fatima Rahman",
+            title: "Co-Founder of AI-COLLEGE",
+            quote: "Our goal with AI-COLLEGE is to provide students with a platform that not only assists with applications but also connects them with scholarships and financial aid opportunities. We believe education should be within reach for everyone."
         },
         {
             avatar: user4,
-            name: "Ghazbel",
-            title: "Founder of forceY",
-            quote: "I've been using Mailgo for the past few months and I'm extremely impressed. The user interface is very intuitive, and I love the automated features ."
-        },
-        {
-            avatar: user5,
-            name: "Ana khan",
-            title: "Founder of larax",
-            quote: "Mailgo is the best email marketing tool I've ever used. It's incredibly simple and intuitive to use, yet it offers a wide range of features and options."
-        },
-        {
-            avatar: user6,
-            name: "Ahmed khasem",
-            title: "Founder of Let’s code",
-            quote: "Mailgo is definitely the way to go when it comes to email marketing + I highly recommend it as an email marketing tool with AI support."
+            name: "Tahmidur Rahman",
+            title: "Co-Founder of AI-COLLEGE",
+            quote: "We believe that by using cutting-edge AI technology, AI-COLLEGE can revolutionize the way students approach their college applications. Our platform is designed to be intuitive, supportive, and tailored to the needs of each student."
         },
     ]
 
@@ -55,8 +41,11 @@ const Testimonial = () => {
             <div id="testimonials" className="custom-screen text-gray-300">
                 <div className="max-w-2xl text-center md:mx-auto">
                     <h2 className="text-gray-50 text-3xl font-semibold sm:text-4xl">
-                        Mailgo is loved by the best founders around the world
+                        Why We Founded AI-COLLEGE
                     </h2>
+                    <p className="mt-3 text-gray-300">
+                        As founders of AI-COLLEGE, we are driven by a shared vision to transform the college application process using AI. Here’s why we believe AI-COLLEGE will help students achieve their educational goals.
+                    </p>
                 </div>
                 <GradientWrapper wrapperClassName="max-w-sm h-40 top-12 inset-x-0" className="mt-12">
                     <LayoutEffect
@@ -103,4 +92,4 @@ const Testimonial = () => {
     )
 }
 
-export default Testimonial
+export default Testimonial;

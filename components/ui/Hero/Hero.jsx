@@ -1,8 +1,8 @@
 import GradientWrapper from "@/components/GradientWrapper"
+import LayoutEffect from "@/components/LayoutEffect"
+import HeroImg from "@/public/images/hero.svg"
 import Image from "next/image"
 import NavLink from "../NavLink"
-import HeroImg from "@/public/images/hero.svg"
-import LayoutEffect from "@/components/LayoutEffect"
 
 const Hero = () => (
     <section>
@@ -20,10 +20,10 @@ const Hero = () => (
                                 backgroundImage: "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)"
                             }}
                         >
-                            Manage your email marketing using AI
+                            Simplify Your College Application Process with AI
                         </h1>
                         <p className="max-w-xl mx-auto text-gray-300">
-                            Gain control of your business's growth with Mailgo's comprehensive marketing, automation, and email marketing platform.
+                            Our AI-powered platform helps you find the right colleges, streamline applications, and secure your future with personalized support every step of the way.
                         </p>
                         <div className="flex justify-center font-medium text-sm">
                             <NavLink
@@ -41,7 +41,7 @@ const Hero = () => (
                         <Image
                             src={HeroImg}
                             className="shadow-lg rounded-2xl"
-                            alt="Mailgo"
+                            alt="College Application Assistance"
                         />
                     </GradientWrapper>
                 </div>

@@ -7,25 +7,26 @@ const VisualFeatures = () => {
 
     const features = [
         {
-            title: "Send thousands of emails",
-            desc: "Send thousands of emails quickly and easily. You can customize the content of each email",
+            title: "Explore Top Colleges",
+            desc: "Discover a wide range of top colleges that align with your interests and academic goals.",
             img: Feature1
         },
         {
-            title: "Write your email content using AI",
-            desc: "AI-powered email content writing is the perfect solution for busy professionals who need to quickly create engaging emails.",
+            title: "Get Personalized Application Assistance",
+            desc: "Receive AI-powered guidance through every step of the application process, ensuring you submit the best application possible.",
             img: Feature2
         },
     ]
+    
     return (
         <SectionWrapper>
             <div className="custom-screen text-gray-300">
                 <div className="max-w-xl mx-auto text-center">
                     <h2 className="text-gray-50 text-3xl font-semibold sm:text-4xl">
-                        Take your email marketing to the next level with Mailgo
+                        Elevate Your College Application Experience
                     </h2>
                     <p className="mt-3">
-                        With Mailgo's powerful features, you can easily create and send beautiful emails that will engage your customers and drive more sales.
+                        Our platform offers powerful features that help you find the best colleges, streamline your application process, and set yourself up for success.
                     </p>
                 </div>
                 <div className="mt-12">
@@ -62,4 +63,4 @@ const VisualFeatures = () => {
     )
 }
 
-export default VisualFeatures
+export default VisualFeatures;
