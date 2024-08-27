@@ -1,30 +1,31 @@
-import * as React from "react";
-import type { NextPage } from "next";
-import Image from "next/image";
 import {
-  Container,
   Box,
-  Stack,
-  HStack,
   ButtonGroup,
-  Button,
-  Icon,
-  Heading,
-  Text,
-  Wrap,
-  Tag,
-  useClipboard,
-  IconButton,
-  VStack,
+  Container,
   Flex,
+  Heading,
+  Icon,
+  IconButton,
+  Stack,
+  Tag,
+  Text,
+  useClipboard,
+  VStack,
+  Wrap
 } from "@chakra-ui/react";
 import { SEO } from "components/seo/seo";
+import type { NextPage } from "next";
+import Image from "next/image";
+import * as React from "react";
 
-import { FallInPlace } from "components/motion/fall-in-place";
+import { Br, Link } from "@saas-ui/react";
+import { Faq } from "components/faq";
+import { Features } from "components/features";
+import { BackgroundGradient } from "components/gradients/background-gradient";
 import { Hero } from "components/hero";
-import { Link, Br } from "@saas-ui/react";
+import { FallInPlace } from "components/motion/fall-in-place";
+import { Pricing } from "components/pricing/pricing";
 import { Em } from "components/typography";
-import { NextjsLogo, ChakraLogo } from "components/logos";
 import {
   FiArrowRight,
   FiBox,
@@ -43,17 +44,11 @@ import {
   FiTrendingUp,
   FiUserPlus,
 } from "react-icons/fi";
-import { Features } from "components/features";
-import { BackgroundGradient } from "components/gradients/background-gradient";
-import { Faq } from "components/faq";
-import { Pricing } from "components/pricing/pricing";
 
 import { ButtonLink } from "components/button-link/button-link";
 import { Testimonial, Testimonials } from "components/testimonials";
 
 import faq from "data/faq";
-import testimonials from "data/testimonials";
-import pricing from "data/pricing";
 
 import {
   Highlights,
@@ -65,8 +60,8 @@ const Home: NextPage = () => {
   return (
     <Box>
       <SEO
-        title="Saas UI Landingspage"
-        description="Free SaaS landingspage starter kit"
+        title="College Application Service"
+        description="Your trusted platform to simplify and streamline the college application process."
       />
       <Box>
         <HeroSection />
@@ -97,30 +92,26 @@ const HeroSection: React.FC = () => {
             px="0"
             title={
               <FallInPlace>
-                Build beautiful
-                <Br /> software faster
+                Simplify Your College Applications
+                <Br /> with Our Expert Guidance
               </FallInPlace>
             }
             description={
               <FallInPlace delay={0.4} fontWeight="medium">
-                Saas UI is a <Em>React component library</Em>
-                <Br /> that doesn&apos;t get in your way and helps you <Br />{" "}
-                build intuitive SaaS products with speed.
+                Our platform helps you navigate the college application process <Br /> 
+                with ease and confidence, providing personalized advice <Br />{" "}
+                and streamlined application tracking.
               </FallInPlace>
             }
           >
             <FallInPlace delay={0.8}>
-              <HStack pt="4" pb="12" spacing="8">
-                <NextjsLogo height="28px" /> <ChakraLogo height="20px" />
-              </HStack>
-
               <ButtonGroup spacing={4} alignItems="center">
                 <ButtonLink colorScheme="primary" size="lg" href="/signup">
-                  Sign Up
+                  Get Started
                 </ButtonLink>
                 <ButtonLink
                   size="lg"
-                  href="https://demo.saas-ui.dev"
+                  href="/learn-more"
                   variant="outline"
                   rightIcon={
                     <Icon
@@ -135,7 +126,7 @@ const HeroSection: React.FC = () => {
                     />
                   }
                 >
-                  View demo
+                  Learn More
                 </ButtonLink>
               </ButtonGroup>
             </FallInPlace>
@@ -152,11 +143,11 @@ const HeroSection: React.FC = () => {
             <FallInPlace delay={1}>
               <Box overflow="hidden" height="100%">
                 <Image
-                  src="/static/screenshots/list.png"
+                  src="/static/screenshots/college-dashboard.png"
                   layout="fixed"
                   width={1200}
                   height={762}
-                  alt="Screenshot of a ListPage in Saas UI Pro"
+                  alt="Screenshot of College Application Dashboard"
                   quality="75"
                   priority
                 />
@@ -174,33 +165,33 @@ const HeroSection: React.FC = () => {
         pt="20"
         features={[
           {
-            title: "Accessible",
+            title: "Personalized Guidance",
             icon: FiSmile,
-            description: "All components strictly follow WAI-ARIA standards.",
+            description: "Get expert advice and personalized tips tailored to your strengths.",
             iconPosition: "left",
             delay: 0.6,
           },
           {
-            title: "Themable",
+            title: "Application Tracking",
             icon: FiSliders,
             description:
-              "Fully customize all components to your brand with theme support and style props.",
+              "Keep track of your applications, deadlines, and tasks in one place.",
             iconPosition: "left",
             delay: 0.8,
           },
           {
-            title: "Composable",
+            title: "College Matching",
             icon: FiGrid,
             description:
-              "Compose components to fit your needs and mix them together to create new ones.",
+              "We match you with the best colleges based on your profile and interests.",
             iconPosition: "left",
             delay: 1,
           },
           {
-            title: "Productive",
+            title: "Essay Assistance",
             icon: FiThumbsUp,
             description:
-              "Designed to reduce boilerplate and fully typed, build your product at speed.",
+              "Receive feedback on your essays and improve your writing skills.",
             iconPosition: "left",
             delay: 1.1,
           },
@@ -212,7 +203,7 @@ const HeroSection: React.FC = () => {
 };
 
 const HighlightsSection = () => {
-  const { value, onCopy, hasCopied } = useClipboard("yarn add @saas-ui/react");
+  const { value, onCopy, hasCopied } = useClipboard("yarn add @college-app/react");
 
   return (
     <Highlights>
@@ -220,9 +211,7 @@ const HighlightsSection = () => {
         <VStack alignItems="flex-start" spacing="8">
           <Text color="muted" fontSize="xl">
             Get started for free with <Em>30+ open source components</Em>.
-            Including authentication screens with Clerk, Supabase and Magic.
-            Fully functional forms with React Hook Form. Data tables with React
-            Table.
+            Including college application tracking, essay feedback, and expert advice.
           </Text>
 
           <Flex
@@ -241,7 +230,7 @@ const HighlightsSection = () => {
                 yarn add
               </Text>{" "}
               <Text color="cyan.300" display="inline">
-                @saas-ui/react
+                @college-app/react
               </Text>
             </Box>
             <IconButton
@@ -258,9 +247,7 @@ const HighlightsSection = () => {
       </HighlightsItem>
       <HighlightsItem title="Solid foundations">
         <Text color="muted" fontSize="lg">
-          We don&apos;t like to re-invent the wheel, neither should you. We
-          selected the most productive and established tools in the scene and
-          build Saas UI on top of it.
+          We don't re-invent the wheel. We leverage the best tools and build on top of them.
         </Text>
       </HighlightsItem>
       <HighlightsTestimonialItem
@@ -269,24 +256,20 @@ const HighlightsSection = () => {
         avatar="/static/images/avatar.jpg"
         gradient={["pink.200", "purple.500"]}
       >
-        “Saas UI helped us set up a beautiful modern UI in no time. It saved us
-        hundreds of hours in development time and allowed us to focus on
-        business logic for our specific use-case from the start.”
+        “This platform saved us hundreds of hours in development time and allowed us to focus on building the best product for students.”
       </HighlightsTestimonialItem>
       <HighlightsItem
         colSpan={[1, null, 2]}
-        title="Start your next idea two steps ahead"
+        title="Start your journey two steps ahead"
       >
         <Text color="muted" fontSize="lg">
-          We took care of all your basic frontend needs, so you can start
-          building functionality that makes your product unique.
+          We've taken care of all the essentials so you can start building functionality that makes your college application unique.
         </Text>
         <Wrap mt="8">
           {[
-            "authentication",
-            "navigation",
-            "crud",
-            "settings",
+            "application tracking",
+            "essay assistance",
+            "college matching",
             "multi-tenancy",
             "layouts",
             "billing",
@@ -294,11 +277,6 @@ const HighlightsSection = () => {
             "server-side rendering",
             "documentation",
             "onboarding",
-            "storybooks",
-            "theming",
-            "upselling",
-            "unit testing",
-            "feature flags",
             "responsiveness",
           ].map((value) => (
             <Tag
@@ -328,16 +306,14 @@ const FeaturesSection = () => {
           textAlign="left"
           as="p"
         >
-          Not your standard
-          <Br /> dashboard template.
+          Your gateway to higher education.
         </Heading>
       }
       description={
         <>
-          Saas UI Pro includes everything you need to build modern frontends.
+          Our platform includes everything you need to navigate your college applications.
           <Br />
-          Use it as a template for your next product or foundation for your
-          design system.
+          Use it as a foundation for your future success.
         </>
       }
       align="left"
@@ -348,56 +324,56 @@ const FeaturesSection = () => {
           title: "Components.",
           icon: FiBox,
           description:
-            "All premium components are available on a private NPM registery, no more copy pasting and always up-to-date.",
+            "All premium components are available on a private NPM registry, ensuring you're always up-to-date.",
           variant: "inline",
         },
         {
           title: "Starterkits.",
           icon: FiLock,
           description:
-            "Example apps in Next.JS, Electron. Including authentication, billing, example pages, everything you need to get started FAST.",
+            "Example apps, including tracking and essay feedback, everything you need to get started FAST.",
           variant: "inline",
         },
         {
           title: "Documentation.",
           icon: FiSearch,
           description:
-            "Extensively documented, including storybooks, best practices, use-cases and examples.",
+            "Extensively documented, including use-cases, examples, and storybooks.",
           variant: "inline",
         },
         {
           title: "Onboarding.",
           icon: FiUserPlus,
           description:
-            "Add user onboarding flows, like tours, hints and inline documentation without breaking a sweat.",
+            "Add user onboarding flows without breaking a sweat.",
           variant: "inline",
         },
         {
           title: "Feature flags.",
           icon: FiFlag,
           description:
-            "Implement feature toggles for your billing plans with easy to use hooks. Connect Flagsmith, or other remote config services once you're ready.",
+            "Implement feature toggles for your billing plans with easy-to-use hooks.",
           variant: "inline",
         },
         {
           title: "Upselling.",
           icon: FiTrendingUp,
           description:
-            "Components and hooks for upgrade flows designed to make upgrading inside your app frictionless.",
+            "Upsell premium plans inside your app with frictionless upgrade flows.",
           variant: "inline",
         },
         {
           title: "Themes.",
           icon: FiToggleLeft,
           description:
-            "Includes multiple themes with darkmode support, always have the perfect starting point for your next project.",
+            "Includes multiple themes with dark mode support, perfect for your next project.",
           variant: "inline",
         },
         {
           title: "Generators.",
           icon: FiTerminal,
           description:
-            "Extend your design system while maintaininig code quality and consistency with built-in generators.",
+            "Maintain code quality and consistency with built-in generators.",
           variant: "inline",
         },
         {
@@ -405,9 +381,8 @@ const FeaturesSection = () => {
           icon: FiCode,
           description: (
             <>
-              All code is available as packages in a high-performance{" "}
-              <Link href="https://turborepo.com">Turborepo</Link>, you have full
-              control to modify and adjust it to your workflow.
+              All code is available in a high-performance{" "}
+              <Link href="https://turborepo.com">Turborepo</Link>.
             </>
           ),
           variant: "inline",
@@ -418,29 +393,29 @@ const FeaturesSection = () => {
 };
 
 const TestimonialsSection = () => {
-  const columns = React.useMemo(() => {
-    return testimonials.items.reduce<Array<typeof testimonials.items>>(
-      (columns, t, i) => {
-        columns[i % 3].push(t);
-
-        return columns;
-      },
-      [[], [], []]
-    );
-  }, []);
-
   return (
     <Testimonials
-      title={testimonials.title}
+      title="What Our Students Say"
       columns={[1, 2, 3]}
       innerWidth="container.xl"
     >
       <>
-        {columns.map((column, i) => (
+        {[
+          {
+            name: "John Doe",
+            description: "Accepted to Harvard University",
+            testimonial:
+              "This platform made the application process so easy and stress-free. I couldn't have done it without their help!",
+          },
+          {
+            name: "Jane Smith",
+            description: "Accepted to Stanford University",
+            testimonial:
+              "The personalized guidance was a game-changer for me. I felt confident every step of the way.",
+          },
+        ].map((t, i) => (
           <Stack key={i} spacing="8">
-            {column.map((t, i) => (
-              <Testimonial key={i} {...t} />
-            ))}
+            <Testimonial {...t} />
           </Stack>
         ))}
       </>
@@ -450,7 +425,38 @@ const TestimonialsSection = () => {
 
 const PricingSection = () => {
   return (
-    <Pricing {...pricing}>
+    <Pricing
+      title="Choose Your Plan"
+      description="Select a plan that best suits your needs and start your college journey today."
+      plans={[
+        {
+          name: "Basic",
+          price: "$99",
+          features: ["Application tracking", "College matching", "Essay feedback"],
+          action: { label: "Get Basic", href: "/signup-basic" }
+        },
+        {
+          name: "Premium",
+          price: "$199",
+          features: [
+            "Everything in Basic",
+            "One-on-one counseling",
+            "Priority support",
+          ],
+          action: { label: "Get Premium", href: "/signup-premium" }
+        },
+        {
+          name: "VIP",
+          price: "$499",
+          features: [
+            "Everything in Premium",
+            "Personalized college strategy",
+            "Unlimited counseling",
+          ],
+          action: { label: "Get VIP", href: "/signup-vip" }
+        },
+      ]}
+    >
       <Text p="8" textAlign="center" color="muted">
         VAT may be applicable depending on your location.
       </Text>
@@ -470,8 +476,8 @@ export async function getStaticProps() {
       announcement: {
         title: "Support us by becoming a stargazer! 🚀 ",
         description:
-          '<img src="https://img.shields.io/github/stars/saas-js/saas-ui.svg?style=social&label=Star" />',
-        href: "https://github.com/saas-js/saas-ui",
+          '<img src="https://img.shields.io/github/stars/college-app/college-ui.svg?style=social&label=Star" />',
+        href: "https://github.com/college-app/college-ui",
         action: false,
       },
     },
