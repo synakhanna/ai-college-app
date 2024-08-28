@@ -129,12 +129,22 @@ const Navbar = () => {
                         ))}
                     </ul>
                     <div className="flex flex-col items-center space-y-4 mt-6">
+                         {/* 
                         <SignedOut>
                             <NavLink href="/sign-in" className="text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900">
                                 Sign In
                             </NavLink>
                             <NavLink href="/sign-up" className="text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900">
                                 Sign Up
+                            </NavLink>
+                        </SignedOut>
+                        <SignedIn>
+                            <UserButton afterSignOutUrl="/" />
+                        </SignedIn>
+                        */}
+                        <SignedOut>
+                            <NavLink href="/sign-up" className="text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900">
+                                Join Waitlist
                             </NavLink>
                         </SignedOut>
                         <SignedIn>
