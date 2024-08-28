@@ -73,17 +73,27 @@ const Navbar = () => {
                             ))}
                         </ul>
                         <div className="hidden lg:flex items-center gap-x-4 pt-5">
+                            {/* 
                             <SignedOut>
-                                <NavLink href="/sign-in" className="text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900">
+                                <NavLink href="/sign-in" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
                                     Sign In
                                 </NavLink>
-                                <NavLink href="/sign-up" className="text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900">
+                                <NavLink href="/sign-up" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
                                     Sign Up
                                 </NavLink>
                             </SignedOut>
                             <SignedIn>
                                 <UserButton afterSignOutUrl="/" />
-                            </SignedIn>
+                            </SignedIn> 
+                            */}
+                            <SignedOut>
+                                <NavLink href="/sign-up" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
+                                    Join Waitlist
+                                </NavLink>
+                            </SignedOut>
+                            <SignedIn>
+                                <UserButton afterSignOutUrl="/" />
+                            </SignedIn> 
                         </div>
                         {/* Hamburger menu button */}
                         <button
