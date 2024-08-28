@@ -7,33 +7,33 @@ const Testimonial = () => {
     const testimonials = [
         {
             name: "Alex Johnson",
-            title: "College Student",
-            quote: "CollegeGenie made the application process so much easier for me. The AI-driven guidance was spot on, helping me stay organized and confident every step of the way."
+            title: "High School Senior",
+            quote: "CollegeGenie just launched, and it's already been a game changer for me. The AI guidance made my college application process so much less stressful. I felt more organized and confident throughout the entire process."
         },
         {
             name: "Maria Gonzalez",
-            title: "High School Senior",
-            quote: "Applying to colleges felt overwhelming until I found CollegeGenie. The personalized support and resources gave me the clarity I needed to make the right choices."
+            title: "High School Junior",
+            quote: "I was overwhelmed with the thought of applying to colleges, but CollegeGenie really helped me out. The personalized support made it easier to choose the right schools and keep track of deadlines. I'm feeling way more prepared now!"
         },
         {
             name: "David Lee",
-            title: "College Student",
-            quote: "With CollegeGenie, I was able to navigate the complex college application process effortlessly. The platform's intuitive design and AI tools were a game changer."
+            title: "High School Senior",
+            quote: "As someone who tends to procrastinate, I was worried about staying on top of everything. But CollegeGenie recently came out and has made the whole process so much easier to manage. I can’t imagine going through this without it."
         },
         {
             name: "Emily Zhang",
             title: "High School Junior",
-            quote: "CollegeGenie is an incredible tool for anyone planning to apply to college. It helped me identify the best schools for my goals and made sure I didn’t miss any important deadlines."
+            quote: "Even though CollegeGenie is new, it's already proving to be an essential tool for anyone applying to college. It’s helped me narrow down my college list and stay on track with all the things I need to get done."
         },
         {
             name: "Michael Brown",
-            title: "College Student",
-            quote: "Thanks to CollegeGenie, I felt supported throughout my entire application journey. The AI features provided invaluable insights and personalized advice."
+            title: "High School Senior",
+            quote: "CollegeGenie just launched, but it’s already made a huge difference for me. The AI features are amazing—they give you the insights you need without the stress. It’s like having a personal college counselor with you all the time."
         },
         {
             name: "Sarah Williams",
             title: "High School Senior",
-            quote: "CollegeGenie took the stress out of applying to colleges. The AI recommendations and step-by-step guidance made the process much more manageable."
+            quote: "I heard about CollegeGenie right after it launched, and I’m so glad I did. The step-by-step guidance has made applying to colleges so much more manageable. I actually feel excited about my future instead of just anxious."
         },
     ]
 
@@ -42,10 +42,10 @@ const Testimonial = () => {
             <div id="testimonials" className="custom-screen text-gray-300">
                 <div className="max-w-2xl text-center md:mx-auto">
                     <h2 className="text-gray-50 text-3xl font-semibold sm:text-4xl">
-                        Why Students Love CollegeGenie
+                        Why High Schoolers Love CollegeGenie
                     </h2>
                     <p className="mt-3 text-gray-300">
-                        Hear from students who have used CollegeGenie to simplify their college application process. Here’s why they believe CollegeGenie is the perfect companion for their educational journey.
+                        CollegeGenie may have just launched, but it's already making a big impact. Here’s what high school students are saying about how CollegeGenie has helped them with their college applications.
                     </p>
                 </div>
                 <GradientWrapper wrapperClassName="max-w-sm h-40 top-12 inset-x-0" className="mt-12">
