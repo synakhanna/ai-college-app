@@ -62,7 +62,7 @@ const Navbar = () => {
             <div className="custom-screen items-center md:flex">
                 <NavHeader state={state} onClick={() => setState(!state)} />
                 <div className={`flex-1 items-center mt-8 text-gray-300 md:font-medium md:mt-0 md:flex ${state ? 'block' : 'hidden'} `}>
-                    <ul className="flex-1 justify-center items-center space-y-6 md:flex md:space-x-8 md:space-y-0">
+                    <ul className="flex-1 justify-center items-center mt-5 space-y-6 md:flex md:space-x-8 md:space-y-0">
                         {navigation.map((item, idx) => (
                             <li key={idx} className="hover:text-gray-50 text-lg font-semibold">
                                 <Link href={item.href} onClick={(e) => handleSmoothScroll(e, item.href)}>
@@ -71,7 +71,7 @@ const Navbar = () => {
                             </li>
                         ))}
                     </ul>
-                    <div className="gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">
+                    <div className="gap-x-6 items-center justify-end pt-5 space-y-6 md:flex md:space-y-0 md:mt-0">
                         <SignedOut>
                             <NavLink href="/sign-in" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
                                 Sign In
