@@ -20,7 +20,7 @@ export default function LoginPage() {
               <p className=''>
                 Don't have an account?{" "}
                 <Link
-                  href='/#pricing'
+                  href='/sign-up'
                   className='font-medium text-purple-500 hover:text-purple-600 duration-150'>
                   Get access
                 </Link>
