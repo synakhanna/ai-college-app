@@ -3,7 +3,7 @@ import NavLink from "../NavLink"
 
 const Hero = () => (
     <section>
-        <div className="custom-screen py-28">
+        <div className="custom-screen py-20">
             <LayoutEffect className="duration-1000 delay-300"
                 isInviewState={{
                     trueState: "opacity-1",
