@@ -20,7 +20,8 @@ const Hero = () => (
                             Simplify Your College Application Process with AI
                         </h1>
                         <p className="max-w-xl mx-auto text-gray-300">
-                            Our AI-powered platform helps you find the right colleges, streamline applications, and secure your future with personalized support every step of the way.
+                            Our AI-powered platform helps you find the right colleges, streamline applications, and achieve success in your college journey.
+
                         </p>
                         <div className="flex justify-center font-medium text-sm">
                             <NavLink
