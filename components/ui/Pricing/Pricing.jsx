@@ -41,30 +41,30 @@ const Pricing = () => {
                     <div className='flex justify-center'>
                         {
                             plans.map((item, idx) => (
-                                <div key={idx} className={`relative flex-1 max-w-lg p-12 flex items-stretch flex-col rounded-xl border border-gray-800 ${item.isMostPop ? "border border-purple-500" : ""}`}
+                                <div key={idx} className={`relative flex-1 max-w-sm flex items-stretch flex-col rounded-xl border border-gray-800 ${item.isMostPop ? "border border-purple-500" : ""}`}
                                     style={{
                                         backgroundImage: item.isMostPop ? mostPopPricingBg : ""
                                     }}
                                 >
-                                    <div className="p-8 space-y-6 border-b border-gray-800 text-center">
-                                        <span className='text-gray-50 text-xl font-semibold'>
+                                    <div className="p-8 space-y-4 border-b border-gray-800 text-center">
+                                        <span className='text-gray-50 text-l font-semibold'>
                                             {item.name}
                                         </span>
-                                        <div className='text-gray-50 text-4xl font-semibold'>
-                                            ${item.price} <span className="text-2xl text-gray-400 font-normal">/mo</span>
+                                        <div className='text-gray-50 text-3xl font-semibold'>
+                                            ${item.price} <span className="text-xl text-gray-400 font-normal">/mo</span>
                                         </div>
-                                        <p className="text-gray-400 text-lg">
+                                        <p className="text-gray-400">
                                             {item.desc}
                                         </p>
                                     </div>
                                     <div className="p-8">
-                                        <ul className='space-y-4'>
+                                        <ul className='space-y-3'>
                                             {
                                                 item.features.map((featureItem, idx) => (
-                                                    <li key={idx} className='flex items-center gap-6 text-gray-300 text-lg'>
+                                                    <li key={idx} className='flex items-center gap-5 text-gray-300'>
                                                         <svg
                                                             xmlns='http://www.w3.org/2000/svg'
-                                                            className='h-6 w-6 text-indigo-600'
+                                                            className='h-5 w-5 text-indigo-600'
                                                             viewBox='0 0 20 20'
                                                             fill='currentColor'>
                                                             <path
