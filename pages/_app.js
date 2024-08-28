@@ -3,11 +3,17 @@ import "@/styles/globals.css";
 import {
   ClerkProvider
 } from '@clerk/nextjs';
+import { shadesOfPurple } from '@clerk/themes'
+
 
 
 export default function App({ Component, pageProps }) {
   return (
-    <ClerkProvider> 
+    <ClerkProvider
+      appearance={{
+      baseTheme: shadesOfPurple,
+    }}
+    >
     <Layout>
       <Component {...pageProps} />
     </Layout>
