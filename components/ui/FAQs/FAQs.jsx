@@ -26,12 +26,12 @@ const faqsList = [
         q: "How do you ensure that CollegeGenie is helpful for all students?",
         a: "We continually refine our algorithms to ensure that CollegeGenie is as effective as possible for all students, no matter their academic interests or goals. Our tools are built to adapt to individual needs, offering personalized guidance at every step."
     }
-]
+];
 
 const FAQs = () => (
     <SectionWrapper id="faqs">
         <div className="custom-screen text-gray-300">
-            <div className="max-w-xl text-center xl:mx-auto">
+            <div className="flex flex-col items-center text-center max-w-xl mx-auto">
                 <h2 className="text-gray-50 text-3xl font-extrabold sm:text-4xl">
                     Everything you need to know about CollegeGenie
                 </h2>
@@ -68,6 +68,6 @@ const FAQs = () => (
             </div>
         </div>
     </SectionWrapper>
-)
+);
 
 export default FAQs;
