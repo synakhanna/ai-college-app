@@ -1,6 +1,6 @@
 import LayoutEffect from "@/components/LayoutEffect";
 import SectionWrapper from "@/components/SectionWrapper";
-import { BsBarChart, BsCashStack, BsChatSquareText, BsFileText, BsPencilSquare, BsSearch } from "react-icons/bs";
+import { BsCashStack, BsChatSquareText, BsFileText, BsPencilSquare, BsPeople, BsSearch } from "react-icons/bs"; // Added BsPeople for Network
 
 const Features = () => {
 
@@ -16,11 +16,6 @@ const Features = () => {
             desc: "Receive personalized guidance and tips for every part of your application, from essays to recommendation letters."
         },
         {
-            icon: <BsBarChart className="w-6 h-6" />,
-            title: "Track Your Progress",
-            desc: "Monitor your application progress and stay on top of deadlines with our intuitive progress tracking dashboard."
-        },
-        {
             icon: <BsFileText className="w-6 h-6" />,
             title: "AI-Powered Essay Reviews",
             desc: "Get feedback on your college essays from our AI tool that provides suggestions for improving clarity, tone, and impact."
@@ -34,6 +29,11 @@ const Features = () => {
             icon: <BsChatSquareText className="w-6 h-6" />,
             title: "Interview Preparation",
             desc: "Prepare for college interviews with AI-generated practice questions and tips to help you feel confident."
+        },
+        {
+            icon: <BsPeople className="w-6 h-6" />, // New Icon for Network
+            title: "Network",
+            desc: "Build your network by connecting with other fellow students."
         },
     ]
 
