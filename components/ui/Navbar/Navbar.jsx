@@ -5,7 +5,7 @@ import NavLink from '../NavLink';
 
 const Navbar = () => {
     const [state, setState] = useState(false);
-    const menuBtnEl = useRef();
+    const menuBtnEl = useRef(null);
 
     const navigation = [
         { name: "Features", href: "/#features" },
@@ -17,7 +17,9 @@ const Navbar = () => {
     useEffect(() => {
         document.onclick = (e) => {
             const target = e.target;
-            if (!menuBtnEl.current.contains(target)) setState(false);
+            if (menuBtnEl.current && !menuBtnEl.current.contains(target)) {
+                setState(false);
+            }
         };
     }, []);
 
@@ -29,7 +31,7 @@ const Navbar = () => {
             const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
             const startPosition = window.pageYOffset;
             const distance = targetPosition - startPosition;
-            const speed = .9;
+            const speed = 0.9;
             const duration = Math.abs(distance) / speed;
 
             let start = null;
@@ -54,17 +56,14 @@ const Navbar = () => {
     };
 
     return (
-        <header className='relative'>
-            <div className="custom-screen md:hidden">
-                <NavHeader menuBtnEl={menuBtnEl} state={state} onClick={() => setState(!state)} />
-            </div>
-            <nav className={`pb-5 md:text-sm md:static md:block ${state ? "bg-gray-900 absolute z-20 top-0 inset-x-0 rounded-b-2xl shadow-xl md:bg-gray-900" : "hidden"}`}>
+        <header>
+            <nav className={`pb-5 md:text-lg md:static md:block ${state ? "bg-gray-900 absolute z-20 top-0 inset-x-0 rounded-b-2xl shadow-xl md:bg-gray-900" : "hidden"}`}>
                 <div className="custom-screen items-center md:flex">
                     <NavHeader state={state} onClick={() => setState(!state)} />
                     <div className={`flex-1 items-center mt-8 text-gray-300 md:font-medium md:mt-0 md:flex ${state ? 'block' : 'hidden'} `}>
-                        <ul className="flex-1 justify-center items-center space-y-6 md:flex md:space-x-6 md:space-y-0">
+                        <ul className="flex-1 justify-center items-center space-y-6 md:flex md:space-x-8 md:space-y-0">
                             {navigation.map((item, idx) => (
-                                <li key={idx} className="hover:text-gray-50">
+                                <li key={idx} className="hover:text-gray-50 text-lg font-semibold">
                                     <Link href={item.href} onClick={(e) => handleSmoothScroll(e, item.href)}>
                                         {item.name}
                                     </Link>
@@ -72,10 +71,10 @@ const Navbar = () => {
                             ))}
                         </ul>
                         <div className="gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">                       
-                            <NavLink href="/signin" className="flex items-center justify-center gap-x-1 text-sm text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
+                            <NavLink href="/signin" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
                                 Sign In
                             </NavLink>
-                            <NavLink href="/signup" className="flex items-center justify-center gap-x-1 text-sm text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
+                            <NavLink href="/signup" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
                                 Sign Up
                             </NavLink>
                         </div>
