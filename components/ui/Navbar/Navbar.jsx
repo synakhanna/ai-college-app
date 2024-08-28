@@ -63,6 +63,7 @@ const Navbar = () => {
                     <NavHeader state={state} onClick={() => setState(!state)} />
                     <div className={`flex-1 items-center mt-8 text-gray-300 md:font-medium md:mt-0 md:flex ${state ? 'block' : 'hidden'} md:block`}>
                         {/* Regular menu */}
+                        <SignedOut>
                         <ul className="hidden lg:flex flex-1 justify-center items-center mt-5 space-y-6 lg:space-x-6 xl:space-x-8 lg:space-y-0">
                             {navigation.map((item, idx) => (
                                 <li key={idx} className="hover:text-gray-50 text-lg font-semibold text-white">
@@ -72,6 +73,7 @@ const Navbar = () => {
                                 </li>
                             ))}
                         </ul>
+                        </SignedOut>
                         <div className="hidden lg:flex items-center gap-x-4 pt-5">
                             <SignedOut>
                                 <NavLink href="/sign-up" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
@@ -79,7 +81,7 @@ const Navbar = () => {
                                 </NavLink>
                             </SignedOut>
                             <SignedIn>
-                                <UserButton afterSignOutUrl="/" />
+                                <UserButton afterSignOutUrl="/"/>
                             </SignedIn> 
                         </div>
                         {/* Hamburger menu button */}
