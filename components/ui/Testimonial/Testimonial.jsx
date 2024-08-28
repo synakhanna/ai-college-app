@@ -8,32 +8,32 @@ const Testimonial = () => {
         {
             name: "Alex Johnson",
             title: "High School Senior",
-            quote: "CollegeGenie just launched, and it's already been a game changer for me. The AI guidance made my college application process so much less stressful. I felt more organized and confident throughout the entire process."
+            quote: "CollegeGenie has been an absolute lifesaver. The AI guidance helped me organize my college applications and manage my time better. I feel much more confident about getting into my dream school."
         },
         {
             name: "Maria Gonzalez",
             title: "High School Junior",
-            quote: "I was overwhelmed with the thought of applying to colleges, but CollegeGenie really helped me out. The personalized support made it easier to choose the right schools and keep track of deadlines. I'm feeling way more prepared now!"
+            quote: "Applying to college felt so overwhelming, but CollegeGenie made everything so much easier. The personalized support helped me choose the right schools and keep track of important deadlines."
         },
         {
             name: "David Lee",
             title: "High School Senior",
-            quote: "As someone who tends to procrastinate, I was worried about staying on top of everything. But CollegeGenie recently came out and has made the whole process so much easier to manage. I can’t imagine going through this without it."
+            quote: "I tend to procrastinate a lot, so I was really worried about keeping up with my college applications. CollegeGenie helped me stay on top of everything and made the process much less stressful."
         },
         {
             name: "Emily Zhang",
             title: "High School Junior",
-            quote: "Even though CollegeGenie is new, it's already proving to be an essential tool for anyone applying to college. It’s helped me narrow down my college list and stay on track with all the things I need to get done."
+            quote: "CollegeGenie is an amazing tool for anyone applying to college. It helped me narrow down my college list and ensured I didn’t miss any deadlines. I’m feeling much more prepared now."
         },
         {
             name: "Michael Brown",
             title: "High School Senior",
-            quote: "CollegeGenie just launched, but it’s already made a huge difference for me. The AI features are amazing—they give you the insights you need without the stress. It’s like having a personal college counselor with you all the time."
+            quote: "The AI features in CollegeGenie are incredible. They provided me with insights and advice that I wouldn’t have found on my own. It’s like having a personal college counselor available 24/7."
         },
         {
             name: "Sarah Williams",
             title: "High School Senior",
-            quote: "I heard about CollegeGenie right after it launched, and I’m so glad I did. The step-by-step guidance has made applying to colleges so much more manageable. I actually feel excited about my future instead of just anxious."
+            quote: "CollegeGenie made the college application process so much more manageable. The step-by-step guidance kept me organized, and now I feel excited about my future instead of just anxious."
         },
     ]
 
@@ -45,7 +45,7 @@ const Testimonial = () => {
                         Why High Schoolers Love CollegeGenie
                     </h2>
                     <p className="mt-3 text-gray-300">
-                        CollegeGenie may have just launched, but it's already making a big impact. Here’s what high school students are saying about how CollegeGenie has helped them with their college applications.
+                        Hear from high school students who have used CollegeGenie to simplify their college application process. Here’s why they believe CollegeGenie is the perfect companion for their educational journey.
                     </p>
                 </div>
                 <GradientWrapper wrapperClassName="max-w-sm h-40 top-12 inset-x-0" className="mt-12">
