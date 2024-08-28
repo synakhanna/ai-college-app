@@ -1,4 +1,3 @@
-import CTA from "@/components/ui/CTA";
 import FAQs from "@/components/ui/FAQs";
 import Features from "@/components/ui/Features";
 import Hero from "@/components/ui/Hero";
@@ -10,7 +9,6 @@ export default function Home() {
     <>
       <Hero />
       <Features />
-      <CTA />
       <Testimonial />
       <Pricing />
       <FAQs />
