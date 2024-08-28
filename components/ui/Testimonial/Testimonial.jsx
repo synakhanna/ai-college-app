@@ -12,25 +12,25 @@ const Testimonial = () => {
     const testimonials = [
         {
             avatar: user1,
-            name: "Mukut Sharma",
+            name: "Mukut Chowdhury",
             title: "Co-Founder of CollegeGenie",
             quote: "At CollegeGenie, our mission is to leverage AI to simplify the college application process for students everywhere. We believe that with the right tools, anyone can achieve their educational dreams."
         },
         {
             avatar: user2,
-            name: "Syna Patel",
+            name: "Syna Khanna",
             title: "Co-Founder of CollegeGenie",
             quote: "We created CollegeGenie to make applying to colleges less stressful and more accessible. With personalized AI-driven guidance, students can feel confident and empowered as they navigate their path to higher education."
         },
         {
             avatar: user3,
-            name: "Fatima Rahman",
+            name: "Fatima Riaz",
             title: "Co-Founder of CollegeGenie",
             quote: "Our goal with CollegeGenie is to provide students with a platform that not only assists with applications but also connects them with scholarships and financial aid opportunities. We believe education should be within reach for everyone."
         },
         {
             avatar: user4,
-            name: "Tahmidur Rahman",
+            name: "Tahmidur Rabb",
             title: "Co-Founder of CollegeGenie",
             quote: "We believe that by using cutting-edge AI technology, CollegeGenie can revolutionize the way students approach their college applications. Our platform is designed to be intuitive, supportive, and tailored to the needs of each student."
         },
