@@ -7,7 +7,7 @@ const faqsList = [
         a: "CollegeGenie is an AI-powered platform designed to streamline and personalize the college application process for students. From finding the right colleges to receiving essay assistance and tracking progress, our tools provide the support students need."
     },
     {
-        q: "Why did you create CollegeGenie?",
+        q: "Why was CollegeGenie created?",
         a: "CollegeGenie was created to make the daunting college application process more accessible and less stressful. Our goal is to ensure that students can navigate their journey with ease and confidence using the latest AI technology."
     },
     {
