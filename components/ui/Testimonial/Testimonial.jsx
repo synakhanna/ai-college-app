@@ -1,38 +1,39 @@
 import GradientWrapper from "@/components/GradientWrapper"
 import LayoutEffect from "@/components/LayoutEffect"
 import SectionWrapper from "@/components/SectionWrapper"
-import user1 from "@/public/testimonial/user1.webp"
-import user2 from "@/public/testimonial/user2.webp"
-import user3 from "@/public/testimonial/user3.webp"
-import user4 from "@/public/testimonial/user4.webp"
-import Image from "next/image"
 
 const Testimonial = () => {
 
     const testimonials = [
         {
-            avatar: user1,
-            name: "Mukut Chowdhury",
-            title: "Co-Founder of CollegeGenie",
-            quote: "At CollegeGenie, our mission is to leverage AI to simplify the college application process for students everywhere. We believe that with the right tools, anyone can achieve their educational dreams."
+            name: "Alex Johnson",
+            title: "College Student",
+            quote: "CollegeGenie made the application process so much easier for me. The AI-driven guidance was spot on, helping me stay organized and confident every step of the way."
         },
         {
-            avatar: user2,
-            name: "Syna Khanna",
-            title: "Co-Founder of CollegeGenie",
-            quote: "We created CollegeGenie to make applying to colleges less stressful and more accessible. With personalized AI-driven guidance, students can feel confident and empowered as they navigate their path to higher education."
+            name: "Maria Gonzalez",
+            title: "High School Senior",
+            quote: "Applying to colleges felt overwhelming until I found CollegeGenie. The personalized support and resources gave me the clarity I needed to make the right choices."
         },
         {
-            avatar: user3,
-            name: "Fatima Riaz",
-            title: "Co-Founder of CollegeGenie",
-            quote: "Our goal with CollegeGenie is to provide students with a platform that not only assists with applications but also connects them with scholarships and financial aid opportunities. We believe education should be within reach for everyone."
+            name: "David Lee",
+            title: "College Student",
+            quote: "With CollegeGenie, I was able to navigate the complex college application process effortlessly. The platform's intuitive design and AI tools were a game changer."
         },
         {
-            avatar: user4,
-            name: "Tahmidur Rabb",
-            title: "Co-Founder of CollegeGenie",
-            quote: "We believe that by using cutting-edge AI technology, CollegeGenie can revolutionize the way students approach their college applications. Our platform is designed to be intuitive, supportive, and tailored to the needs of each student."
+            name: "Emily Zhang",
+            title: "High School Junior",
+            quote: "CollegeGenie is an incredible tool for anyone planning to apply to college. It helped me identify the best schools for my goals and made sure I didn’t miss any important deadlines."
+        },
+        {
+            name: "Michael Brown",
+            title: "College Student",
+            quote: "Thanks to CollegeGenie, I felt supported throughout my entire application journey. The AI features provided invaluable insights and personalized advice."
+        },
+        {
+            name: "Sarah Williams",
+            title: "High School Senior",
+            quote: "CollegeGenie took the stress out of applying to colleges. The AI recommendations and step-by-step guidance made the process much more manageable."
         },
     ]
 
@@ -41,10 +42,10 @@ const Testimonial = () => {
             <div id="testimonials" className="custom-screen text-gray-300">
                 <div className="max-w-2xl text-center md:mx-auto">
                     <h2 className="text-gray-50 text-3xl font-semibold sm:text-4xl">
-                        Why We Founded CollegeGenie
+                        Why Students Love CollegeGenie
                     </h2>
                     <p className="mt-3 text-gray-300">
-                        As founders of CollegeGenie, we are driven by a shared vision to transform the college application process using AI. Here’s why we believe CollegeGenie will help students achieve their educational goals.
+                        Hear from students who have used CollegeGenie to simplify their college application process. Here’s why they believe CollegeGenie is the perfect companion for their educational journey.
                     </p>
                 </div>
                 <GradientWrapper wrapperClassName="max-w-sm h-40 top-12 inset-x-0" className="mt-12">
@@ -70,11 +71,6 @@ const Testimonial = () => {
                                                 </p>
                                             </blockquote>
                                             <div className="flex items-center gap-x-4">
-                                                <Image
-                                                    src={item.avatar}
-                                                    alt={item.name}
-                                                    className="w-14 h-14 rounded-full object-cover"
-                                                />
                                                 <div>
                                                     <span className="block text-gray-50 font-semibold">{item.name}</span>
                                                     <span className="block text-sm mt-0.5">{item.title}</span>
