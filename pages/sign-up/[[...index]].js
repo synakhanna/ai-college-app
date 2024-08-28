@@ -7,7 +7,7 @@ export default function SignUpPage() {
   return (
     <>
       <Head>
-        <title>Sign Up - Mailgo</title>
+        <title>Sign Up - CollegeGenie</title>
       </Head>
       <main className='w-full h-screen flex flex-col items-center justify-center px-4'>
         <div className='max-w-sm w-full text-gray-300'>
