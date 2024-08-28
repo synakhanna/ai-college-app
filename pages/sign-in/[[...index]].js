@@ -17,14 +17,6 @@ export default function LoginPage() {
               <h1 className='text-white text-2xl font-bold sm:text-3xl'>
                 Log in to your account
               </h1>
-              <p className=''>
-                Don't have an account?{" "}
-                <Link
-                  href='/sign-up'
-                  className='font-medium text-purple-500 hover:text-purple-600 duration-150'>
-                  Get access
-                </Link>
-              </p>
             </div>
           </div>
           <div className='mt-8'>

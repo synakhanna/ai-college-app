@@ -17,14 +17,6 @@ export default function SignUpPage() {
               <h1 className='text-white text-2xl font-bold sm:text-3xl'>
                 Create your account
               </h1>
-              <p className=''>
-                Already have an account?{" "}
-                <Link
-                  href='/sign-in'
-                  className='font-medium text-purple-500 hover:text-purple-600 duration-150'>
-                  Log in
-                </Link>
-              </p>
             </div>
           </div>
           <div className='mt-8'>
