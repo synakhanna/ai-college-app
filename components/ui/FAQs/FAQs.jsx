@@ -8,15 +8,15 @@ const faqsList = [
     },
     {
         q: "Why did you create CollegeGenie?",
-        a: "We created CollegeGenie to make the daunting college application process more accessible and less stressful. Our goal is to ensure that students can navigate their journey with ease and confidence using the latest AI technology."
+        a: "CollegeGenie was created to make the daunting college application process more accessible and less stressful. Our goal is to ensure that students can navigate their journey with ease and confidence using the latest AI technology."
     },
     {
-        q: "How can AI help with my college application?",
-        a: "AI can provide personalized recommendations based on your preferences, assist with essay reviews, and help you stay organized by tracking deadlines and application statuses. It's like having a virtual college advisor."
+        q: "How does AI help with my college application?",
+        a: "Our AI Genie provides personalized recommendations based on your preferences, assist with essay reviews, and help you stay organized by tracking deadlines and application statuses. It's like having a virtual college advisor."
     },
     {
         q: "How do I start using CollegeGenie?",
-        a: "Simply sign up for an account, and you'll gain access to our full suite of tools, including college matching, essay support, and scholarship searches. Get started today to take the first step towards your future."
+        a: "Simply sign up for an account. With the one month free trial, you'll gain access to our full suite of tools including college matching, essay support, and AI counselor. Get started today to take the first step towards your future."
     },
     {
         q: "Can CollegeGenie help me find scholarships?",
@@ -33,10 +33,10 @@ const FAQs = () => (
         <div className="custom-screen text-gray-300">
             <div className="flex flex-col items-center text-center max-w-xl mx-auto">
                 <h2 className="text-gray-50 text-3xl font-extrabold sm:text-4xl">
-                    Everything you need to know about CollegeGenie
+                    Everything you need to know about CollegeGenie!
                 </h2>
                 <p className="mt-3">
-                    Here are some of the most common questions we get about CollegeGenie and how it helps students on their college journey.
+                    Here are some of the most commonly asked questions about CollegeGenie:
                 </p>
             </div>
             <div className='mt-12'>
