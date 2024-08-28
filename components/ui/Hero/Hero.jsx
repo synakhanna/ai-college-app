@@ -2,7 +2,7 @@ import LayoutEffect from "@/components/LayoutEffect"
 import NavLink from "../NavLink"
 
 const Hero = () => (
-    <section>
+    <section className="py-16">
         <div className="custom-screen py-28">
             <LayoutEffect className="duration-1000 delay-300"
                 isInviewState={{
@@ -26,7 +26,7 @@ const Hero = () => (
                         <div className="flex justify-center font-medium text-sm">
                             <NavLink
                                 href="/#pricing"
-                                className="flex items-center text-white bg-purple-600 hover:bg-purple-500 active:bg-purple-700 "
+                                className="flex items-center text-white bg-purple-600 hover:bg-purple-500 active:bg-purple-700"
                             >
                                 Get Started Now With Your FREE 1 Month Trial!
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
