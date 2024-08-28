@@ -29,7 +29,7 @@ const Navbar = () => {
             const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
             const startPosition = window.pageYOffset;
             const distance = targetPosition - startPosition;
-            const speed = 1.2;
+            const speed = .9;
             const duration = Math.abs(distance) / speed;
 
             let start = null;
