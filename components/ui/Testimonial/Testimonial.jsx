@@ -13,26 +13,26 @@ const Testimonial = () => {
         {
             avatar: user1,
             name: "Mukut Sharma",
-            title: "Co-Founder of AI-COLLEGE",
-            quote: "At AI-COLLEGE, our mission is to leverage AI to simplify the college application process for students everywhere. We believe that with the right tools, anyone can achieve their educational dreams."
+            title: "Co-Founder of CollegeGenie",
+            quote: "At CollegeGenie, our mission is to leverage AI to simplify the college application process for students everywhere. We believe that with the right tools, anyone can achieve their educational dreams."
         },
         {
             avatar: user2,
             name: "Syna Patel",
-            title: "Co-Founder of AI-COLLEGE",
-            quote: "We created AI-COLLEGE to make applying to colleges less stressful and more accessible. With personalized AI-driven guidance, students can feel confident and empowered as they navigate their path to higher education."
+            title: "Co-Founder of CollegeGenie",
+            quote: "We created CollegeGenie to make applying to colleges less stressful and more accessible. With personalized AI-driven guidance, students can feel confident and empowered as they navigate their path to higher education."
         },
         {
             avatar: user3,
             name: "Fatima Rahman",
-            title: "Co-Founder of AI-COLLEGE",
-            quote: "Our goal with AI-COLLEGE is to provide students with a platform that not only assists with applications but also connects them with scholarships and financial aid opportunities. We believe education should be within reach for everyone."
+            title: "Co-Founder of CollegeGenie",
+            quote: "Our goal with CollegeGenie is to provide students with a platform that not only assists with applications but also connects them with scholarships and financial aid opportunities. We believe education should be within reach for everyone."
         },
         {
             avatar: user4,
             name: "Tahmidur Rahman",
-            title: "Co-Founder of AI-COLLEGE",
-            quote: "We believe that by using cutting-edge AI technology, AI-COLLEGE can revolutionize the way students approach their college applications. Our platform is designed to be intuitive, supportive, and tailored to the needs of each student."
+            title: "Co-Founder of CollegeGenie",
+            quote: "We believe that by using cutting-edge AI technology, CollegeGenie can revolutionize the way students approach their college applications. Our platform is designed to be intuitive, supportive, and tailored to the needs of each student."
         },
     ]
 
@@ -41,10 +41,10 @@ const Testimonial = () => {
             <div id="testimonials" className="custom-screen text-gray-300">
                 <div className="max-w-2xl text-center md:mx-auto">
                     <h2 className="text-gray-50 text-3xl font-semibold sm:text-4xl">
-                        Why We Founded AI-COLLEGE
+                        Why We Founded CollegeGenie
                     </h2>
                     <p className="mt-3 text-gray-300">
-                        As founders of AI-COLLEGE, we are driven by a shared vision to transform the college application process using AI. Here’s why we believe AI-COLLEGE will help students achieve their educational goals.
+                        As founders of CollegeGenie, we are driven by a shared vision to transform the college application process using AI. Here’s why we believe CollegeGenie will help students achieve their educational goals.
                     </p>
                 </div>
                 <GradientWrapper wrapperClassName="max-w-sm h-40 top-12 inset-x-0" className="mt-12">
