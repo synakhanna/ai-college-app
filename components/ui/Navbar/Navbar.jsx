@@ -24,38 +24,6 @@ const Navbar = () => {
         };
     }, []);
 
-    const handleSmoothScroll = (e, href) => {
-        e.preventDefault();
-        const targetId = href.replace("/#", "");
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-            const startPosition = window.pageYOffset;
-            const distance = targetPosition - startPosition;
-            const speed = 0.9;
-            const duration = Math.abs(distance) / speed;
-
-            let start = null;
-
-            const animation = (currentTime) => {
-                if (start === null) start = currentTime;
-                const timeElapsed = currentTime - start;
-                const progress = Math.min(timeElapsed / duration, 1);
-                const easeInOutQuad = progress < 0.5
-                    ? 2 * progress * progress
-                    : -1 + (4 - 2 * progress) * progress;
-                const run = startPosition + distance * easeInOutQuad;
-                window.scrollTo(0, run);
-                if (timeElapsed < duration) {
-                    requestAnimationFrame(animation);
-                }
-            };
-
-            requestAnimationFrame(animation);
-            setState(false);
-        }
-    };
-
     return (
         <header className="w-full">
             <nav className={`pb-5 md:text-lg md:static md:block bg-gray-900 w-full`}>
@@ -66,7 +34,7 @@ const Navbar = () => {
                         <ul className="hidden lg:flex flex-1 justify-center items-center mt-5 space-y-6 lg:space-x-6 xl:space-x-8 lg:space-y-0">
                             {navigation.map((item, idx) => (
                                 <li key={idx} className="hover:text-gray-50 text-lg font-semibold text-white">
-                                    <Link href={item.href} onClick={(e) => handleSmoothScroll(e, item.href)}>
+                                    <Link href={item.href}>
                                         {item.name}
                                     </Link>
                                 </li>
@@ -109,7 +77,7 @@ const Navbar = () => {
                     <ul className="flex flex-col items-center space-y-6 text-white">
                         {navigation.map((item, idx) => (
                             <li key={idx} className="hover:text-gray-50 text-lg font-semibold">
-                                <Link href={item.href} onClick={(e) => handleSmoothScroll(e, item.href)}>
+                                <Link href={item.href}>
                                     {item.name}
                                 </Link>
                             </li>
