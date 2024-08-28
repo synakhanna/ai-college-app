@@ -2,7 +2,7 @@ import LayoutEffect from "@/components/LayoutEffect"
 import NavLink from "../NavLink"
 
 const Hero = () => (
-    <section className="py-16">
+    <section>
         <div className="custom-screen py-28">
             <LayoutEffect className="duration-1000 delay-300"
                 isInviewState={{
@@ -12,20 +12,20 @@ const Hero = () => (
             >
                 <div>
                     <div className="space-y-5 max-w-3xl mx-auto text-center">
-                        <h1 className="text-4xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto sm:text-6xl"
+                        <h1 className="text-4xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto sm:text-6xl py-6"
                             style={{
                                 backgroundImage: "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)"
                             }}
                         >
                             Simplify Your College Application Process with AI
                         </h1>
-                        <p className="max-w-xl mx-auto text-gray-300">
+                        <p className="max-w-xl mx-auto text-gray-300 py-6">
                             Our AI-powered platform helps you find the right colleges, streamline applications, and achieve success in your college journey.
 
                         </p>
-                        <div className="flex justify-center font-medium text-sm">
+                        <div className="flex justify-center font-medium text-sm py-6">
                             <NavLink
-                                href="/#pricing"
+                                href="/signup"
                                 className="flex items-center text-white bg-purple-600 hover:bg-purple-500 active:bg-purple-700"
                             >
                                 Get Started Now With Your FREE 1 Month Trial!

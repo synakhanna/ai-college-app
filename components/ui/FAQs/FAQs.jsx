@@ -35,7 +35,7 @@ const FAQs = () => (
                 <h2 className="text-gray-50 text-3xl font-extrabold sm:text-4xl">
                     Everything you need to know about CollegeGenie!
                 </h2>
-                <p className="mt-3">
+                <p className="mt-10">
                     Here are some of the most commonly asked questions about CollegeGenie:
                 </p>
             </div>
