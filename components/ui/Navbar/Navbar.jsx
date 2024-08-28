@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import NavHeader from '../NavHeader';
 import NavLink from '../NavLink';
+import {SignedIn, SignedOut, UserButton} from "@clerk/nextjs"
 
 const Navbar = () => {
     const [state, setState] = useState(false);
@@ -57,31 +58,36 @@ const Navbar = () => {
 
     return (
         <header>
-            <nav className={`pb-5 md:text-lg md:static md:block ${state ? "bg-gray-900 absolute z-20 top-0 inset-x-0 rounded-b-2xl shadow-xl md:bg-gray-900" : "hidden"}`}>
-                <div className="custom-screen items-center md:flex">
-                    <NavHeader state={state} onClick={() => setState(!state)} />
-                    <div className={`flex-1 items-center mt-8 text-gray-300 md:font-medium md:mt-0 md:flex ${state ? 'block' : 'hidden'} `}>
-                        <ul className="flex-1 justify-center items-center space-y-6 md:flex md:space-x-8 md:space-y-0">
-                            {navigation.map((item, idx) => (
-                                <li key={idx} className="hover:text-gray-50 text-lg font-semibold">
-                                    <Link href={item.href} onClick={(e) => handleSmoothScroll(e, item.href)}>
-                                        {item.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                        <div className="gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">                       
-                            <NavLink href="/signin" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
+        <nav className={`pb-5 md:text-lg md:static md:block ${state ? "bg-gray-900 absolute z-20 top-0 inset-x-0 rounded-b-2xl shadow-xl md:bg-gray-900" : "hidden"}`}>
+            <div className="custom-screen items-center md:flex">
+                <NavHeader state={state} onClick={() => setState(!state)} />
+                <div className={`flex-1 items-center mt-8 text-gray-300 md:font-medium md:mt-0 md:flex ${state ? 'block' : 'hidden'} `}>
+                    <ul className="flex-1 justify-center items-center space-y-6 md:flex md:space-x-8 md:space-y-0">
+                        {navigation.map((item, idx) => (
+                            <li key={idx} className="hover:text-gray-50 text-lg font-semibold">
+                                <Link href={item.href} onClick={(e) => handleSmoothScroll(e, item.href)}>
+                                    {item.name}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">
+                        <SignedOut>
+                            <NavLink href="/sign-in" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
                                 Sign In
                             </NavLink>
-                            <NavLink href="/signup" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
+                            <NavLink href="/sign-up" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
                                 Sign Up
                             </NavLink>
-                        </div>
+                        </SignedOut>
+                        <SignedIn>
+                            <UserButton afterSignOutUrl="/" />
+                        </SignedIn>
                     </div>
                 </div>
-            </nav>
-        </header>
+            </div>
+        </nav>
+    </header>
     );
 };
 
