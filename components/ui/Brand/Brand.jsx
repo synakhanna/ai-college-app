@@ -2,11 +2,11 @@ import Image from "next/image"
 
 const Brand = ({ ...props }) => (
     <Image
-        src="/logo.png"
+        src="/collegegenie.png"
         alt="CollegeGenie Logo"
         {...props}
-        width={110}
-        height={50}
+        width={440}
+        height={200}
         priority
     />
 )
