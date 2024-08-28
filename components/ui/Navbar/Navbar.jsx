@@ -65,7 +65,7 @@ const Navbar = () => {
                         {/* Regular menu */}
                         <ul className="hidden lg:flex flex-1 justify-center items-center mt-5 space-y-6 lg:space-x-6 xl:space-x-8 lg:space-y-0">
                             {navigation.map((item, idx) => (
-                                <li key={idx} className="hover:text-gray-50 text-lg font-semibold">
+                                <li key={idx} className="hover:text-gray-50 text-lg font-semibold text-white">
                                     <Link href={item.href} onClick={(e) => handleSmoothScroll(e, item.href)}>
                                         {item.name}
                                     </Link>
@@ -73,19 +73,6 @@ const Navbar = () => {
                             ))}
                         </ul>
                         <div className="hidden lg:flex items-center gap-x-4 pt-5">
-                            {/* 
-                            <SignedOut>
-                                <NavLink href="/sign-in" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
-                                    Sign In
-                                </NavLink>
-                                <NavLink href="/sign-up" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
-                                    Sign Up
-                                </NavLink>
-                            </SignedOut>
-                            <SignedIn>
-                                <UserButton afterSignOutUrl="/" />
-                            </SignedIn> 
-                            */}
                             <SignedOut>
                                 <NavLink href="/sign-up" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
                                     Join Waitlist
@@ -118,8 +105,8 @@ const Navbar = () => {
                     </div>
                 </div>
                 {/* Hamburger menu items */}
-                <div className={`lg:hidden ${state ? 'block' : 'hidden'} mt-5`}>
-                    <ul className="flex flex-col items-center space-y-6">
+                <div className={`lg:hidden ${state ? 'block' : 'hidden'} mt-5 bg-gray-900`}>
+                    <ul className="flex flex-col items-center space-y-6 text-white">
                         {navigation.map((item, idx) => (
                             <li key={idx} className="hover:text-gray-50 text-lg font-semibold">
                                 <Link href={item.href} onClick={(e) => handleSmoothScroll(e, item.href)}>
@@ -129,19 +116,6 @@ const Navbar = () => {
                         ))}
                     </ul>
                     <div className="flex flex-col items-center space-y-4 mt-6">
-                         {/* 
-                        <SignedOut>
-                            <NavLink href="/sign-in" className="text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900">
-                                Sign In
-                            </NavLink>
-                            <NavLink href="/sign-up" className="text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900">
-                                Sign Up
-                            </NavLink>
-                        </SignedOut>
-                        <SignedIn>
-                            <UserButton afterSignOutUrl="/" />
-                        </SignedIn>
-                        */}
                         <SignedOut>
                             <NavLink href="/sign-up" className="text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900">
                                 Join Waitlist
