@@ -5,8 +5,8 @@ const Brand = ({ ...props }) => (
         src="/collegegenie.png"
         alt="CollegeGenie Logo"
         {...props}
-        width={440}
-        height={200}
+        width={330}
+        height={150}
         priority
     />
 )
