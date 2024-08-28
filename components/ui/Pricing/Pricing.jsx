@@ -6,48 +6,19 @@ const Pricing = () => {
 
     const plans = [
         {
-            name: "Basic plan",
-            desc: "For new creators building their list",
-            price: 0,
-            isMostPop: false,
-            features: [
-                "300 emails/day",
-                "Customizable Email Templates",
-                "Drag & Drop Editor",
-                "Transactional Emails",
-                "SMS & WhatsApp Campaigns",
-                "Phone support",
-
-            ],
-        },
-        {
-            name: "Starter",
-            desc: "Ideal for growing businesses",
-            price: 12,
+            name: "1 Month FREE for EVERYONE!",
+            desc: "Catered for students applying to college.",
+            price: 1.99,
             isMostPop: true,
             features: [
-                "From 20k emails/month",
-                "Marketing Automation",
-                "A/B testing",
-                "Advanced statistics",
-                "Multi-user access",
-                "Send time optimization",
+                "Counseling With AI Genie",
+                "Customized College List",
+                "Help With Essays",
+                "Career Guidance",
+                "Financial Advisor",
+                "Connection Opportunity",
             ],
-        },
-        {
-            name: "Business",
-            desc: "Built for marketing managers",
-            price: 32,
-            isMostPop: false,
-            features: [
-                "Everything in Starter",
-                "Enterprise-grade Security",
-                "Advanced Integrations",
-                "Sub-account Management",
-                "Tailored Onboarding",
-                "Personalized support",
-            ],
-        },
+        }
     ];
 
     const mostPopPricingBg = "radial-gradient(130.39% 130.39% at 51.31% -0.71%, #1F2937 0%, rgba(31, 41, 55, 0) 100%)"
@@ -56,7 +27,7 @@ const Pricing = () => {
         <SectionWrapper id="pricing" className='custom-screen'>
             <div className='relative max-w-xl mx-auto text-center'>
                 <h2 className='text-gray-50 text-3xl font-semibold sm:text-4xl'>
-                    Find a plan to power your business
+                    Pricing
                 </h2>
             </div>
             <LayoutEffect
@@ -75,7 +46,7 @@ const Pricing = () => {
                                 }}
                             >
                                 <div className="p-8 space-y-4 border-b border-gray-800 text-center">
-                                    <span className='text-purple-600 font-medium'>
+                                    <span className='text-gray-50 text-l font-semibold'>
                                         {item.name}
                                     </span>
                                     <div className='text-gray-50 text-3xl font-semibold'>
