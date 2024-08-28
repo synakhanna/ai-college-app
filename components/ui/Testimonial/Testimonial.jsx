@@ -8,32 +8,32 @@ const Testimonial = () => {
         {
             name: "Alex Johnson",
             title: "High School Senior",
-            quote: "CollegeGenie has been an absolute lifesaver. The AI guidance helped me organize my college applications and manage my time better. I feel much more confident about getting into my dream school."
+            quote: "I was told that I can't get into my dream school because my grades are not good enough. The Genie helped me navigate through the various things I could do to improve my chances of getting accepted. It gave me ideas for extra-curricular activities I could participate in as well as extra courses which I could take. I feel much more confident about getting into my dream school now."
         },
         {
             name: "Maria Gonzalez",
             title: "High School Junior",
-            quote: "Applying to college felt so overwhelming, but CollegeGenie made everything so much easier. The personalized support helped me choose the right schools and keep track of important deadlines."
+            quote: "Shortlisting colleges feels so overwhelming, but CollegeGenie made everything so much easier for me. The personalized support helped me compile a list of schools."
         },
         {
             name: "David Lee",
             title: "High School Senior",
-            quote: "I tend to procrastinate a lot, so I was really worried about keeping up with my college applications. CollegeGenie helped me stay on top of everything and made the process much less stressful."
+            quote: "Even though I just signed up, the platform has already saved me so many hours by providing me with a number of essay topic ideas."
         },
         {
             name: "Emily Zhang",
             title: "High School Junior",
-            quote: "CollegeGenie is an amazing tool for anyone applying to college. It helped me narrow down my college list and ensured I didn’t miss any deadlines. I’m feeling much more prepared now."
+            quote: "CollegeGenie is an amazing tool for anyone applying to college. It helped me narrow down my college list and I feel less confused now."
         },
         {
             name: "Michael Brown",
             title: "High School Senior",
-            quote: "The AI features in CollegeGenie are incredible. They provided me with insights and advice that I wouldn’t have found on my own. It’s like having a personal college counselor available 24/7."
+            quote: "The Genie counselor is incredible. It provides me with insights and advice that I wouldn’t have found on my own. It’s like having a personal college counselor available 24/7."
         },
         {
             name: "Sarah Williams",
             title: "High School Senior",
-            quote: "CollegeGenie made the college application process so much more manageable. The step-by-step guidance kept me organized, and now I feel excited about my future instead of just anxious."
+            quote: "CollegeGenie made the college application process so much more manageable. The step-by-step guidance kept me organized, and now I don't feel anxious about deadlines."
         },
     ]
 
