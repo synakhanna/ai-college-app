@@ -97,7 +97,7 @@ export default function Table() {
                     "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)",
                 }}
               >
-                Colleges
+                College List
               </h1>
               <input
                 type="text"

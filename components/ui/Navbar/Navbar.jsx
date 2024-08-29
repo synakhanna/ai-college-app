@@ -19,7 +19,7 @@ const Navbar = () => {
 
     const userNavigation = [
         { name: "Profile", href: "/profile" },
-        { name: "Account", href: "/account" }, // Updated from 'College'
+        { name: "College", href: "/college" },
         { name: "Counselor", href: "/counselor" },
         { name: "Billing", href: "/billing" },
     ];

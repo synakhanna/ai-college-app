@@ -29,7 +29,7 @@ export default function Table() {
                   "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)",
               }}
             >
-              Billing
+              Billing Information
             </h1>
             <NavLink href="/">
               <button
