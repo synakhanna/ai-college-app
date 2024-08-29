@@ -1,9 +1,8 @@
 import SectionWrapper from "@/components/SectionWrapper";
 import Counselor from "@/components/ui/Counselor";
 
-export default function counselorPage() {
+export default function CounselorPage() {  // Capitalized 'C'
   return (
-    
     <>
       <SectionWrapper>
         <Counselor />
