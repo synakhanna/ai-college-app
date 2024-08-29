@@ -6,10 +6,10 @@ export default async function handler(req, res) {
     }
 
     const {
-        location,   // e.g., { city: "Dallas", state: "TX" }
-        sortOrder,  // e.g., "asc" or "desc"
+        location,
+        sortOrder,
         limit,
-        major      // e.g., "latest.academics.program_percentage.computer"
+        major
     } = req.query;
 
     const API_KEY = process.env.COLLEGE_SCORECARD_API_KEY;

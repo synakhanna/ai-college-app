@@ -1,5 +1,6 @@
 import LayoutEffect from "@/components/LayoutEffect";
 import { useUser } from "@clerk/nextjs";
+import axios from "axios";
 import { useState } from "react";
 
 const Profile = () => {
@@ -8,10 +9,52 @@ const Profile = () => {
         major: "",
         gpa: "",
         satScore: "",
-        helpNeeded: [], // Holds multiple options
+        helpNeeded: [],
         preferredLocation: "",
         tuition: 0,
+        selectedProgram: "",
     });
+
+    const programOptions = [
+        { value: "program_percentage.agriculture", label: "Agriculture, Agriculture Operations, And Related Sciences" },
+        { value: "program_percentage.resources", label: "Natural Resources And Conservation" },
+        { value: "program_percentage.architecture", label: "Architecture And Related Services" },
+        { value: "program_percentage.ethnic_cultural_gender", label: "Area, Ethnic, Cultural, Gender, And Group Studies" },
+        { value: "program_percentage.communication", label: "Communication, Journalism, And Related Programs" },
+        { value: "program_percentage.communications_technology", label: "Communications Technologies/Technicians And Support Services" },
+        { value: "program_percentage.computer", label: "Computer And Information Sciences And Support Services" },
+        { value: "program_percentage.personal_culinary", label: "Personal And Culinary Services" },
+        { value: "program_percentage.education", label: "Education" },
+        { value: "program_percentage.engineering", label: "Engineering" },
+        { value: "program_percentage.engineering_technology", label: "Engineering Technologies And Engineering-Related Fields" },
+        { value: "program_percentage.language", label: "Foreign Languages, Literatures, And Linguistics" },
+        { value: "program_percentage.family_consumer_science", label: "Family And Consumer Sciences/Human Sciences" },
+        { value: "program_percentage.legal", label: "Legal Professions And Studies" },
+        { value: "program_percentage.english", label: "English Language And Literature/Letters" },
+        { value: "program_percentage.humanities", label: "Liberal Arts And Sciences, General Studies And Humanities" },
+        { value: "program_percentage.library", label: "Library Science" },
+        { value: "program_percentage.biological", label: "Biological And Biomedical Sciences" },
+        { value: "program_percentage.mathematics", label: "Mathematics And Statistics" },
+        { value: "program_percentage.military", label: "Military Technologies And Applied Sciences" },
+        { value: "program_percentage.multidiscipline", label: "Multi/Interdisciplinary Studies" },
+        { value: "program_percentage.parks_recreation_fitness", label: "Parks, Recreation, Leisure, And Fitness Studies" },
+        { value: "program_percentage.philosophy_religious", label: "Philosophy And Religious Studies" },
+        { value: "program_percentage.theology_religious_vocation", label: "Theology And Religious Vocations" },
+        { value: "program_percentage.physical_science", label: "Physical Sciences" },
+        { value: "program_percentage.science_technology", label: "Science Technologies/Technicians" },
+        { value: "program_percentage.psychology", label: "Psychology" },
+        { value: "program_percentage.security_law_enforcement", label: "Homeland Security, Law Enforcement, Firefighting And Related Protective Services" },
+        { value: "program_percentage.public_administration_social_service", label: "Public Administration And Social Service Professions" },
+        { value: "program_percentage.social_science", label: "Social Sciences" },
+        { value: "program_percentage.construction", label: "Construction Trades" },
+        { value: "program_percentage.mechanic_repair_technology", label: "Mechanic And Repair Technologies/Technicians" },
+        { value: "program_percentage.precision_production", label: "Precision Production" },
+        { value: "program_percentage.transportation", label: "Transportation And Materials Moving" },
+        { value: "program_percentage.visual_performing", label: "Visual And Performing Arts" },
+        { value: "program_percentage.health", label: "Health Professions And Related Programs" },
+        { value: "program_percentage.business_marketing", label: "Business, Management, Marketing, And Related Support Services" },
+        { value: "program_percentage.history", label: "History" },
+    ];
 
     if (!isLoaded) {
         return <div>Loading...</div>;
@@ -57,20 +100,35 @@ const Profile = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.gpa || formData.helpNeeded.length === 0 || formData.tuition === 0) {
             alert("Please fill in all the required fields.");
             return;
         }
-        // Handle saving the data, e.g., sending it to an API or saving in state management
-        console.log("Form submitted:", formData);
-        // No redirection, just a save action
+
+        try {
+            const response = await axios.get('/api/college', {
+                params: {
+                    location: JSON.stringify({
+                        city: formData.preferredLocation,
+                        state: ''
+                    }),
+                    sortOrder: 'asc',
+                    limit: 10,
+                    major: formData.selectedProgram,
+                },
+            });
+
+            console.log('Colleges:', response.data);
+        } catch (error) {
+            console.error('Error fetching colleges:', error.message);
+        }
     };
 
     return (
-        <section>
-            <div className="custom-screen py-20">
+        <section className="py-10 sm:py-20">
+            <div className="container mx-auto px-4">
                 <LayoutEffect
                     className="duration-1000 delay-300"
                     isInviewState={{
@@ -78,170 +136,173 @@ const Profile = () => {
                         falseState: "opacity-0",
                     }}
                 >
-                    <div>
-                        <div className="space-y-5 max-w-3xl mx-auto text-center">
-                            <h1
-                                className="text-4xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto sm:text-6xl py-6"
-                                style={{
-                                    backgroundImage:
-                                        "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)",
-                                }}
-                            >
-                                My Profile
-                            </h1>
-                            <p className="max-w-xl mx-auto text-gray-300 py-6">
-                                Welcome, {user.fullName || user.username}! Please fill out the information below to help me better assist you with your college applications.
-                            </p>
-                        </div>
-                        <form onSubmit={handleSubmit} className="space-y-4 max-w-xl mx-auto">
-                            {/* Intended Major */}
-                            <div>
-                                <label className="block text-white text-lg font-semibold">
-                                    Intended Major <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    name="major"
-                                    value={formData.major}
-                                    onChange={(e) => setFormData({ ...formData, major: e.target.value })}
-                                    className="w-full p-2 mt-2 bg-gray-800 text-white rounded-lg"
-                                    placeholder="What major are you interested in?"
-                                    required
-                                />
-                            </div>
-                            {/* GPA */}
-                            <div>
-                                <label className="block text-white text-lg font-semibold">
-                                    GPA <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="number"
-                                    name="gpa"
-                                    value={formData.gpa}
-                                    onChange={(e) => setFormData({ ...formData, gpa: e.target.value })}
-                                    className="w-full p-2 mt-2 bg-gray-800 text-white rounded-lg"
-                                    placeholder="GPA"
-                                    min="0"
-                                    step="0.01"
-                                    required
-                                />
-                            </div>
-                            
-                            {/* SAT Score */}
-                            <div>
-                                <label className="block text-white text-lg font-semibold">
-                                    SAT Score
-                                </label>
-                                <input
-                                    type="number"
-                                    name="satScore"
-                                    value={formData.satScore}
-                                    onChange={(e) => setFormData({ ...formData, satScore: e.target.value })}
-                                    className="w-full p-2 mt-2 bg-gray-800 text-white rounded-lg"
-                                    placeholder="SAT Score"
-                                    min="400"
-                                    max="1600"
-                                />
-                            </div>
-                            {/* Help Needed */}
-                            <div>
-                                <label className="block text-white text-lg font-semibold">
-                                    What do you need help with? <span className="text-red-500">*</span>
-                                </label>
-                                <div className="space-y-2">
-                                    <div>
-                                        <input
-                                            type="checkbox"
-                                            value="essays"
-                                            onChange={handleCheckboxChange}
-                                            checked={formData.helpNeeded.includes("essays")}
-                                            className="mr-2"
-                                        />
-                                        <label className="text-white">Essays</label>
-                                    </div>
-                                    <div>
-                                        <input
-                                            type="checkbox"
-                                            value="extracurricular"
-                                            onChange={handleCheckboxChange}
-                                            checked={formData.helpNeeded.includes("extracurricular")}
-                                            className="mr-2"
-                                        />
-                                        <label className="text-white">Extracurricular Activities</label>
-                                    </div>
-                                    <div>
-                                        <input
-                                            type="checkbox"
-                                            value="financialAid"
-                                            onChange={handleCheckboxChange}
-                                            checked={formData.helpNeeded.includes("financialAid")}
-                                            className="mr-2"
-                                        />
-                                        <label className="text-white">Financial Aid</label>
-                                    </div>
-                                    <div>
-                                        <input
-                                            type="checkbox"
-                                            value="additionalCounseling"
-                                            onChange={handleCheckboxChange}
-                                            checked={formData.helpNeeded.includes("additionalCounseling")}
-                                            className="mr-2"
-                                        />
-                                        <label className="text-white">Additional Counseling</label>
-                                    </div>
-                                    <div>
-                                        <input
-                                            type="checkbox"
-                                            value="all"
-                                            onChange={handleCheckboxChange}
-                                            checked={formData.helpNeeded.includes("all")}
-                                            className="mr-2"
-                                        />
-                                        <label className="text-white">All</label>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Preferred Location */}
-                            <div>
-                                <label className="block text-white text-lg font-semibold">
-                                    Preferred Location
-                                </label>
-                                <textarea
-                                    name="preferredLocation"
-                                    value={formData.preferredLocation}
-                                    onChange={(e) => setFormData({ ...formData, preferredLocation: e.target.value })}
-                                    className="w-full p-2 mt-2 bg-gray-800 text-white rounded-lg"
-                                    placeholder="List the states or cities you're interested in"
-                                />
-                            </div>
-                            {/* Tuition */}
-                            <div>
-                                <label className="block text-white text-lg font-semibold">
-                                    Desired Tuition (per year) <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="range"
-                                    name="tuition"
-                                    min="0"
-                                    max="100000"
-                                    step="500"
-                                    value={formData.tuition}
-                                    onChange={(e) => setFormData({ ...formData, tuition: e.target.value })}
-                                    className="w-full mt-2"
-                                    required
-                                />
-                                <div className="text-white mt-2">
-                                    ${formData.tuition.toLocaleString()} per year
-                                </div>
-                            </div>
-                            <button
-                                type="submit"
-                                className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex w-full mt-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-500"
-                            >
-                                Save
-                            </button>
-                        </form>
+                    <div className="space-y-5 max-w-3xl mx-auto text-center">
+                        <h1
+                            className="text-3xl sm:text-4xl lg:text-6xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto py-6"
+                            style={{
+                                backgroundImage:
+                                    "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)",
+                            }}
+                        >
+                            My Profile
+                        </h1>
+                        <p className="max-w-xl mx-auto text-gray-300 py-6">
+                            Welcome, {user.fullName || user.username}! Please fill out the information below to help me better assist you with your college applications.
+                        </p>
                     </div>
+                    <form onSubmit={handleSubmit} className="space-y-6 max-w-xl mx-auto">
+                        {/* Intended Major */}
+                        <div>
+                            <label className="block text-white text-lg font-semibold">
+                                Intended Major <span className="text-red-500">*</span>
+                            </label>
+                            <select
+                                name="selectedProgram"
+                                value={formData.selectedProgram}
+                                onChange={(e) => setFormData({ ...formData, selectedProgram: e.target.value })}
+                                className="w-full p-3 mt-2 bg-gray-800 text-white rounded-lg"
+                                required
+                            >
+                                <option value="">Select a major</option>
+                                {programOptions.map((option) => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        {/* GPA */}
+                        <div>
+                            <label className="block text-white text-lg font-semibold">
+                                GPA <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="number"
+                                name="gpa"
+                                value={formData.gpa}
+                                onChange={(e) => setFormData({ ...formData, gpa: e.target.value })}
+                                className="w-full p-3 mt-2 bg-gray-800 text-white rounded-lg"
+                                placeholder="GPA"
+                                min="0"
+                                step="0.01"
+                                required
+                            />
+                        </div>
+                        
+                        {/* SAT Score */}
+                        <div>
+                            <label className="block text-white text-lg font-semibold">
+                                SAT Score
+                            </label>
+                            <input
+                                type="number"
+                                name="satScore"
+                                value={formData.satScore}
+                                onChange={(e) => setFormData({ ...formData, satScore: e.target.value })}
+                                className="w-full p-3 mt-2 bg-gray-800 text-white rounded-lg"
+                                placeholder="SAT Score"
+                                min="400"
+                                max="1600"
+                            />
+                        </div>
+                        {/* Help Needed */}
+                        <div>
+                            <label className="block text-white text-lg font-semibold">
+                                What do you need help with? <span className="text-red-500">*</span>
+                            </label>
+                            <div className="space-y-2">
+                                <div>
+                                    <input
+                                        type="checkbox"
+                                        value="essays"
+                                        onChange={handleCheckboxChange}
+                                        checked={formData.helpNeeded.includes("essays")}
+                                        className="mr-2"
+                                    />
+                                    <label className="text-white">Essays</label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="checkbox"
+                                        value="extracurricular"
+                                        onChange={handleCheckboxChange}
+                                        checked={formData.helpNeeded.includes("extracurricular")}
+                                        className="mr-2"
+                                    />
+                                    <label className="text-white">Extracurricular Activities</label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="checkbox"
+                                        value="financialAid"
+                                        onChange={handleCheckboxChange}
+                                        checked={formData.helpNeeded.includes("financialAid")}
+                                        className="mr-2"
+                                    />
+                                    <label className="text-white">Financial Aid</label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="checkbox"
+                                        value="additionalCounseling"
+                                        onChange={handleCheckboxChange}
+                                        checked={formData.helpNeeded.includes("additionalCounseling")}
+                                        className="mr-2"
+                                    />
+                                    <label className="text-white">Additional Counseling</label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="checkbox"
+                                        value="all"
+                                        onChange={handleCheckboxChange}
+                                        checked={formData.helpNeeded.includes("all")}
+                                        className="mr-2"
+                                    />
+                                    <label className="text-white">All</label>
+                                </div>
+                            </div>
+                        </div>
+                        {/* Preferred Location */}
+                        <div>
+                            <label className="block text-white text-lg font-semibold">
+                                Preferred Location
+                            </label>
+                            <textarea
+                                name="preferredLocation"
+                                value={formData.preferredLocation}
+                                onChange={(e) => setFormData({ ...formData, preferredLocation: e.target.value })}
+                                className="w-full p-3 mt-2 bg-gray-800 text-white rounded-lg"
+                                placeholder="List the states or cities you're interested in"
+                            />
+                        </div>
+                        {/* Tuition */}
+                        <div>
+                            <label className="block text-white text-lg font-semibold">
+                                Desired Tuition (per year) <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="range"
+                                name="tuition"
+                                min="0"
+                                max="100000"
+                                step="500"
+                                value={formData.tuition}
+                                onChange={(e) => setFormData({ ...formData, tuition: e.target.value })}
+                                className="w-full mt-2"
+                                required
+                            />
+                            <div className="text-white mt-2">
+                                ${formData.tuition.toLocaleString()} per year
+                            </div>
+                        </div>
+                        <button
+                            type="submit"
+                            className="w-full py-3 mt-6 text-lg text-white font-medium bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors"
+                        >
+                            Save
+                        </button>
+                    </form>
                 </LayoutEffect>
             </div>
         </section>
