@@ -12,6 +12,7 @@
     "@clerk/nextjs": "^5.3.6",
     "@clerk/themes": "^2.1.24",
     "@next/font": "13.1.6",
+    "axios": "^1.7.5",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
     "framer-motion": "^9.0.3",
