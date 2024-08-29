@@ -60,7 +60,11 @@ const Profile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Here you would handle saving the data, e.g., sending it to an API or saving in state management
+        if (!formData.gpa || formData.helpNeeded.length === 0 || formData.tuition === 0) {
+            alert("Please fill in all the required fields.");
+            return;
+        }
+        // Handle saving the data, e.g., sending it to an API or saving in state management
         console.log("Form submitted:", formData);
         // No redirection, just a save action
     };
@@ -120,6 +124,7 @@ const Profile = () => {
                                     placeholder="GPA"
                                     min="0"
                                     step="0.01"
+                                    required
                                 />
                             </div>
                             {/* Rank */}
@@ -238,6 +243,7 @@ const Profile = () => {
                                     value={formData.tuition}
                                     onChange={(e) => setFormData({ ...formData, tuition: e.target.value })}
                                     className="w-full mt-2"
+                                    required
                                 />
                                 <div className="text-white mt-2">
                                     ${formData.tuition.toLocaleString()} per year
@@ -245,7 +251,7 @@ const Profile = () => {
                             </div>
                             <button
                                 type="submit"
-                                className="w-full mt-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-500"
+                                className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex w-full mt-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-500"
                             >
                                 Save
                             </button>
