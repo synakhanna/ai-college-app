@@ -21,6 +21,7 @@ const Navbar = () => {
         { name: "Profile", href: "/profile" },
         { name: "College", href: "/college" },
         { name: "Counselor", href: "/counselor" },
+        { name: "Network", href: "/network" },
         { name: "Billing", href: "/billing" },
     ];
 
