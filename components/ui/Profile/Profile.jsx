@@ -7,7 +7,6 @@ const Profile = () => {
     const [formData, setFormData] = useState({
         major: "",
         gpa: "",
-        rank: "",
         satScore: "",
         helpNeeded: [], // Holds multiple options
         preferredLocation: "",
@@ -127,21 +126,7 @@ const Profile = () => {
                                     required
                                 />
                             </div>
-                            {/* Rank */}
-                            <div>
-                                <label className="block text-white text-lg font-semibold">
-                                    Rank
-                                </label>
-                                <input
-                                    type="number"
-                                    name="rank"
-                                    value={formData.rank}
-                                    onChange={(e) => setFormData({ ...formData, rank: e.target.value })}
-                                    className="w-full p-2 mt-2 bg-gray-800 text-white rounded-lg"
-                                    placeholder="Rank"
-                                    min="0"
-                                />
-                            </div>
+                            
                             {/* SAT Score */}
                             <div>
                                 <label className="block text-white text-lg font-semibold">
