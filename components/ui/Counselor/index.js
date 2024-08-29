@@ -1,1 +1,1 @@
-export { default } from "./Counselor";
+export { default } from "./counselor";
