@@ -9,7 +9,6 @@ const Billing = () => (
                     falseState: "opacity-0"
                 }}
             >
-                <div>
                     <div className="space-y-5 max-w-3xl mx-auto text-center">
                         <h1 className="text-4xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto sm:text-6xl py-6"
                             style={{
@@ -18,11 +17,7 @@ const Billing = () => (
                         >
                             Billing
                         </h1>
-                        <p className="max-w-xl mx-auto text-gray-300 py-6">
-                            You have now joined our waitlist!
-                        </p>
                     </div>
-                </div>
             </LayoutEffect>
         </div>
     </section>
