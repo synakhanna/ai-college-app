@@ -16,7 +16,7 @@ const Billing = () => (
                                 backgroundImage: "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)"
                             }}
                         >
-                            Congratulations!
+                            Billing
                         </h1>
                         <p className="max-w-xl mx-auto text-gray-300 py-6">
                             You have now joined our waitlist!
