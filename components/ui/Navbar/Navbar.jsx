@@ -1,12 +1,14 @@
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router'; // Import useRouter
 import NavHeader from '../NavHeader';
 import NavLink from '../NavLink';
 
 const Navbar = () => {
     const [state, setState] = useState(false);
     const menuBtnEl = useRef(null);
+    const router = useRouter(); // Initialize router
 
     const soNavigation = [
         { name: "Features", href: "#features" },
@@ -32,6 +34,11 @@ const Navbar = () => {
     }, []);
 
     const smoothScrollTo = (targetElement) => {
+        if (!targetElement) {
+            console.warn("Target element not found.");
+            return;
+        }
+
         const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
         const startPosition = window.pageYOffset;
         const distance = targetPosition - startPosition;
@@ -56,6 +63,21 @@ const Navbar = () => {
         requestAnimationFrame(animation);
     };
 
+    const handleNavClick = (e, itemHref) => {
+        e.preventDefault();
+        if (router.pathname !== "/") {
+            // If not on the landing page, navigate to the landing page first
+            router.push(`/${itemHref}`).then(() => {
+                // Use setTimeout to give time for the page to load and scroll
+                setTimeout(() => {
+                    smoothScrollTo(document.querySelector(itemHref));
+                }, 100);
+            });
+        } else {
+            smoothScrollTo(document.querySelector(itemHref));
+        }
+    };
+
     return (
         <header className="w-full">
             <nav className={`pb-5 md:text-lg md:static md:block bg-gray-900 w-full`}>
@@ -67,10 +89,7 @@ const Navbar = () => {
                         <ul className="hidden lg:flex flex-1 justify-center items-center mt-5 space-y-6 lg:space-x-6 xl:space-x-8 lg:space-y-0">
                             {soNavigation.map((item, idx) => (
                                 <li key={idx} className="hover:text-gray-50 text-lg font-semibold text-white">
-                                    <Link href={item.href} scroll={false} onClick={(e) => {
-                                        e.preventDefault();
-                                        smoothScrollTo(document.querySelector(item.href));
-                                    }}>
+                                    <Link href={item.href} scroll={false} onClick={(e) => handleNavClick(e, item.href)}>
                                         {item.name}
                                     </Link>
                                 </li>
@@ -119,10 +138,7 @@ const Navbar = () => {
                     <ul className="flex flex-col items-center space-y-6 text-white">
                         {soNavigation.map((item, idx) => (
                             <li key={idx} className="hover:text-gray-50 text-lg font-semibold">
-                                <Link href={item.href} scroll={false} onClick={(e) => {
-                                    e.preventDefault();
-                                    smoothScrollTo(document.querySelector(item.href));
-                                }}>
+                                <Link href={item.href} scroll={false} onClick={(e) => handleNavClick(e, item.href)}>
                                     {item.name}
                                 </Link>
                             </li>
