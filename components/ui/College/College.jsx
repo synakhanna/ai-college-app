@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import LayoutEffect from "@/components/LayoutEffect";
 
 export default function Table() {
@@ -12,6 +12,23 @@ export default function Table() {
   });
   const [showSaved, setShowSaved] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); // New state for search query
+  const [isTableOverflow, setIsTableOverflow] = useState(false); // New state to track table overflow
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    const checkTableOverflow = () => {
+      if (tableRef.current) {
+        setIsTableOverflow(tableRef.current.scrollWidth > tableRef.current.clientWidth);
+      }
+    };
+
+    checkTableOverflow();
+    window.addEventListener("resize", checkTableOverflow);
+
+    return () => {
+      window.removeEventListener("resize", checkTableOverflow);
+    };
+  }, []);
 
   const handleCheckAll = () => {
     const newState = !checkedAll;
@@ -89,48 +106,51 @@ export default function Table() {
                 placeholder="Search by name, location, or tuition"
                 className="w-full max-w-xs px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <button
-                onClick={handleToggleSaved}
-                className="flex items-center justify-center gap-x-1 text-lg ml-5 text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
-              >
-                {showSaved ? 'See Full List' : 'Go to Saved'}
-              </button>
-              <div
-                className={
-                  "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-3xl bg-white"
-                }
-              >
-                <div className="block w-full overflow-x-auto ">
-                  <table className="items-center w-full bg-transparent border-collapse table-fixed rounded-3xl">
+              <div className="flex justify-center"> {/* Centering the button horizontally */}
+                <button
+                  onClick={handleToggleSaved}
+                  className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
+                >
+                  {showSaved ? 'See Full List' : 'Go to Saved'}
+                </button>
+              </div>
+              {isTableOverflow && (
+                <p className="text-sm text-gray-500 mt-4">
+                  Scroll to the right to view the full table.
+                </p>
+              )}
+              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-3xl bg-white">
+                <div className="block w-full overflow-x-auto" ref={tableRef}> {/* Added ref to the table container */}
+                  <table className="min-w-full items-center bg-transparent border-collapse table-fixed rounded-3xl">
                     <thead>
                       <tr className="bg-gray-100">
                         <th
                           className={
-                            "w-1/4 px-6 py-4 align-middle text-sm uppercase font-semibold text-left text-gray-600 rounded-tl-3xl"
+                            "w-1/4 px-2 sm:px-6 py-4 align-middle text-xs sm:text-sm uppercase font-semibold text-left text-gray-600 rounded-tl-3xl whitespace-nowrap"
                           }
                         >
                           Name
                         </th>
                         <th
                           className={
-                            "w-1/4 px-6 py-4 align-middle text-sm uppercase font-semibold text-left text-gray-600"
+                            "w-1/4 px-2 sm:px-6 py-4 align-middle text-xs sm:text-sm uppercase font-semibold text-left text-gray-600 whitespace-nowrap"
                           }
                         >
                           Tuition
                         </th>
                         <th
                           className={
-                            "w-1/4 px-6 py-4 align-middle text-sm uppercase font-semibold text-left text-gray-600"
+                            "w-1/4 px-2 sm:px-6 py-4 align-middle text-xs sm:text-sm uppercase font-semibold text-left text-gray-600 whitespace-nowrap"
                           }
                         >
                           Location
                         </th>
                         <th
                           className={
-                            "w-12 px-2 py-4 align-middle text-sm uppercase font-semibold text-left text-gray-600 rounded-tr-3xl"
+                            "w-12 px-2 sm:px-6 py-4 align-middle text-xs sm:text-sm uppercase font-semibold text-left text-gray-600 rounded-tr-3xl"
                           }
                         >
-                          <div className="flex items-center w-full text-sm uppercase font-semibold text-left">
+                          <div className="flex items-center w-full text-xs sm:text-sm uppercase font-semibold text-left whitespace-nowrap">
                             <span className="mr-2">Save</span>
                             {!showSaved && (
                               <input
@@ -148,24 +168,24 @@ export default function Table() {
                       {filteredColleges.map((college, index) => (
                         <tr key={college.key} className="hover:bg-gray-50">
                           <td
-                            className={`px-6 py-4 align-middle text-sm text-left font-bold text-gray-700 ${
+                            className={`px-2 sm:px-6 py-4 align-middle text-xs sm:text-sm text-left font-bold text-gray-700 whitespace-nowrap ${
                               index === filteredColleges.length - 1 ? 'rounded-bl-3xl' : ''
                             }`}
                           >
                             {college.name}
                           </td>
                           <td
-                            className={`px-6 py-4 align-middle text-sm text-left text-gray-700`}
+                            className={`px-2 sm:px-6 py-4 align-middle text-xs sm:text-sm text-left text-gray-700 whitespace-nowrap`}
                           >
                             {college.tuition}
                           </td>
                           <td
-                            className={`px-6 py-4 align-middle text-sm text-left text-gray-700`}
+                            className={`px-2 sm:px-6 py-4 align-middle text-xs sm:text-sm text-left text-gray-700 whitespace-nowrap`}
                           >
                             {college.location}
                           </td>
                           <td
-                            className={`px-2 py-4 align-middle text-sm text-left text-gray-700 ${
+                            className={`px-2 sm:px-6 py-4 align-middle text-xs sm:text-sm text-left text-gray-700 whitespace-nowrap ${
                               index === filteredColleges.length - 1 ? 'rounded-br-3xl' : ''
                             }`}
                           >
