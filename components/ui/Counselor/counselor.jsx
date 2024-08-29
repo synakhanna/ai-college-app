@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import LayoutEffect from '@/components/LayoutEffect';
 
 export default function Counselor() {
     const [messages, setMessages] = useState([
@@ -69,76 +68,61 @@ export default function Counselor() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
-            <section className="w-full">
-                <div className="custom-screen py-20">
-                    <LayoutEffect className="duration-1000 delay-300"
-                        isInviewState={{
-                            trueState: "opacity-1",
-                            falseState: "opacity-0"
-                        }}
-                    >
-                        <div className="space-y-5 max-w-3xl mx-auto text-center">
-                            <h1 className="text-4xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto sm:text-6xl py-6"
-                                style={{
-                                    backgroundImage: "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)"
-                                }}
-                            >
-                                My Genie
-                            </h1>
+            <div className="space-y-5 max-w-3xl mx-auto text-center">
+                <h1 className="text-4xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto sm:text-6xl py-6"
+                    style={{
+                        backgroundImage: "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)"
+                    }}
+                >
+                    My Genie
+                </h1>
+            </div>
+            <div className="flex flex-col w-[80vw] h-[80vh] p-4 border border-white rounded-lg mt-4">
+                <div className="flex flex-col flex-grow p-2 space-y-2 overflow-y-auto">
+                    {messages.map((message, index) => (
+                        <div
+                            key={index}
+                            className="p-3 rounded-xl max-w-xs"
+                            style={{
+                                backgroundColor:
+                                    message.role === 'assistant'
+                                        ? receivedMessageColor
+                                        : sentMessageColor,
+                                alignSelf:
+                                    message.role === 'assistant'
+                                        ? 'flex-start'
+                                        : 'flex-end',
+                                color:
+                                    message.role === 'assistant'
+                                        ? 'white'
+                                        : 'black',
+                            }}
+                        >
+                            {message.content}
                         </div>
-
-                        <div className="flex flex-col items-center justify-center w-full">
-                            {/* Chat Box */}
-                            <div className="flex flex-col w-full max-w-lg p-4 border border-white rounded-lg">
-                                <div className="flex flex-col flex-grow p-2 space-y-2 overflow-y-auto">
-                                    {messages.map((message, index) => (
-                                        <div
-                                            key={index}
-                                            className="p-3 rounded-xl max-w-xs"
-                                            style={{
-                                                backgroundColor:
-                                                    message.role === 'assistant'
-                                                        ? receivedMessageColor
-                                                        : sentMessageColor,
-                                                alignSelf:
-                                                    message.role === 'assistant'
-                                                        ? 'flex-start'
-                                                        : 'flex-end',
-                                                color:
-                                                    message.role === 'assistant'
-                                                        ? 'white'
-                                                        : 'black',
-                                            }}
-                                        >
-                                            {message.content}
-                                        </div>
-                                    ))}
-                                    <div ref={messagesEndRef} />
-                                </div>
-                                <div className="flex mt-4 space-x-2">
-                                    <input
-                                        type="text"
-                                        className="flex-grow p-2 text-white bg-black border-none rounded-lg placeholder-gray-500"
-                                        placeholder="Type message..."
-                                        value={message}
-                                        onChange={(e) => setMessage(e.target.value)}
-                                        onKeyPress={handleKeyPress}
-                                        disabled={isLoading}
-                                    />
-                                    <button
-                                        onClick={sendMessage}
-                                        disabled={isLoading}
-                                        className="p-2 text-white rounded-lg"
-                                        style={{ backgroundColor: '#4600D1' }}
-                                    >
-                                        {isLoading ? 'Sending..' : 'Send'}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </LayoutEffect>
+                    ))}
+                    <div ref={messagesEndRef} />
                 </div>
-            </section>
+                <div className="flex mt-4 space-x-2">
+                    <input
+                        type="text"
+                        className="flex-grow p-2 text-white bg-black border-none rounded-lg placeholder-gray-500"
+                        placeholder="Type message..."
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        disabled={isLoading}
+                    />
+                    <button
+                        onClick={sendMessage}
+                        disabled={isLoading}
+                        className="p-2 text-white rounded-lg"
+                        style={{ backgroundColor: '#4600D1' }}
+                    >
+                        {isLoading ? 'Sending..' : 'Send'}
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }
