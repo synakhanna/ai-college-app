@@ -1,6 +1,6 @@
 import LayoutEffect from "@/components/LayoutEffect"
 
-const Waitlist = () => (
+const Profile = () => (
     <section>
         <div className="custom-screen py-20">
             <LayoutEffect className="duration-1000 delay-300"
@@ -28,4 +28,4 @@ const Waitlist = () => (
     </section>
 )
 
-export default Waitlist
+export default Profile

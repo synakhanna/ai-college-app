@@ -8,11 +8,17 @@ const Navbar = () => {
     const [state, setState] = useState(false);
     const menuBtnEl = useRef(null);
 
-    const navigation = [
+    const soNavigation = [
         { name: "Features", href: "/#features" },
         { name: "Testimonials", href: "/#testimonials" },
         { name: "Pricing", href: "/#pricing" },
         { name: "FAQs", href: "/#faqs" },
+    ];
+
+    const userNavigation = [
+        { name: "Profile", href: "/profile" },
+        { name: "College", href: "/college" },
+        { name: "Counselor", href: "/counselor" },
     ];
 
     useEffect(() => {
@@ -33,7 +39,7 @@ const Navbar = () => {
                         {/* Regular menu */}
                         <SignedOut>
                         <ul className="hidden lg:flex flex-1 justify-center items-center mt-5 space-y-6 lg:space-x-6 xl:space-x-8 lg:space-y-0">
-                            {navigation.map((item, idx) => (
+                            {soNavigation.map((item, idx) => (
                                 <li key={idx} className="hover:text-gray-50 text-lg font-semibold text-white">
                                     <Link href={item.href}>
                                         {item.name}
@@ -42,10 +48,24 @@ const Navbar = () => {
                             ))}
                         </ul>
                         </SignedOut>
+                        <SignedIn>
+                        <ul className="hidden lg:flex flex-1 justify-center items-center mt-5 space-y-6 lg:space-x-6 xl:space-x-8 lg:space-y-0">
+                            {userNavigation.map((item, idx) => (
+                                <li key={idx} className="hover:text-gray-50 text-lg font-semibold text-white">
+                                    <Link href={item.href}>
+                                        {item.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                        </SignedIn>
                         <div className="hidden lg:flex items-center gap-x-4 pt-5">
                             <SignedOut>
+                                <NavLink href="/sign-in" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
+                                    Sign In
+                                </NavLink>
                                 <NavLink href="/sign-up" className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 md:inline-flex">
-                                    Join Waitlist
+                                    Sign Up
                                 </NavLink>
                             </SignedOut>
                             <SignedIn>
@@ -77,7 +97,7 @@ const Navbar = () => {
                 {/* Hamburger menu items */}
                 <div className={`lg:hidden ${state ? 'block' : 'hidden'} mt-5 bg-gray-900`}>
                     <ul className="flex flex-col items-center space-y-6 text-white">
-                        {navigation.map((item, idx) => (
+                        {soNavigation.map((item, idx) => (
                             <li key={idx} className="hover:text-gray-50 text-lg font-semibold">
                                 <Link href={item.href}>
                                     {item.name}
@@ -87,8 +107,11 @@ const Navbar = () => {
                     </ul>
                     <div className="flex flex-col items-center space-y-4 mt-6">
                         <SignedOut>
+                            <NavLink href="/sign-in" className="text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900">
+                                Sign In
+                            </NavLink>
                             <NavLink href="/sign-up" className="text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900">
-                                Join Waitlist
+                                Sign Up
                             </NavLink>
                         </SignedOut>
                         <SignedIn>
