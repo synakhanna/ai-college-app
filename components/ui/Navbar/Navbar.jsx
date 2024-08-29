@@ -97,6 +97,7 @@ const Navbar = () => {
                 </div>
                 {/* Hamburger menu items */}
                 <div className={`lg:hidden ${state ? 'block' : 'hidden'} mt-5 bg-gray-900`}>
+                    <SignedOut>
                     <ul className="flex flex-col items-center space-y-6 text-white">
                         {soNavigation.map((item, idx) => (
                             <li key={idx} className="hover:text-gray-50 text-lg font-semibold">
@@ -106,6 +107,18 @@ const Navbar = () => {
                             </li>
                         ))}
                     </ul>
+                    </SignedOut>
+                    <SignedIn>
+                    <ul className="flex flex-col items-center space-y-6 text-white">
+                        {userNavigation.map((item, idx) => (
+                            <li key={idx} className="hover:text-gray-50 text-lg font-semibold">
+                                <Link href={item.href}>
+                                    {item.name}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                    </SignedIn>
                     <div className="flex flex-col items-center space-y-4 mt-6">
                         <SignedOut>
                             <NavLink href="/sign-in" className="text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900">
