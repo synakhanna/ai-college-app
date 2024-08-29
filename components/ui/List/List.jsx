@@ -1,6 +1,56 @@
+import React, { useState } from "react";
 import LayoutEffect from "@/components/LayoutEffect";
 
 export default function Table() {
+  const [checkedAll, setCheckedAll] = useState(false);
+  const [checkedItems, setCheckedItems] = useState({
+    nyu: false,
+    columbia: false,
+    mit: false,
+    bu: false,
+    ucla: false,
+  });
+  const [showSaved, setShowSaved] = useState(false);
+
+  const handleCheckAll = () => {
+    const newState = !checkedAll;
+    setCheckedAll(newState);
+    setCheckedItems({
+      nyu: newState,
+      columbia: newState,
+      mit: newState,
+      bu: newState,
+      ucla: newState,
+    });
+  };
+
+  const handleCheckItem = (key) => {
+    const newCheckedItems = {
+      ...checkedItems,
+      [key]: !checkedItems[key],
+    };
+    setCheckedItems(newCheckedItems);
+
+    const allChecked = Object.values(newCheckedItems).every((value) => value);
+    setCheckedAll(allChecked);
+  };
+
+  const handleToggleSaved = () => {
+    setShowSaved(!showSaved);
+  };
+
+  const colleges = [
+    { key: 'nyu', name: 'New York University', tuition: '$2,500 USD', location: 'New York, NY' },
+    { key: 'columbia', name: 'Columbia University', tuition: '$1,800 USD', location: 'Los Angeles, CA' },
+    { key: 'mit', name: 'MIT', tuition: '$3,150 USD', location: 'Chicago, IL' },
+    { key: 'bu', name: 'Boston University', tuition: '$4,400 USD', location: 'San Francisco, CA' },
+    { key: 'ucla', name: 'UCLA', tuition: '$2,200 USD', location: 'Austin, TX' },
+  ];
+
+  const filteredColleges = showSaved
+    ? colleges.filter(college => checkedItems[college.key])
+    : colleges;
+
   return (
     <>
       <div className="custom-screen py-20">
@@ -12,7 +62,7 @@ export default function Table() {
           }}
         >
           <div>
-            <div className="space-y-5 max-w-3xl mx-auto text-center">
+            <div className="space-y-5 max-w-6xl mx-auto text-center">
               <h1
                 className="text-4xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto sm:text-6xl py-6"
                 style={{
@@ -22,122 +72,83 @@ export default function Table() {
               >
                 Colleges
               </h1>
+              <button
+                onClick={handleToggleSaved}
+                className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
+              >
+                {showSaved ? 'See Full List' : 'Go to Saved'}
+              </button>
               <div
                 className={
-                  "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded"
+                  "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-3xl bg-white"
                 }
               >
-                <div className="rounded-t mb-0 px-4 py-3 border-0">
-                  <div className="flex flex-wrap items-center">
-                    <div className="relative w-full px-4 max-w-full flex-grow flex-1"></div>
-                  </div>
-                </div>
-                <div className="block w-full overflow-x-auto">
-                  {/* Colleges table */}
-                  <table className="items-center w-full bg-transparent border-collapse table-fixed">
+                <div className="block w-full overflow-x-auto ">
+                  <table className="items-center w-full bg-transparent border-collapse table-fixed rounded-3xl">
                     <thead>
-                      <tr>
+                      <tr className="bg-gray-100">
                         <th
                           className={
-                            "w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center text-white"
+                            "w-1/4 px-6 py-4 align-middle text-sm uppercase font-semibold text-left text-gray-600 rounded-tl-3xl"
                           }
                         >
                           Name
                         </th>
                         <th
                           className={
-                            "w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center text-white"
+                            "w-1/4 px-6 py-4 align-middle text-sm uppercase font-semibold text-left text-gray-600"
                           }
                         >
                           Tuition
                         </th>
                         <th
                           className={
-                            "w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center text-white"
+                            "w-1/4 px-6 py-4 align-middle text-sm uppercase font-semibold text-left text-gray-600"
                           }
                         >
                           Location
                         </th>
                         <th
                           className={
-                            "w-1/4 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center text-white"
+                            "w-12 px-2 py-4 align-middle text-sm uppercase font-semibold text-left text-gray-600 rounded-tr-3xl"
                           }
                         >
-                          Saved
+                          <div className="flex items-center w-full text-sm uppercase font-semibold text-left">
+                            <span className="mr-2">Save</span>
+                            {!showSaved && (
+                              <input
+                                type="checkbox"
+                                className="h-5 w-5 text-blue-500"
+                                checked={checkedAll}
+                                onChange={handleCheckAll}
+                              />
+                            )}
+                          </div>
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center font-bold text-white">
-                          New York University
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          $2,500 USD
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          New York, NY
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          <input type="checkbox" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center font-bold text-white">
-                          Columbia University
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          $1,800 USD
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          Los Angeles, CA
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          <input type="checkbox" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center font-bold text-white">
-                          MIT
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          $3,150 USD
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          Chicago, IL
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          <input type="checkbox" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center font-bold text-white">
-                          Boston University
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          $4,400 USD
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          San Francisco, CA
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          <input type="checkbox" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center font-bold text-white">
-                          UCLA
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          $2,200 USD
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          Austin, TX
-                        </td>
-                        <td className="w-1/4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center text-white">
-                          <input type="checkbox" />
-                        </td>
-                      </tr>
+                      {filteredColleges.map((college) => (
+                        <tr key={college.key} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 align-middle text-sm text-left font-bold text-gray-700">
+                            {college.name}
+                          </td>
+                          <td className="px-6 py-4 align-middle text-sm text-left text-gray-700">
+                            {college.tuition}
+                          </td>
+                          <td className="px-6 py-4 align-middle text-sm text-left text-gray-700">
+                            {college.location}
+                          </td>
+                          <td className="px-2 py-4 align-middle text-sm text-left text-gray-700">
+                            <input
+                              type="checkbox"
+                              className="h-5 w-5 text-blue-500"
+                              checked={checkedItems[college.key]}
+                              onChange={() => handleCheckItem(college.key)}
+                            />
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
