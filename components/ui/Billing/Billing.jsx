@@ -1,6 +1,6 @@
 import LayoutEffect from "@/components/LayoutEffect"
 
-const Counselor = () => (
+const Billing = () => (
     <section>
         <div className="custom-screen py-20">
             <LayoutEffect className="duration-1000 delay-300"
@@ -16,7 +16,7 @@ const Counselor = () => (
                                 backgroundImage: "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)"
                             }}
                         >
-                            Speak With Counselor
+                            Congratulations!
                         </h1>
                         <p className="max-w-xl mx-auto text-gray-300 py-6">
                             You have now joined our waitlist!
@@ -28,4 +28,4 @@ const Counselor = () => (
     </section>
 )
 
-export default Counselor
+export default Billing

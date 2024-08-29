@@ -19,6 +19,7 @@ const Navbar = () => {
         { name: "Profile", href: "/profile" },
         { name: "College", href: "/college" },
         { name: "Counselor", href: "/counselor" },
+        { name: "Billing", href: "/billing" },
     ];
 
     useEffect(() => {
