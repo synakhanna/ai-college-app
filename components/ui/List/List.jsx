@@ -11,6 +11,7 @@ export default function Table() {
     ucla: false,
   });
   const [showSaved, setShowSaved] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); // New state for search query
 
   const handleCheckAll = () => {
     const newState = !checkedAll;
@@ -47,9 +48,18 @@ export default function Table() {
     { key: 'ucla', name: 'UCLA', tuition: '$2,200 USD', location: 'Austin, TX' },
   ];
 
-  const filteredColleges = showSaved
-    ? colleges.filter(college => checkedItems[college.key])
-    : colleges;
+  const filteredColleges = colleges.filter(college => {
+    const matchesSearchQuery =
+      college.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      college.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      college.tuition.toLowerCase().includes(searchQuery.toLowerCase());
+
+    if (showSaved) {
+      return checkedItems[college.key] && matchesSearchQuery;
+    }
+
+    return matchesSearchQuery;
+  });
 
   return (
     <>
@@ -72,9 +82,16 @@ export default function Table() {
               >
                 Colleges
               </h1>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by name, location, or tuition"
+                className="w-full max-w-xs px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
               <button
                 onClick={handleToggleSaved}
-                className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
+                className="flex items-center justify-center gap-x-1 text-lg ml-5 text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
               >
                 {showSaved ? 'See Full List' : 'Go to Saved'}
               </button>
