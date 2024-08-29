@@ -14,7 +14,6 @@ export default function Counselor() {
     const sentMessageColor = '#EDDCFF';
     const receivedMessageColor = '#4600D1';
 
-    // Mock response function
     const mockResponse = (userMessage) => {
         if (userMessage.toLowerCase().includes('application')) {
             return "It sounds like you're asking about college applications! I can help with that. What specific questions do you have?";
@@ -67,60 +66,62 @@ export default function Counselor() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen">
-            <div className="space-y-5 max-w-3xl mx-auto text-center">
-                <h1 className="text-4xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto sm:text-6xl py-6"
-                    style={{
-                        backgroundImage: "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)"
-                    }}
-                >
-                    My Genie
-                </h1>
-            </div>
-            <div className="flex flex-col w-[80vw] h-[80vh] p-4 border border-white rounded-lg mt-4">
-                <div className="flex flex-col flex-grow p-2 space-y-2 overflow-y-auto">
-                    {messages.map((message, index) => (
-                        <div
-                            key={index}
-                            className="p-3 rounded-xl max-w-xs"
-                            style={{
-                                backgroundColor:
-                                    message.role === 'assistant'
-                                        ? receivedMessageColor
-                                        : sentMessageColor,
-                                alignSelf:
-                                    message.role === 'assistant'
-                                        ? 'flex-start'
-                                        : 'flex-end',
-                                color:
-                                    message.role === 'assistant'
-                                        ? 'white'
-                                        : 'black',
-                            }}
-                        >
-                            {message.content}
-                        </div>
-                    ))}
-                    <div ref={messagesEndRef} />
-                </div>
-                <div className="flex mt-4 space-x-2">
-                    <input
-                        type="text"
-                        className="flex-grow p-2 text-white bg-black border-none rounded-lg placeholder-gray-500"
-                        placeholder="Type message..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                        disabled={isLoading}
-                    />
-                    <button
-                        onClick={sendMessage}
-                        disabled={isLoading}
-                        className="p-2 text-white rounded-lg"
-                        style={{ backgroundColor: '#4600D1' }}
+        <div className="flex flex-col min-h-screen">
+            <div className="flex flex-col items-center justify-center flex-grow">
+                <div className="space-y-5 max-w-3xl mx-auto text-center">
+                    <h1 className="text-4xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto sm:text-6xl py-6"
+                        style={{
+                            backgroundImage: "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)"
+                        }}
                     >
-                        {isLoading ? 'Sending..' : 'Send'}
-                    </button>
+                        My Genie
+                    </h1>
+                </div>
+                <div className="flex flex-col w-[80vw] h-[80vh] p-4 border border-white rounded-lg mt-4">
+                    <div className="flex flex-col flex-grow p-2 space-y-2 overflow-y-auto">
+                        {messages.map((message, index) => (
+                            <div
+                                key={index}
+                                className="p-3 rounded-xl max-w-xs"
+                                style={{
+                                    backgroundColor:
+                                        message.role === 'assistant'
+                                            ? receivedMessageColor
+                                            : sentMessageColor,
+                                    alignSelf:
+                                        message.role === 'assistant'
+                                            ? 'flex-start'
+                                            : 'flex-end',
+                                    color:
+                                        message.role === 'assistant'
+                                            ? 'white'
+                                            : 'black',
+                                }}
+                            >
+                                {message.content}
+                            </div>
+                        ))}
+                        <div ref={messagesEndRef} />
+                    </div>
+                    <div className="flex mt-4 space-x-2">
+                        <input
+                            type="text"
+                            className="flex-grow p-2 text-white bg-black border-none rounded-lg placeholder-gray-500"
+                            placeholder="Type message..."
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            disabled={isLoading}
+                        />
+                        <button
+                            onClick={sendMessage}
+                            disabled={isLoading}
+                            className="p-2 text-white rounded-lg"
+                            style={{ backgroundColor: '#4600D1' }}
+                        >
+                            {isLoading ? 'Sending..' : 'Send'}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
