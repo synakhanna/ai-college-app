@@ -145,18 +145,30 @@ export default function Table() {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredColleges.map((college) => (
+                      {filteredColleges.map((college, index) => (
                         <tr key={college.key} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 align-middle text-sm text-left font-bold text-gray-700">
+                          <td
+                            className={`px-6 py-4 align-middle text-sm text-left font-bold text-gray-700 ${
+                              index === filteredColleges.length - 1 ? 'rounded-bl-3xl' : ''
+                            }`}
+                          >
                             {college.name}
                           </td>
-                          <td className="px-6 py-4 align-middle text-sm text-left text-gray-700">
+                          <td
+                            className={`px-6 py-4 align-middle text-sm text-left text-gray-700`}
+                          >
                             {college.tuition}
                           </td>
-                          <td className="px-6 py-4 align-middle text-sm text-left text-gray-700">
+                          <td
+                            className={`px-6 py-4 align-middle text-sm text-left text-gray-700`}
+                          >
                             {college.location}
                           </td>
-                          <td className="px-2 py-4 align-middle text-sm text-left text-gray-700">
+                          <td
+                            className={`px-2 py-4 align-middle text-sm text-left text-gray-700 ${
+                              index === filteredColleges.length - 1 ? 'rounded-br-3xl' : ''
+                            }`}
+                          >
                             <input
                               type="checkbox"
                               className="h-5 w-5 text-blue-500"
