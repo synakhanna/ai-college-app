@@ -2,6 +2,7 @@ import LayoutEffect from "@/components/LayoutEffect";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { useState } from "react";
+import CreatableSelect from 'react-select/creatable';
 
 const Profile = () => {
     const { user, isLoaded, isSignedIn } = useUser();
@@ -10,7 +11,7 @@ const Profile = () => {
         gpa: "",
         satScore: "",
         helpNeeded: [],
-        preferredLocation: "",
+        preferredLocation: [], // Initialize as an array for multiple locations
         tuition: 0,
         selectedProgram: "",
     });
@@ -55,6 +56,26 @@ const Profile = () => {
         { value: "latest.academics.program_percentage.business_marketing", label: "Business, Management, Marketing, And Related Support Services" },
         { value: "latest.academics.program_percentage.history", label: "History" },
     ];
+
+    const loadLocationOptions = async (inputValue) => {
+        try {
+            const response = await axios.get(`/api/locations?query=${inputValue}`);
+            return response.data.map((location) => ({
+                label: `${location.city}, ${location.state}`,
+                value: location.city,
+            }));
+        } catch (error) {
+            console.error('Error fetching locations:', error);
+            return [];
+        }
+    };
+
+    const handleLocationChange = (selectedOptions) => {
+        setFormData({
+            ...formData,
+            preferredLocation: selectedOptions || [], // Set to empty array if no options are selected
+        });
+    };
 
     if (!isLoaded) {
         return <div>Loading...</div>;
@@ -108,12 +129,9 @@ const Profile = () => {
         }
 
         try {
-            const response = await axios.get('/api/college', {
+            const response = await axios.get('/api/colleges', {
                 params: {
-                    location: JSON.stringify({
-                        city: formData.preferredLocation,
-                        state: ''
-                    }),
+                    location: formData.preferredLocation.map((loc) => loc.label).join(', '), // Join multiple locations
                     sortOrder: 'asc',
                     limit: 10,
                     major: formData.selectedProgram,
@@ -263,17 +281,50 @@ const Profile = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* Preferred Location */}
+                        {/* Preferred Locations */}
                         <div>
                             <label className="block text-white text-lg font-semibold">
-                                Preferred Location
+                                Preferred Locations
                             </label>
-                            <textarea
+                            <CreatableSelect
+                                isMulti
                                 name="preferredLocation"
                                 value={formData.preferredLocation}
-                                onChange={(e) => setFormData({ ...formData, preferredLocation: e.target.value })}
-                                className="w-full p-3 mt-2 bg-gray-800 text-white rounded-lg"
-                                placeholder="List the states or cities you're interested in"
+                                onChange={handleLocationChange}
+                                loadOptions={loadLocationOptions}
+                                placeholder="Select or type your preferred locations"
+                                className="w-full mt-2"
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        backgroundColor: '#1F2937', // Match the input background color
+                                        color: '#fff',
+                                        borderRadius: '0.5rem', // Match the input border radius
+                                        borderColor: '#374151', // Match the input border color
+                                    }),
+                                    input: (provided) => ({
+                                        ...provided,
+                                        color: '#fff', // Ensure typed text is white
+                                    }),
+                                    placeholder: (provided) => ({
+                                        ...provided,
+                                        color: '#9CA3AF', // Match placeholder text color
+                                    }),
+                                    singleValue: (provided) => ({
+                                        ...provided,
+                                        color: '#fff', // Ensure selected value is white
+                                    }),
+                                    menu: (provided) => ({
+                                        ...provided,
+                                        backgroundColor: '#1F2937', // Match the dropdown background color
+                                        color: '#fff',
+                                    }),
+                                    option: (provided, state) => ({
+                                        ...provided,
+                                        backgroundColor: state.isFocused ? '#374151' : '#1F2937', // Match focused option background color
+                                        color: '#fff',
+                                    }),
+                                }}
                             />
                         </div>
                         {/* Tuition */}
