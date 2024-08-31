@@ -20,6 +20,7 @@
     "eslint-config-next": "13.1.6",
     "framer-motion": "^9.0.3",
     "mongodb": "^6.8.0",
+    "mongoose": "^8.6.0",
     "next": "^13.5.4",
     "puppeteer": "^23.2.1",
     "react": "18.2.0",

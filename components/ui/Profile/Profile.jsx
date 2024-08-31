@@ -1,7 +1,7 @@
 import LayoutEffect from "@/components/LayoutEffect";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CreatableSelect from 'react-select/creatable';
 
 const Profile = () => {
@@ -56,6 +56,34 @@ const Profile = () => {
         { value: "latest.academics.program_percentage.business_marketing", label: "Business, Management, Marketing, And Related Support Services" },
         { value: "latest.academics.program_percentage.history", label: "History" },
     ];
+
+    useEffect(() => {
+        if (isLoaded && isSignedIn) {
+            const fetchData = async () => {
+                try {
+                    const response = await axios.get('/api/save_profile');
+                    const data = response.data;
+
+                    if (data) {
+                        setFormData({
+                            major: data.major || "",
+                            gpa: data.academicInfo.gpa || "",
+                            satScore: data.academicInfo.satScore || "",
+                            helpNeeded: data.help || [],
+                            preferredLocation: data.preferredLocations || [],
+                            tuition: data.desiredTuition || 0,
+                            selectedProgram: data.selectedProgram || "",
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error fetching profile data:', error);
+                }
+            };
+
+            fetchData();
+        }
+    }, [isLoaded, isSignedIn]);
+
 
     const loadLocationOptions = async (inputValue) => {
         try {
@@ -123,27 +151,44 @@ const Profile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!formData.gpa || formData.helpNeeded.length === 0 || formData.tuition === 0) {
             alert("Please fill in all the required fields.");
             return;
         }
 
         try {
-            const response = await axios.get('/api/colleges', {
-                params: {
-                    location: formData.preferredLocation.map((loc) => loc.label).join(', '), // Join multiple locations
-                    sortOrder: 'asc',
-                    limit: 10,
-                    major: formData.selectedProgram,
-                },
+            // First, save the profile data
+            const saveResponse = await axios.post('/api/save_profile', {
+                major: formData.selectedProgram,
+                gpa: formData.gpa,
+                satScore: formData.satScore,
+                helpNeeded: formData.helpNeeded,
+                preferredLocation: formData.preferredLocation,
+                tuition: formData.tuition,
             });
 
-            console.log('Colleges:', response.data);
+            if (saveResponse.data.success) {
+                // Profile saved successfully, now fetch the colleges
+                const collegeResponse = await axios.get('/api/colleges', {
+                    params: {
+                        location: formData.preferredLocation.map((loc) => loc.label).join(', '),
+                        sortOrder: 'asc',
+                        limit: 10,
+                        major: formData.selectedProgram,
+                    },
+                });
+
+                console.log('Colleges:', collegeResponse.data);
+                // You can update the state to display the colleges or handle the response as needed
+            } else {
+                alert('Error saving profile. Please try again.');
+            }
         } catch (error) {
-            console.error('Error fetching colleges:', error.message);
+            console.error('Error during the process:', error.message);
+            alert('An error occurred. Please try again.');
         }
     };
-
     return (
         <section className="py-10 sm:py-20">
             <div className="container mx-auto px-4">
