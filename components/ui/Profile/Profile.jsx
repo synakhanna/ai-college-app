@@ -59,12 +59,11 @@ const Profile = () => {
 
     useEffect(() => {
         if (isLoaded && isSignedIn) {
-            const fetchData = async () => {
+            const fetchUserData = async () => {
                 try {
-                    const response = await axios.get('/api/save_profile');
-                    const data = response.data;
-
-                    if (data) {
+                    const response = await axios.get('/api/fetch_details');
+                    if (response.status === 200) {
+                        const data = response.data;
                         setFormData({
                             major: data.major || "",
                             gpa: data.academicInfo.gpa || "",
@@ -72,18 +71,17 @@ const Profile = () => {
                             helpNeeded: data.help || [],
                             preferredLocation: data.preferredLocations || [],
                             tuition: data.desiredTuition || 0,
-                            selectedProgram: data.selectedProgram || "",
+                            selectedProgram: data.major || "",
                         });
                     }
                 } catch (error) {
-                    console.error('Error fetching profile data:', error);
+                    console.error('Error fetching user details:', error);
                 }
             };
 
-            fetchData();
+            fetchUserData();
         }
     }, [isLoaded, isSignedIn]);
-
 
     const loadLocationOptions = async (inputValue) => {
         try {
