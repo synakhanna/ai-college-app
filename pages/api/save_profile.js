@@ -22,20 +22,21 @@ export default async function handler(req, res) {
         gpa,
         satScore,
         helpNeeded,
-        preferredLocation,
+        address,
         tuition,
+        suggestedColleges
       } = req.body;
 
       const communityId = generateCommunityId(); // You can create a function to generate this
-
       const newUser = new User({
         clerkId: userId,
         stripeId: '', // Add stripe logic later
         academicInfo: { gpa, satScore },
         help: helpNeeded,
-        preferredLocations: preferredLocation.map(loc => loc.label),
+        address: address,
         desiredTuition: tuition,
         communityId,
+        suggestedColleges:suggestedColleges
       });
 
       await newUser.save();

@@ -8,8 +8,18 @@ const userSchema = new mongoose.Schema({
     satScore: { type: Number, required: false },
   },
   help: [{ type: String, required: true }],
-  preferredLocations: [{ type: String }],
   desiredTuition: { type: Number, required: true },
+  address: {
+    city: {
+      type: String,
+    },
+    state: {
+      type: String,
+    }
+  },
+  suggestedColleges: {
+    type: [mongoose.Schema.Types.Mixed], // Using Mixed type to store arbitrary JSON objects
+},
   dateCreated: { type: Date, default: Date.now },
   communityId: { type: String, required: true },
 });

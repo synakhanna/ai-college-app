@@ -3,6 +3,7 @@ import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import CreatableSelect from 'react-select/creatable';
+import CitySearch from "../CitySearch";
 
 const Profile = () => {
     const { user, isLoaded, isSignedIn } = useUser();
@@ -11,9 +12,10 @@ const Profile = () => {
         gpa: "",
         satScore: "",
         helpNeeded: [],
-        preferredLocation: [], // Initialize as an array for multiple locations
+        preferredLocation: null, // Initialize as an array for multiple locations
         tuition: 0,
         selectedProgram: "",
+        suggestedColleges: [],
     });
 
     const programOptions = [
@@ -147,6 +149,14 @@ const Profile = () => {
         });
     };
 
+    const handleCitySelect = (selectedCity) => {
+        console.log("The values in the selectcity inside handleCitySelect :"+selectedCity.city+" "+selectedCity.state);
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            preferredLocation: selectedCity, // Set the single city object as location
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -156,32 +166,29 @@ const Profile = () => {
         }
 
         try {
+                console.log("The preferred location data is :"+formData.preferredLocation.state);
+                const collegeResponse = await axios.get('/api/colleges', {
+                        params: {
+                            location: `{\"city\":\"${formData.preferredLocation.city}\"}`,
+                            sortOrder: 'asc',
+                            limit: 50,
+                            major: formData.selectedProgram,
+                        },
+                    });
+    
+                    console.log('Colleges:', collegeResponse.data);
+
             // First, save the profile data
             const saveResponse = await axios.post('/api/save_profile', {
                 major: formData.selectedProgram,
                 gpa: formData.gpa,
                 satScore: formData.satScore,
                 helpNeeded: formData.helpNeeded,
-                preferredLocation: formData.preferredLocation,
+                address: formData.preferredLocation,
                 tuition: formData.tuition,
+                suggestedColleges: collegeResponse.data,
             });
 
-            if (saveResponse.data.success) {
-                // Profile saved successfully, now fetch the colleges
-                const collegeResponse = await axios.get('/api/colleges', {
-                    params: {
-                        location: formData.preferredLocation.map((loc) => loc.label).join(', '),
-                        sortOrder: 'asc',
-                        limit: 10,
-                        major: formData.selectedProgram,
-                    },
-                });
-
-                console.log('Colleges:', collegeResponse.data);
-                // You can update the state to display the colleges or handle the response as needed
-            } else {
-                alert('Error saving profile. Please try again.');
-            }
         } catch (error) {
             console.error('Error during the process:', error.message);
             alert('An error occurred. Please try again.');
@@ -329,7 +336,7 @@ const Profile = () => {
                             <label className="block text-white text-lg font-semibold">
                                 Preferred Locations
                             </label>
-                            <CreatableSelect
+                            {/* <CreatableSelect
                                 isMulti
                                 name="preferredLocation"
                                 value={formData.preferredLocation}
@@ -368,7 +375,9 @@ const Profile = () => {
                                         color: '#fff',
                                     }),
                                 }}
-                            />
+                            /> */}
+
+                        <CitySearch onCitySelect={handleCitySelect} />
                         </div>
                         {/* Tuition */}
                         <div>
