@@ -3,13 +3,16 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
   clerkId: { type: String, required: true },
   stripeId: { type: String, default: '' },
+  fullName: { type: String, required: true },  // Full Name from Clerk
+  email: { type: String, required: true },     // Email from Clerk
   academicInfo: {
     gpa: { type: Number, required: true },
     satScore: { type: Number, required: false },
   },
-  help: [{ type: String, required: true }],
+  academicTrack: { type: String, required: true }, // Academic track (could be multiple)
+  help: [{ type: String, required: true }], // Help options
   desiredTuition: { type: Number, required: true },
-  address: {
+  addresses: {
     city: {
       type: String,
     },
@@ -18,10 +21,11 @@ const userSchema = new mongoose.Schema({
     }
   },
   suggestedColleges: {
-    type: [mongoose.Schema.Types.Mixed], // Using Mixed type to store arbitrary JSON objects
-},
+    type: [mongoose.Schema.Types.Mixed], // Suggested colleges
+  },
   dateCreated: { type: Date, default: Date.now },
   communityId: { type: String, required: true },
+  socialMediaTags: [{ type: String }], // Social media tags
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);

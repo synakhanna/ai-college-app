@@ -1,7 +1,6 @@
 import { getAuth } from '@clerk/nextjs/server';
 import mongoose from 'mongoose';
 import User from '../../models/User'; // Adjust this path based on where you saved the user schema
-
 // Connect to MongoDB
 const connectDB = async () => {
   if (mongoose.connection.readyState >= 1) return;
@@ -16,27 +15,34 @@ export default async function handler(req, res) {
     try {
       await connectDB();
 
-      const { userId } = getAuth(req);
+      const { userId } = getAuth(req); // Assuming you have an auth method to get the userId
       const {
-        major,
+        fullName,
+        email,
+        academicTrack,  // This will be mapped to academicTrack
         gpa,
         satScore,
-        helpNeeded,
-        address,
-        tuition,
-        suggestedColleges
+        helpNeeded,  // This will be mapped to help
+        addresses,  // This will be mapped to addresses
+        tuition,  // This will be mapped to desiredTuition
+        suggestedColleges,
+        socialMediaTags,
       } = req.body;
 
-      const communityId = generateCommunityId(); // You can create a function to generate this
+      const communityId = generateCommunityId(); // Function to generate communityId
+
       const newUser = new User({
         clerkId: userId,
-        stripeId: '', // Add stripe logic later
+        fullName,   // Full name from Clerk or frontend
+        email,      // Email from Clerk or frontend
         academicInfo: { gpa, satScore },
-        help: helpNeeded,
-        address: address,
-        desiredTuition: tuition,
+        academicTrack: academicTrack, // Mapped to academicTrack
+        help: helpNeeded,  // Mapped to help
+        addresses: addresses,  // Mapped to addresses
+        desiredTuition: tuition,  // Mapped to desiredTuition
         communityId,
-        suggestedColleges:suggestedColleges
+        suggestedColleges,
+        socialMediaTags, // Save social media tags
       });
 
       await newUser.save();
