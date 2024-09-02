@@ -15,39 +15,42 @@ export default async function handler(req, res) {
     try {
       await connectDB();
 
-      const { userId } = getAuth(req); // Assuming you have an auth method to get the userId
+      const { userId } = getAuth(req); // Retrieve the clerkId from the session/auth context
       const {
         fullName,
         email,
-        academicTrack,  // This will be mapped to academicTrack
+        academicTrack,  
         gpa,
         satScore,
-        helpNeeded,  // This will be mapped to help
-        addresses,  // This will be mapped to addresses
-        tuition,  // This will be mapped to desiredTuition
+        helpNeeded,  
+        addresses,  
+        tuition,  
         suggestedColleges,
         socialMediaTags,
       } = req.body;
 
       const communityId = generateCommunityId(); // Function to generate communityId
 
-      const newUser = new User({
-        clerkId: userId,
-        fullName,   // Full name from Clerk or frontend
-        email,      // Email from Clerk or frontend
-        academicInfo: { gpa, satScore },
-        academicTrack: academicTrack, // Mapped to academicTrack
-        help: helpNeeded,  // Mapped to help
-        addresses: addresses,  // Mapped to addresses
-        desiredTuition: tuition,  // Mapped to desiredTuition
-        communityId,
-        suggestedColleges,
-        socialMediaTags, // Save social media tags
-      });
+      // Use findByIdAndUpdate with upsert: true
+      const newUser = await User.findByIdAndUpdate(
+        userId,
+        {
+          _id: userId, // Set _id to clerkId
+          fullName,   
+          email,      
+          academicInfo: { gpa, satScore },
+          academicTrack: academicTrack,
+          help: helpNeeded,
+          addresses: addresses,
+          desiredTuition: tuition,
+          communityId,
+          suggestedColleges,
+          socialMediaTags,
+        },
+        { upsert: true, new: true, setDefaultsOnInsert: true } // Upsert and create a new document if not existing
+      );
 
-      await newUser.save();
-
-      res.status(200).json({ success: true, message: 'Profile saved successfully.' });
+      res.status(200).json({ success: true, message: 'Profile saved successfully.', user: newUser });
     } catch (error) {
       console.error(error);
       res.status(500).json({ success: false, message: 'Error saving profile.' });

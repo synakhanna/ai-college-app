@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-  clerkId: { type: String, required: true },
+  _id: { type: String, required: true },  // Set _id to clerkId
   stripeId: { type: String, default: '' },
   fullName: { type: String, required: true },  // Full Name from Clerk
   email: { type: String, required: true },     // Email from Clerk
