@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const stateAbbreviations = {
+    'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR', 'California': 'CA',
+    'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE', 'Florida': 'FL', 'Georgia': 'GA',
+    'Hawaii': 'HI', 'Idaho': 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA',
+    'Kansas': 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD',
+    'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS',
+    'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV', 'New Hampshire': 'NH',
+    'New Jersey': 'NJ', 'New Mexico': 'NM', 'New York': 'NY', 'North Carolina': 'NC',
+    'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK', 'Oregon': 'OR', 'Pennsylvania': 'PA',
+    'Rhode Island': 'RI', 'South Carolina': 'SC', 'South Dakota': 'SD', 'Tennessee': 'TN',
+    'Texas': 'TX', 'Utah': 'UT', 'Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA',
+    'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY',
+};
+
 const CitySearch = ({ onCitySelect }) => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
@@ -33,9 +47,11 @@ const CitySearch = ({ onCitySelect }) => {
     }, [query]);
 
     const handleCityClick = (city) => {
+        const stateAbbr = stateAbbreviations[city.region] || city.region; // Map state name to abbreviation
+
         const selectedCity = {
             city: city.name,
-            state: city.region,
+            state: stateAbbr,
         };
         setSelectedCity(selectedCity);
         if (onCitySelect) {
@@ -46,7 +62,7 @@ const CitySearch = ({ onCitySelect }) => {
     };
 
     return (
-        <div className=" mt-8 p-4 border border-gray-700 rounded-lg bg-gray-800 text-white">
+        <div className="mt-8 p-4 border border-gray-700 rounded-lg bg-gray-800 text-white">
             <input
                 type="text"
                 placeholder="Enter city name"
@@ -63,7 +79,7 @@ const CitySearch = ({ onCitySelect }) => {
                             className="mb-2 cursor-pointer hover:bg-gray-700 p-2 rounded"
                             onClick={() => handleCityClick(city)}
                         >
-                            <strong>{city.name}</strong>, {city.region}
+                            <strong>{city.name}</strong>, {stateAbbreviations[city.region] || city.region}
                         </li>
                     ))}
                 </ul>

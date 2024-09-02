@@ -9,7 +9,8 @@ export default async function handler(req, res) {
         location,
         sortOrder,
         limit,
-        major
+        major,
+        fee_range,
     } = req.query;
 
     const API_KEY = process.env.COLLEGE_SCORECARD_API_KEY;
@@ -55,6 +56,19 @@ export default async function handler(req, res) {
     try {
         const response = await axios.get(BASE_URL, { params });
         let results = response.data.results;
+
+        // Filter results based on the fee_range
+     if (fee_range) {
+        const feeValue = Number(fee_range);
+        if (!isNaN(feeValue)) {
+            results = results.filter(school => {
+                const cost = school['latest.cost.attendance.academic_year'];
+                return cost && cost <= feeValue;
+            });
+        } else {
+            return res.status(400).json({ error: 'Invalid fee_range format' });
+        }
+    }
 
         // Filter results where the major percentage is greater than 0
         if (major) {

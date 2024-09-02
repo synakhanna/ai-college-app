@@ -14,39 +14,53 @@ export default function Counselor() {
     const sentMessageColor = '#EDDCFF';
     const receivedMessageColor = '#4600D1';
 
-    const mockResponse = (userMessage) => {
-        if (userMessage.toLowerCase().includes('application')) {
-            return "It sounds like you're asking about college applications! I can help with that. What specific questions do you have?";
-        } else if (userMessage.toLowerCase().includes('financial aid')) {
-            return "Financial aid is crucial! You can apply for federal aid through FAFSA. Do you need help with that?";
-        } else if (userMessage.toLowerCase().includes('advice')) {
-            return "I'm here to give advice! What would you like advice on? College choices, majors, or something else?";
-        } else {
-            return "That's interesting! Can you tell me more or ask a specific question?";
-        }
-    };
-
-    const sendMessage = () => {
-        if (!message.trim()) return;
-        setIsLoading(true);
-
+    const sendMessage = async () => {
+        if (!message.trim()) return;  // Don't send empty messages
+      
+        setMessage('')
         setMessages((messages) => [
+          ...messages,
+          { role: 'user', content: message },
+          { role: 'assistant', content: '' },
+        ])
+      
+        try {
+          const response = await fetch('/api/collegeCounselor', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify([...messages, { role: 'user', content: message }]),
+          })
+      
+          if (!response.ok) {
+            throw new Error('Network response was not ok')
+          }
+      
+          const reader = response.body.getReader()
+          const decoder = new TextDecoder()
+      
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+            const text = decoder.decode(value, { stream: true })
+            setMessages((messages) => {
+              let lastMessage = messages[messages.length - 1]
+              let otherMessages = messages.slice(0, messages.length - 1)
+              return [
+                ...otherMessages,
+                { ...lastMessage, content: lastMessage.content + text },
+              ]
+            })
+          }
+        } catch (error) {
+          console.error('Error:', error)
+          setMessages((messages) => [
             ...messages,
-            { role: 'user', content: message },
-        ]);
-
-        const assistantResponse = mockResponse(message);
-
-        setTimeout(() => {
-            setMessages((messages) => [
-                ...messages,
-                { role: 'assistant', content: assistantResponse },
-            ]);
-            setIsLoading(false);
-        }, 1000);
-
-        setMessage('');
-    };
+            { role: 'assistant', content: "I'm sorry, but I encountered an error. Please try again later." },
+          ])
+        }
+      }
 
     const messagesEndRef = useRef(null);
 

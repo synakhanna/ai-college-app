@@ -128,9 +128,6 @@ const Profile = () => {
         newSocialMediaTags[index] = value || ""; // Allow empty values
         setFormData({ ...formData, socialMediaTags: newSocialMediaTags });
     };
-    
-
-
 
     const handleCheckboxChange = (e) => {
         const { value, checked } = e.target;
@@ -188,22 +185,22 @@ const Profile = () => {
             return;
         }
 
-
-
         try {
-                console.log("The preferred location data is :"+formData.preferredLocation.state);
+
+                const loc =  `{\"city\":\"${formData.preferredLocation.city}\",\"state\":\"${formData.preferredLocation.state}\"}`;
                 const collegeResponse = await axios.get('/api/colleges', {
                         params: {
-                            location: `{\"city\":\"${formData.preferredLocation.city}\"}`,
+                            location: decodeURI(loc),
                             sortOrder: 'asc',
-                            limit: 50,
+                            limit: 100,
                             major: formData.selectedProgram,
+                            fee_range: formData.tuition,
                         },
                     });
     
-                    console.log('Colleges:', collegeResponse.data);
-
-            // First, save the profile data
+                console.log('Colleges:', collegeResponse.data);
+    
+            // Save the profile data
             const saveResponse = await axios.post('/api/save_profile', {
                 clerkId: user.id,
                 fullName: user.fullName || user.username,
