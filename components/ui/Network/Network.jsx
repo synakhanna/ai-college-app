@@ -40,51 +40,45 @@ const Network = () => {
                         Build Your Network
                     </h1>
                     <div style={{ marginTop: '48px', position: 'relative' }}>
-                        <ul style={{ display: 'grid', gap: '32px', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
-                            {users.map((user, idx) => (
-                                <li key={idx} style={{
-                                    padding: '16px',
-                                    borderRadius: '16px',
-                                    border: '1px solid #2d3748',
-                                    background: "radial-gradient(157.73% 157.73% at 50% -29.9%, rgba(203, 213, 225, 0.16) 0%, rgba(203, 213, 225, 0) 100%)",
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                    textAlign: 'center',
-                                    height: '200px' // Set a fixed height for the card
-                                }}>
-                                    <div style={{
-                                        width: '48px',
-                                        height: '48px',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        marginBottom: '16px'
-                                    }}>
-                                        {/* Displaying the user's GPA and SAT score */}
-                                        <p style={{ marginBottom: '8px', color: '#f7fafc', fontWeight: '600' }}>
-                                            GPA: {user.academicInfo.gpa}
-                                        </p>
-                                        {user.academicInfo.satScore && (
-                                            <p style={{ color: '#f7fafc', fontWeight: '600' }}>
-                                                SAT: {user.academicInfo.satScore}
-                                            </p>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <p style={{
-                                            fontSize: '14px',
-                                            fontWeight: '400',
-                                            color: '#f7fafc',
-                                            marginBottom: 'auto'
-                                        }}>
-                                            Date Created: {new Date(user.dateCreated).toLocaleDateString()}
-                                        </p>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
+                    <ul style={{ display: 'grid', gap: '32px', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+    {users.map((user, idx) => (
+        <li key={idx} style={{
+            padding: '16px',
+            borderRadius: '16px',
+            border: '1px solid #2d3748',
+            background: "radial-gradient(157.73% 157.73% at 50% -29.9%, rgba(203, 213, 225, 0.16) 0%, rgba(203, 213, 225, 0) 100%)",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            textAlign: 'center',
+            height: '200px' // Set a fixed height for the card
+        }}>
+            <div style={{ marginBottom: '16px', color: '#f7fafc', fontWeight: '600' }}>
+                <p>{user.fullName}</p>
+                <p>{user.email}</p>
+                <p>{user.academicTrack}</p>
+            </div>
+            <div style={{ marginBottom: '16px' }}>
+                <p>GPA: {user.academicInfo.gpa}</p>
+                {user.academicInfo.satScore && (
+                    <p>SAT: {user.academicInfo.satScore}</p>
+                )}
+            </div>
+            <div>
+                <p style={{
+                    fontSize: '14px',
+                    fontWeight: '400',
+                    color: '#f7fafc',
+                    marginBottom: 'auto'
+                }}>
+                    Date Created: {new Date(user.dateCreated).toLocaleDateString()}
+                </p>
+            </div>
+        </li>
+    ))}
+</ul>
+
                     </div>
                 </div>
             </div>
