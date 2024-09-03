@@ -50,7 +50,7 @@ const CitySearch = ({ onCitySelect }) => {
         const stateAbbr = stateAbbreviations[city.region] || city.region; // Map state name to abbreviation
 
         const selectedCity = {
-            city: city.name,
+            city: city.name === "New York City" ? "New York" : city.name,
             state: stateAbbr,
         };
         setSelectedCity(selectedCity);
