@@ -79,6 +79,27 @@ export default function Counselor() {
         }
     };
 
+    function parseChatbotText(text) {
+        // Replace line breaks with <br> for HTML line breaks
+        text = text.replace(/\n/g, '<br>');
+    
+        // Bold text by converting **text** to <strong>text</strong>
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+        // Italics text by converting *text* or _text_ to <em>text</em>
+        text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        text = text.replace(/_(.*?)_/g, '<em>$1</em>');
+    
+        // Inline code by converting `code` to <code>code</code>
+        text = text.replace(/`(.*?)`/g, '<code>$1</code>');
+    
+        // Code blocks by converting ```code``` to <pre><code>code</code></pre>
+        text = text.replace(/```(.*?)```/gs, '<pre><code>$1</code></pre>');
+    
+        // Return the formatted text
+        return text;
+    }
+
     return (
         <div className="flex flex-col min-h-screen">
             <div className="flex flex-col items-center justify-center flex-grow">
@@ -96,7 +117,7 @@ export default function Counselor() {
                         {messages.map((message, index) => (
                             <div
                                 key={index}
-                                className="p-3 rounded-xl max-w-xs"
+                                className="p-3 rounded-xl max-w-2xl"
                                 style={{
                                     backgroundColor:
                                         message.role === 'assistant'
@@ -111,9 +132,11 @@ export default function Counselor() {
                                             ? 'white'
                                             : 'black',
                                 }}
-                            >
-                                {message.content}
-                            </div>
+
+                            dangerouslySetInnerHTML={{ __html: parseChatbotText(message.content) }}    
+                            />
+                                
+                            
                         ))}
                         <div ref={messagesEndRef} />
                     </div>

@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     let params = {
         api_key: API_KEY,
         fields: fields.join(','),
-        per_page: limit || 300, // Default to 20 results if limit not provided
+        per_page: limit || 500, 
         sort: `school.name:${sortOrder || 'asc'}` // Sort by name, default to ascending
     };
 

@@ -192,7 +192,7 @@ const Profile = () => {
                         params: {
                             location: decodeURI(loc),
                             sortOrder: 'asc',
-                            limit: 100,
+                            limit: 500,
                             major: formData.selectedProgram,
                             fee_range: formData.tuition,
                         },

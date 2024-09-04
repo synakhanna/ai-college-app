@@ -1,63 +1,112 @@
-import OpenAI from 'openai'; 
+import OpenAI from "openai";
+import connectDB from "../../lib/mongodb";
+import User from "../../models/User";
+import { getAuth } from "@clerk/nextjs/server";
+import { Pinecone } from "@pinecone-database/pinecone";
+import { getProgramLabel } from '../../lib/getProgramLabel';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
-  }
+    const messages = req.body;
+    const { userId } = getAuth(req);
 
-  // System prompt for the AI, providing guidelines on how to respond to users
-  const systemPrompt = `
-  You are an experienced college counselor helping students select the right college based on their academic background, interests, and preferences. 
-  Your role is to engage students with a friendly, supportive, and empathetic tone, making them feel comfortable and understood. 
-  You should ask relevant questions to guide them through the college selection process, ensuring you gather all necessary information to provide personalized recommendations.
-  
-  Focus on asking the following questions in a conversational and encouraging manner:
-  
-  1. What major are you interested in? Help them explore options if they are unsure.
-  2. What are your school grades like? (e.g., GPA, class rank) Gently inquire to understand their academic standing.
-  3. What is your SAT score? Have you taken the SAT or any other standardized tests? If not, offer advice on when and how they might consider taking it.
-  4. What types of extracurricular activities have you participated in during high school? Encourage them to share their passions and achievements.
-  5. Which state or city do you prefer for your college education? Help them consider the location and lifestyle that suits them best.
-  6. What is your budget for tuition, or how much are you looking to pay for college? Approach this topic with sensitivity, offering guidance on financial aid and scholarships if needed.
-  
-  Your goal is to help the student identify colleges that align with their academic achievements, personal interests, and financial situation. 
-  Maintain a patient and understanding demeanor throughout the conversation, ensuring that the student feels supported and empowered to make informed decisions about their future.
-  `;
-  
+    //Extract the latest user message
+    const userMessage = messages[messages.length - 1]?.content;
 
- // Extract the last user message from req.body
- const messages = req.body; 
- const userMessage = messages[messages.length - 1]?.content;
+    try {
+    //Retrieve the user's saved college list
+    await connectDB();
+    const user = await User.findOne({ _id: userId });
+    const savedCollegeList = user ? user.suggestedColleges : [];
+    
+    // Extracting additional user information from the database
+    const { gpa, satScore } = user.academicInfo;
+    const  academicTrack  = user.academicTrack;
+    const { city, state } = user.addresses;
+    const  fullName  = user.fullName;
+    const  desiredTuition  = user.desiredTuition;
+    const helpNeeded = user.help.join(", ");  // Convert the array to a string
 
+    console.log("The academic track in db :"+academicTrack);
+    console.log("The track returned from method :"+getProgramLabel(academicTrack));
+    const academic_Track = getProgramLabel(academicTrack);
 
-  // Initialize OpenAI client with the API key from environment variables
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY // Get API key from environment variables
-  });
+    
 
-  try {
-    // Make a chat completion request to the OpenAI API
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4', // Specify the model to use
-      messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userMessage }],
-      stream: true, // Enable streaming responses
+    //Initialize OpenAI client with the API key from environment variables
+    const openai = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY, // Get API key from environment variables
     });
 
-    res.setHeader('Content-Type', 'application/octet-stream');
+    const embedding = await openai.embeddings.create({
+        model: "text-embedding-3-small",
+        input: userMessage,
+        encoding_format: "float",
+    });
 
-    const encoder = new TextEncoder(); 
+    const pc = new Pinecone({
+        apiKey: process.env.PINECONE_API_KEY,
+    });
+    const index = pc.index("collegegenie-rag").namespace("ns1");
+
+    const results = await index.query({
+        topK: 5,
+        includeMetadata: true,
+        vector: embedding.data[0].embedding,
+        includeMetadata: true,
+    });
+
+    //Extract relevant information from Pinecone results
+    const relevantDocuments = results.matches.map((match) => match.metadata);
+
+    //Combine the system prompt with the retrieved documents and saved college list
+    const systemPrompt = `
+        You are an experienced college counselor helping students select the right college based on their academic background, interests, and preferences. 
+        Your role is to engage students with a friendly, supportive, and empathetic tone, making them feel comfortable and understood. 
+        You should ask relevant questions to guide them through the college selection process, ensuring you gather all necessary information to provide personalized recommendations.
+
+        Here is the student's academic information:
+        - Full Name: ${fullName}
+        - City, State: ${city}, ${state}
+        - GPA: ${gpa}
+        - SAT Score: ${satScore}
+        - Desired Major: ${academic_Track}
+        - Desired Tuition: ${desiredTuition}
+        - Help Needed: ${helpNeeded}
+
+        Here is the list of colleges previously saved by the user:
+        ${JSON.stringify(savedCollegeList)}
+
+        Here is some relevant information retrieved from the database:
+        ${JSON.stringify(relevantDocuments)}
+
+        Now, considering this information, respond to the user's query: "${userMessage}".
+        `;
+
+    // Make a chat completion request to the OpenAI API
+    const completion = await openai.chat.completions.create({
+        model: "gpt-4", // Specify the model to use
+        messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userMessage },
+        ],
+        stream: true, // Enable streaming responses
+    });
+
+    res.setHeader("Content-Type", "application/octet-stream");
+
+    const encoder = new TextEncoder();
 
     for await (const chunk of completion) {
-      const content = chunk.choices[0]?.delta?.content; 
-      if (content) {
-        const text = encoder.encode(content); 
-        res.write(text); 
-      }
+        const content = chunk.choices[0]?.delta?.content;
+        if (content) {
+        const text = encoder.encode(content);
+        res.write(text);
+        }
     }
 
     res.end(); // End the response when done
-  } catch (error) {
-    console.error('Error during OpenAI API request:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+    } catch (error) {
+    console.error("Error during OpenAI API request:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+    }
 }

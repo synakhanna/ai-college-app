@@ -48,9 +48,23 @@ const CitySearch = ({ onCitySelect }) => {
 
     const handleCityClick = (city) => {
         const stateAbbr = stateAbbreviations[city.region] || city.region; // Map state name to abbreviation
+        let cityName = "";
+        switch(city.name){
+            case "New York City":
+                cityName = "New York";
+                break;
+
+            case "San Francisco County": 
+                cityName = "San Francisco";
+                break;
+                
+            default:
+                cityName = city.name;    
+        }
 
         const selectedCity = {
-            city: city.name === "New York City" ? "New York" : city.name,
+            //city: city.name === "New York City" ? "New York" : city.name,
+            city: cityName,
             state: stateAbbr,
         };
         setSelectedCity(selectedCity);

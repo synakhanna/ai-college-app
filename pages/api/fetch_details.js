@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         await connectDB();
 
         const { userId } = getAuth(req);
-        const user = await User.findOne({ clerkId: userId });
+        const user = await User.findOne({ _id: userId });
 
         if (user) {
             res.status(200).json(user);
