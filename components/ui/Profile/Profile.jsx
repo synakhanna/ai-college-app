@@ -69,7 +69,7 @@ const Profile = () => {
                             gpa: data.academicInfo.gpa || "",
                             satScore: data.academicInfo.satScore || "",
                             helpNeeded: data.help || [],
-                            preferredLocation: data.preferredLocations || [],
+                            preferredLocation: !data.preferredLocations ? null : data.preferredLocations,
                             selectedProgram: data.academicTrack || "",
                             tuition: data.desiredTuition || 0,
                             socialMediaTags: data.socialMediaTags || ["", "", ""],
@@ -105,6 +105,28 @@ const Profile = () => {
         }
 
         try {
+
+            let params = {
+                sortOrder: 'asc',
+                limit: 500,
+                major: formData.selectedProgram,
+            };
+    
+
+            if (formData.preferredLocation) {
+                console.log("Inside the pref loc");
+                const loc = `{\"city\":\"${formData.preferredLocation.city}\",\"state\":\"${formData.preferredLocation.state}\"}`;
+                params.location = decodeURI(loc);
+            }
+    
+            if (formData.tuition > 0) {
+                params.fee_range = formData.tuition;
+            }
+            console.log("The params are :"+params);
+            const collegeResponse = await axios.get('/api/colleges', { params });
+            console.log('Colleges:', collegeResponse.data);
+    
+            // Save the profile data
             const saveResponse = await axios.post('/api/save_profile', {
                 clerkId: user.id,
                 fullName: user.fullName || user.username,
@@ -113,10 +135,24 @@ const Profile = () => {
                 gpa: formData.gpa,
                 satScore: formData.satScore,
                 helpNeeded: formData.helpNeeded,
-                addresses: formData.preferredLocation ? formData.preferredLocation : null,
-                tuition: formData.tuition,
-                socialMediaTags: formData.socialMediaTags.filter(tag => tag !== ""),
+                addresses: formData.preferredLocation ? formData.preferredLocation : null, 
+                tuition: formData.tuition > 0 ? formData.tuition : null, 
+                suggestedColleges: collegeResponse.data,
+                socialMediaTags: formData.socialMediaTags.filter(tag => tag !== ""), // Filtering out empty tags
             });
+
+            // const saveResponse = await axios.post('/api/save_profile', {
+            //     clerkId: user.id,
+            //     fullName: user.fullName || user.username,
+            //     email: user.primaryEmailAddress.emailAddress,
+            //     academicTrack: formData.selectedProgram,
+            //     gpa: formData.gpa,
+            //     satScore: formData.satScore,
+            //     helpNeeded: formData.helpNeeded,
+            //     addresses: formData.preferredLocation ? formData.preferredLocation : null,
+            //     tuition: formData.tuition,
+            //     socialMediaTags: formData.socialMediaTags.filter(tag => tag !== ""),
+            // });
 
             if (saveResponse.status === 200) {
                 setShowSuccessMessage(true);
