@@ -10,17 +10,17 @@ export default async function handler(req, res) {
   }
 
   try {
-      await connectDB();
+    await connectDB();
 
-      // Find all users and return their fullName, email, academicTrack, academicInfo, and dateCreated
-      const users = await User.find({}, 'fullName email academicTrack academicInfo dateCreated');
+    // Find all users and return their fullName, email, academicTrack, academicInfo, dateCreated, and socialMediaTags
+    const users = await User.find({}, 'fullName email academicTrack academicInfo dateCreated socialMediaTags');
 
-      if (!users.length) {
-          return res.status(404).json({ message: 'No users found' });
-      }
+    if (!users.length) {
+      return res.status(404).json({ message: 'No users found' });
+    }
 
-      res.status(200).json(users);
+    res.status(200).json(users);
   } catch (error) {
-      res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 }

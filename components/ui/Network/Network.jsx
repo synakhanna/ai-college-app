@@ -67,27 +67,30 @@ const Network = () => {
         <div className="py-10 max-w-7xl mx-auto">
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-gray-300 to-gray-100 sm:text-6xl">
-                    Build Your Network
+                Build Your Network
                 </h1>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {users.map((user, idx) => (
-                    <div key={idx} className="bg-gray-800 p-6 rounded-lg shadow-lg text-center flex flex-col justify-between">
-                        <div className="text-gray-300 font-semibold mb-4">
-                            <p><span className="text-gray-400">Name:</span> {user.fullName || "Anonymous"}</p>
-                            <p><span className="text-gray-400">Intended Major:</span> {programOptions[user.academicTrack] || "Unknown Major"}</p>
-                        </div>
-                        {/* Display LinkedIn if available */}
-                        {user.socialMediaTags && user.socialMediaTags[0] && (
-                            <div className="flex justify-center items-center space-x-2 mt-4">
-                                <a href={user.socialMediaTags[0]} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2">
-                                    <BsLinkedin size={24} className="text-blue-500 hover:text-blue-400" />
-                                    <span className="text-gray-300">LinkedIn</span>
-                                </a>
-                            </div>
-                        )}
-                        <p className="text-gray-500 mt-4 text-xs">Date Created: {new Date(user.dateCreated).toLocaleDateString()}</p>
+                <div key={idx} className="bg-gray-800 p-6 rounded-lg shadow-lg text-center flex flex-col justify-between">
+                    <div className="text-gray-300 font-semibold mb-4">
+                    <p><span className="text-gray-400 text-xl">Name:</span> {user.fullName || "Anonymous"}</p>
+                    <p className = "mb-2"> </p> 
+                    <p><span className="text-gray-400 text-xl">Intended Major:</span> {programOptions[user.academicTrack] || "Unknown Major"}</p>
                     </div>
+
+                    {/* Display LinkedIn if available */}
+                    {user.socialMediaTags && user.socialMediaTags.length > 0 && user.socialMediaTags[0].includes('linkedin.com') && (
+                    <div className="flex justify-center items-center space-x-2 mt-4">
+                        <a href={user.socialMediaTags[0]} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2">
+                        <BsLinkedin size={24} className="text-blue-500 hover:text-blue-400" />
+                        <span className="text-gray-300">LinkedIn</span>
+                        </a>
+                    </div>
+                    )}
+
+                    <p className="text-gray-500 mt-4 text-xs">Date Created: {new Date(user.dateCreated).toLocaleDateString()}</p>
+                </div>
                 ))}
             </div>
         </div>
