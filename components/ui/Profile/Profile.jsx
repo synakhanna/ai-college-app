@@ -96,26 +96,22 @@ const Profile = () => {
         let updatedHelpNeeded = [...formData.helpNeeded];
 
         if (value === "all") {
-            // If "All" is selected or unselected, select/unselect all options
             if (formData.helpNeeded.includes("all")) {
                 updatedHelpNeeded = [];
             } else {
                 updatedHelpNeeded = ["all", ...helpOptions];
             }
         } else {
-            // Toggle individual options
             if (updatedHelpNeeded.includes(value)) {
                 updatedHelpNeeded = updatedHelpNeeded.filter((option) => option !== value);
             } else {
                 updatedHelpNeeded.push(value);
             }
 
-            // If "All" is unchecked, remove it
             if (updatedHelpNeeded.includes("all") && updatedHelpNeeded.length - 1 < helpOptions.length) {
                 updatedHelpNeeded = updatedHelpNeeded.filter((option) => option !== "all");
             }
 
-            // If all options are selected, check "All"
             if (helpOptions.every((option) => updatedHelpNeeded.includes(option))) {
                 updatedHelpNeeded.push("all");
             }
@@ -176,6 +172,10 @@ const Profile = () => {
         } catch (error) {
             console.error('Error during the process:', error.message);
         }
+    };
+
+    const resetTuition = () => {
+        setFormData({ ...formData, tuition: 0 });
     };
 
     return (
@@ -304,23 +304,33 @@ const Profile = () => {
                         <label className="block text-white text-lg font-semibold">
                             Desired Tuition (per year)
                         </label>
-                        <input
-                            type="range"
-                            name="tuition"
-                            min="0"
-                            max="100000"
-                            step="500"
-                            value={formData.tuition}
-                            onChange={(e) => setFormData({ ...formData, tuition: e.target.value })}
-                            className="w-full mt-2"
-                        />
+                        <div className="flex items-center gap-4">
+                            <input
+                                type="range"
+                                name="tuition"
+                                min="0"
+                                max="100000"
+                                step="500"
+                                value={formData.tuition}
+                                onChange={(e) => setFormData({ ...formData, tuition: e.target.value })}
+                                className="w-full mt-2"
+                            />
+                            <button
+                                type="button"
+                                onClick={resetTuition}
+                                className="flex items-center justify-center gap-x-1 text-lg ml-5 text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
+                                >
+                                Reset
+                            </button>
+                        </div>
                         <div className="text-white mt-2">
                             ${Number(formData.tuition).toLocaleString()} per year
                         </div>
                     </div>
                     <button
                         type="submit"
-                        className="w-full py-3 mt-6 text-lg text-white font-medium bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors"
+                        className="w-full justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
+
                     >
                         Save
                     </button>
@@ -330,7 +340,7 @@ const Profile = () => {
                 {showSuccessMessage && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                         <div className="bg-white p-6 rounded shadow-lg text-center">
-                            <p className="text-lg font-semibold mb-4">Profile saved successfully! Kindly see the college section.</p>
+                            <p className="text-lg font-semibold mb-4">Profile saved successfully! Please visit the college section.</p>
                             <button
                                 className="py-2 px-4 bg-blue-600 text-white rounded-lg"
                                 onClick={() => setShowSuccessMessage(false)}
