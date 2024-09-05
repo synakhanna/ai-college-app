@@ -1,8 +1,6 @@
-import LayoutEffect from "@/components/LayoutEffect";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import CreatableSelect from 'react-select/creatable';
+import { useEffect, useState } from "react";
 import CitySearch from "../CitySearch";
 
 const Profile = () => {
@@ -17,6 +15,7 @@ const Profile = () => {
         suggestedColleges: [],
         socialMediaTags: ["", "", ""],
     });
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false); // To handle success message display
 
     const programOptions = [
         { value: "latest.academics.program_percentage.agriculture", label: "Agriculture, Agriculture Operations, And Related Sciences" },
@@ -67,15 +66,13 @@ const Profile = () => {
                     if (response.status === 200) {
                         const data = response.data;
                         setFormData({
-                           // major: data.major || "",
                             gpa: data.academicInfo.gpa || "",
                             satScore: data.academicInfo.satScore || "",
                             helpNeeded: data.help || [],
-                            preferredLocation: data.preferredLocations  || [],
+                            preferredLocation: data.preferredLocations || [],
                             selectedProgram: data.academicTrack || "",
                             tuition: data.desiredTuition || 0,
                             socialMediaTags: data.socialMediaTags || ["", "", ""],
-
                         });
                     }
                 } catch (error) {
@@ -87,95 +84,17 @@ const Profile = () => {
         }
     }, [isLoaded, isSignedIn]);
 
-    const loadLocationOptions = async (inputValue) => {
-        try {
-            const response = await axios.get(`/api/locations?query=${inputValue}`);
-            return response.data.map((location) => ({
-                label: `${location.city}, ${location.state}`,
-                value: location.city,
-            }));
-        } catch (error) {
-            console.error('Error fetching locations:', error);
-            return [];
-        }
-    };
-
-    const handleLocationChange = (selectedOptions) => {
-        setFormData({
-            ...formData,
-            preferredLocation: selectedOptions || [], // Set to empty array if no options are selected
-        });
-    };
-
-    if (!isLoaded) {
-        return <div>Loading...</div>;
-    }
-
-    if (!isSignedIn) {
-        router.push("/sign-in");
-        return null;
-    }
-
-    const placeholders = [
-        "LinkedIn URL",
-        "Discord Username",
-        "WhatsApp Number"
-    ];
-
-
+    // Function to handle social media link input changes
     const handleSocialMediaChange = (index, value) => {
-        const newSocialMediaTags = [...formData.socialMediaTags];
-        newSocialMediaTags[index] = value || ""; // Allow empty values
-        setFormData({ ...formData, socialMediaTags: newSocialMediaTags });
-    };
-
-    const handleCheckboxChange = (e) => {
-        const { value, checked } = e.target;
-
-        setFormData((prevState) => {
-            let newHelpNeeded = [];
-
-            if (value === "all") {
-                if (checked) {
-                    newHelpNeeded = [
-                        "essays",
-                        "extracurricular",
-                        "financialAid",
-                        "additionalCounseling",
-                        "all"
-                    ];
-                }
-            } else {
-                newHelpNeeded = checked
-                    ? [...prevState.helpNeeded, value]
-                    : prevState.helpNeeded.filter((option) => option !== value);
-
-                if (newHelpNeeded.length === 4 && !newHelpNeeded.includes("all")) {
-                    newHelpNeeded.push("all");
-                } else if (newHelpNeeded.includes("all") && newHelpNeeded.length < 5) {
-                    newHelpNeeded = newHelpNeeded.filter((option) => option !== "all");
-                }
-            }
-
-            return {
-                ...prevState,
-                helpNeeded: newHelpNeeded,
-            };
-        });
-    };
-
-    const handleCitySelect = (selectedCity) => {
-        console.log("The values in the selectcity inside handleCitySelect :"+selectedCity.city+" "+selectedCity.state);
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            preferredLocation: selectedCity, // Set the single city object as location
-        }));
+        const updatedTags = [...formData.socialMediaTags];
+        updatedTags[index] = value; // Update the value of the specific social media tag
+        setFormData({ ...formData, socialMediaTags: updatedTags });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!formData.gpa || formData.helpNeeded.length === 0 || formData.tuition === 0) {
+        if (!formData.gpa || formData.helpNeeded.length === 0) {
             alert("Please fill in all the required fields.");
             return;
         }
@@ -186,234 +105,209 @@ const Profile = () => {
         }
 
         try {
+            const saveResponse = await axios.post('/api/save_profile', {
+                clerkId: user.id,
+                fullName: user.fullName || user.username,
+                email: user.primaryEmailAddress.emailAddress,
+                academicTrack: formData.selectedProgram,
+                gpa: formData.gpa,
+                satScore: formData.satScore,
+                helpNeeded: formData.helpNeeded,
+                addresses: formData.preferredLocation ? formData.preferredLocation : null,
+                tuition: formData.tuition,
+                socialMediaTags: formData.socialMediaTags.filter(tag => tag !== ""),
+            });
 
-        // Prepare params for the API request
-        let params = {
-            sortOrder: 'asc',
-            limit: 500,
-            major: formData.selectedProgram,
-            fee_range: formData.tuition
-        };
-
-        // If preferredLocation is available, add location data to params
-        if (formData.preferredLocation && formData.preferredLocation.city && formData.preferredLocation.state) {
-            const loc = `{\"city\":\"${formData.preferredLocation.city}\",\"state\":\"${formData.preferredLocation.state}\"}`;
-            params.location = decodeURI(loc);
+            if (saveResponse.status === 200) {
+                setShowSuccessMessage(true);
+            }
+        } catch (error) {
+            console.error('Error during the process:', error.message);
         }
-
-        // Fetch suggested colleges
-        const collegeResponse = await axios.get('/api/colleges', { params });
-        console.log('Colleges:', collegeResponse.data);
-
-    
-
-        const saveResponse = await axios.post('/api/save_profile', {
-            clerkId: user.id,
-            fullName: user.fullName || user.username,
-            email: user.primaryEmailAddress.emailAddress,
-            academicTrack: formData.selectedProgram, // Mapping formData.selectedProgram to academicTrack
-            gpa: formData.gpa,
-            satScore: formData.satScore,
-            helpNeeded: formData.helpNeeded, // Mapping formData.helpNeeded to help
-            addresses: formData.preferredLocation ? formData.preferredLocation : null, // Sends null if preferredLocation is empty
-            tuition: formData.tuition, // Mapping formData.tuition to desiredTuition
-            suggestedColleges: collegeResponse.data,
-            socialMediaTags: formData.socialMediaTags.filter(tag => tag !== ""), // Filtering out empty tags
-        });
-
-    } catch (error) {
-        console.error('Error during the process:', error.message);
-        alert('An error occurred. Please try again.');
-    }
     };
+
     return (
         <section className="py-10 sm:py-20">
-        <div className="container mx-auto px-4">
-            <div className="space-y-5 max-w-3xl mx-auto text-center">
-                <h1
-                    className="text-3xl sm:text-4xl lg:text-6xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto py-6"
-                    style={{
-                        backgroundImage:
-                            "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)",
-                    }}
-                >
-                    My Profile
-                </h1>
-                <p className="max-w-xl mx-auto text-gray-300 py-6">
-                    Welcome, {user.fullName || user.username}! Please fill out the information below to help me better assist you with your college applications.
-                </p>
-            </div>
-            <form onSubmit={handleSubmit} className="space-y-6 max-w-xl mx-auto">
-                {/* Intended Major */}
-                <div>
-                    <label className="block text-white text-lg font-semibold">
-                        Intended Major <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                        name="selectedProgram"
-                        value={formData.selectedProgram}
-                        onChange={(e) => setFormData({ ...formData, selectedProgram: e.target.value })}
-                        className="w-full p-3 mt-2 bg-gray-800 text-white rounded-lg"
-                        required
-                    >
-                        <option value="">Select a major</option>
-                        {programOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
+            <div className="container mx-auto px-4">
+                <div className="space-y-5 max-w-3xl mx-auto text-center">
+                    <h1 className="text-3xl sm:text-4xl lg:text-6xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto py-6"
+                        style={{ backgroundImage: "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)" }}>
+                        My Profile
+                    </h1>
+                    <p className="max-w-xl mx-auto text-gray-300 py-6">
+                        Welcome, {user?.fullName || user?.username || user?.primaryEmailAddress?.emailAddress || "User"}! Please fill out the information below to help me better assist you with your college applications.
+                    </p>
                 </div>
-                {/* GPA */}
-                <div>
-                    <label className="block text-white text-lg font-semibold">
-                        GPA <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                        type="number"
-                        name="gpa"
-                        value={formData.gpa}
-                        onChange={(e) => setFormData({ ...formData, gpa: e.target.value })}
-                        className="w-full p-3 mt-2 bg-gray-800 text-white rounded-lg"
-                        placeholder="GPA"
-                        min="0"
-                        step="0.01"
-                        required
-                    />
-                </div>
-                {/* SAT Score */}
-                <div>
-                    <label className="block text-white text-lg font-semibold">
-                        SAT Score
-                    </label>
-                    <input
-                        type="number"
-                        name="satScore"
-                        value={formData.satScore}
-                        onChange={(e) => setFormData({ ...formData, satScore: e.target.value })}
-                        className="w-full p-3 mt-2 bg-gray-800 text-white rounded-lg"
-                        placeholder="SAT Score"
-                        min="400"
-                        max="1600"
-                    />
-                </div>
-                {/* Help Needed */}
-                <div>
-                    <label className="block text-white text-lg font-semibold">
-                        What do you need help with? <span className="text-red-500">*</span>
-                    </label>
-                    <div className="space-y-2">
-                        <div>
-                            <input
-                                type="checkbox"
-                                value="essays"
-                                onChange={handleCheckboxChange}
-                                checked={formData.helpNeeded.includes("essays")}
-                                className="mr-2"
-                            />
-                            <label className="text-white">Essays</label>
-                        </div>
-                        <div>
-                            <input
-                                type="checkbox"
-                                value="extracurricular"
-                                onChange={handleCheckboxChange}
-                                checked={formData.helpNeeded.includes("extracurricular")}
-                                className="mr-2"
-                            />
-                            <label className="text-white">Extracurricular Activities</label>
-                        </div>
-                        <div>
-                            <input
-                                type="checkbox"
-                                value="financialAid"
-                                onChange={handleCheckboxChange}
-                                checked={formData.helpNeeded.includes("financialAid")}
-                                className="mr-2"
-                            />
-                            <label className="text-white">Financial Aid</label>
-                        </div>
-                        <div>
-                            <input
-                                type="checkbox"
-                                value="additionalCounseling"
-                                onChange={handleCheckboxChange}
-                                checked={formData.helpNeeded.includes("additionalCounseling")}
-                                className="mr-2"
-                            />
-                            <label className="text-white">Additional Counseling</label>
-                        </div>
-                        <div>
-                            <input
-                                type="checkbox"
-                                value="all"
-                                onChange={handleCheckboxChange}
-                                checked={formData.helpNeeded.includes("all")}
-                                className="mr-2"
-                            />
-                            <label className="text-white">All</label>
+                <form onSubmit={handleSubmit} className="space-y-6 max-w-xl mx-auto">
+                    {/* Intended Major */}
+                    <div>
+                        <label className="block text-white text-lg font-semibold">
+                            Intended Major <span className="text-red-500">*</span>
+                        </label>
+                        <select
+                            name="selectedProgram"
+                            value={formData.selectedProgram}
+                            onChange={(e) => setFormData({ ...formData, selectedProgram: e.target.value })}
+                            className="w-full p-3 mt-2 bg-gray-800 text-white rounded-lg"
+                            required
+                        >
+                            <option value="">Select a major</option>
+                            {programOptions.map((option) => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    {/* GPA */}
+                    <div>
+                        <label className="block text-white text-lg font-semibold">
+                            GPA <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="number"
+                            name="gpa"
+                            value={formData.gpa}
+                            onChange={(e) => setFormData({ ...formData, gpa: e.target.value })}
+                            className="w-full p-3 mt-2 bg-gray-800 text-white rounded-lg"
+                            placeholder="GPA"
+                            min="0"
+                            step="0.01"
+                            required
+                        />
+                    </div>
+                    {/* SAT Score */}
+                    <div>
+                        <label className="block text-white text-lg font-semibold">
+                            SAT Score
+                        </label>
+                        <input
+                            type="number"
+                            name="satScore"
+                            value={formData.satScore}
+                            onChange={(e) => setFormData({ ...formData, satScore: e.target.value })}
+                            className="w-full p-3 mt-2 bg-gray-800 text-white rounded-lg"
+                            placeholder="SAT Score"
+                            min="400"
+                            max="1600"
+                        />
+                    </div>
+                    {/* Help Needed */}
+                    <div>
+                        <label className="block text-white text-lg font-semibold">
+                            What do you need help with? <span className="text-red-500">*</span>
+                        </label>
+                        <div className="space-y-2">
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    value="essays"
+                                    onChange={(e) => setFormData({ ...formData, helpNeeded: [...formData.helpNeeded, e.target.value] })}
+                                    checked={formData.helpNeeded.includes("essays")}
+                                    className="mr-2"
+                                />
+                                <label className="text-white">Essays</label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    value="extracurricular"
+                                    onChange={(e) => setFormData({ ...formData, helpNeeded: [...formData.helpNeeded, e.target.value] })}
+                                    checked={formData.helpNeeded.includes("extracurricular")}
+                                    className="mr-2"
+                                />
+                                <label className="text-white">Extracurricular Activities</label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    value="financialAid"
+                                    onChange={(e) => setFormData({ ...formData, helpNeeded: [...formData.helpNeeded, e.target.value] })}
+                                    checked={formData.helpNeeded.includes("financialAid")}
+                                    className="mr-2"
+                                />
+                                <label className="text-white">Financial Aid</label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    value="additionalCounseling"
+                                    onChange={(e) => setFormData({ ...formData, helpNeeded: [...formData.helpNeeded, e.target.value] })}
+                                    checked={formData.helpNeeded.includes("additionalCounseling")}
+                                    className="mr-2"
+                                />
+                                <label className="text-white">Additional Counseling</label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {/* Social Media Links */}
-                <div>
+                    {/* Social Media Links */}
+                    <div>
                         <label className="block text-white text-lg font-semibold">
                             Social Media Links
                         </label>
-                        {formData.socialMediaTags.map((tag, index) => (
-                            <input
-                                key={index}
-                                type="url"
-                                value={tag}
-                                onChange={(e) => handleSocialMediaChange(index, e.target.value)}
-                                className="w-full p-3 mt-2 bg-gray-800 text-white rounded-lg"
-                                placeholder={placeholders[index] || `Social Media Link ${index + 1}`}
-                            />
+                        {["LinkedIn URL", "Discord Username", "WhatsApp Number"].map((placeholder, index) => (
+                            <div key={index} className="mt-2">
+                                <input
+                                    type="url"
+                                    value={formData.socialMediaTags[index] || ""}
+                                    onChange={(e) => handleSocialMediaChange(index, e.target.value)}
+                                    className="w-full p-3 bg-gray-800 text-white rounded-lg"
+                                    placeholder={placeholder}
+                                />
+                            </div>
                         ))}
-                </div>
-                {/* Preferred Locations */}
-                <div>
-                    <label className="block text-white text-lg font-semibold">
-                        Preferred Location
-                    </label>
-                    {/* Replace with your CitySearch component */}
-                    <CitySearch onCitySelect={handleCitySelect} />
-                    {/* If you need to display the selected city, you can add below */}
-                    {formData.preferredLocation && (
-                        <div className="text-white mt-2">
-                            Selected Location: {formData.preferredLocation.city}, {formData.preferredLocation.state}
-                        </div>
-                    )}
-                </div>
-                {/* Tuition */}
-                <div>
-                    <label className="block text-white text-lg font-semibold">
-                        Desired Tuition (per year) <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                        type="range"
-                        name="tuition"
-                        min="0"
-                        max="100000"
-                        step="500"
-                        value={formData.tuition}
-                        onChange={(e) => setFormData({ ...formData, tuition: e.target.value })}
-                        className="w-full mt-2"
-                        required
-                    />
-                    <div className="text-white mt-2">
-                        ${Number(formData.tuition).toLocaleString()} per year
                     </div>
-                </div>
-                <button
-                    type="submit"
-                    className="w-full py-3 mt-6 text-lg text-white font-medium bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors"
-                >
-                    Save
-                </button>
-            </form>
-        </div>
-    </section>
+
+                    {/* Preferred Locations */}
+                    <div>
+                        <label className="block text-white text-lg font-semibold">
+                            Preferred Location
+                        </label>
+                        <CitySearch onCitySelect={(city) => setFormData({ ...formData, preferredLocation: city })} />
+                    </div>
+                    {/* Tuition */}
+                    <div>
+                        <label className="block text-white text-lg font-semibold">
+                            Desired Tuition (per year)
+                        </label>
+                        <input
+                            type="range"
+                            name="tuition"
+                            min="0"
+                            max="100000"
+                            step="500"
+                            value={formData.tuition}
+                            onChange={(e) => setFormData({ ...formData, tuition: e.target.value })}
+                            className="w-full mt-2"
+                        />
+                        <div className="text-white mt-2">
+                            ${Number(formData.tuition).toLocaleString()} per year
+                        </div>
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full py-3 mt-6 text-lg text-white font-medium bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors"
+                    >
+                        Save
+                    </button>
+                </form>
+
+                {/* Success Message */}
+                {showSuccessMessage && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                        <div className="bg-white p-6 rounded shadow-lg text-center">
+                            <p className="text-lg font-semibold mb-4">Profile saved successfull! Kindly see the college section.</p>
+                            <button
+                                className="py-2 px-4 bg-blue-600 text-white rounded-lg"
+                                onClick={() => setShowSuccessMessage(false)}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </section>
     );
 };
 
