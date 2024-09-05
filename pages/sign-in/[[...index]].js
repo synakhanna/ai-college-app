@@ -7,7 +7,7 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Login - CollegeGenie</title>
+        <title>Sign In - CollegeGenie</title>
       </Head>
       <main className='w-full h-screen flex flex-col items-center justify-center px-4'>
         <div className='max-w-sm w-full text-gray-300'>

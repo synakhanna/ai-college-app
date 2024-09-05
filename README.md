@@ -81,7 +81,7 @@ Welcome to **CollegeGenie**, an AI-powered web application designed to help you 
  - Go to the "Billing" page to see your account billing information.
  - Subscribe/Unsubscribe to CollegeGenie.
 
-### Technologies Used 🛠️
+### Tools/Technologies Used 🛠️
  - Next.js: Framework for building the app.
  - Stripe: For payment transactions and subcription management.
  - Clerk: Authentication service for secure user sign-in.
