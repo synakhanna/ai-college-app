@@ -13,11 +13,11 @@ const connectDB = async () => {
 };
 
 const formatAmountForStripe = (amount, currency) => {
-    return Math.round(amount * 100)
-   }
+  return Math.round(amount * 100);
+};
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: "2022-11-15",
+  apiVersion: "2022-11-15",
 });
 
 export default async function handler(req, res) {
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
               product_data: {
                 name: 'Pro subscription',
               },
-              unit_amount: 199, // Assuming $6.99/month
+              unit_amount: 199, // Assuming $1.99/month
               recurring: {
                 interval: 'month',
               },
@@ -53,8 +53,9 @@ export default async function handler(req, res) {
             quantity: 1,
           },
         ],
-        success_url: `${req.headers.referer}result?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${req.headers.referer}result?session_id={CHECKOUT_SESSION_ID}`,
+        // Use `req.headers.origin` to get the base URL and append the billing result page
+        success_url: `${req.headers.origin}/billing/session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${req.headers.origin}/billing`,
         client_reference_id: clerkId, // Reference the user in Stripe with clerkId
       });
 

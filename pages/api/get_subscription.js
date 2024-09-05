@@ -9,44 +9,41 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-      const { session_id } = req.query;
+      const { userId } = req.query;
 
-      if (!session_id) {
-        throw new Error('Session ID is required');
+      if (!userId) {
+        throw new Error('User ID is required');
       }
 
+      // Connect to MongoDB
       await connectDB();
 
-      // Retrieve the checkout session from Stripe
-      const session = await stripe.checkout.sessions.retrieve(session_id);
-
-      if (!session) {
-        return res.status(404).json({ error: { message: "Session not found" } });
-      }
-
-      // Find the user in MongoDB using the clerkId stored in the session's client_reference_id
-      const user = await User.findOne({ clerkId: session.client_reference_id });
+      // Find the user by Clerk ID
+      const user = await User.findOne({ clerkId: userId });
 
       if (!user) {
-        return res.status(404).json({ error: { message: "User not found" } });
+        throw new Error('User not found');
       }
 
-      // Update user's subscription status to 'active' if it's a successful payment
-      if (session.payment_status === 'paid') {
-        user.subscriptionStatus = 'active';
-        user.stripeId = session.subscription;
-        await user.save();
+      // Check if the user has a Stripe subscription ID
+      if (!user.stripeId) {
+        throw new Error('No Stripe subscription found for this user');
       }
 
-      // Retrieve the subscription details
-      const subscription = await stripe.subscriptions.retrieve(session.subscription);
+      // Retrieve the subscription details from Stripe using the stripeId
+      const subscription = await stripe.subscriptions.retrieve(user.stripeId);
 
       return res.status(200).json({
-        subscriptionStatus: subscription.status,
-        subscriptionDetails: subscription,
+        billingDetails: {
+          email: subscription.customer_email || 'N/A', // Email from Stripe
+          subscriptionStart: subscription.current_period_start,
+          subscriptionEnd: subscription.current_period_end,
+          status: subscription.status,
+          plan: subscription.items.data[0].plan.nickname, // Assuming only one plan
+        },
       });
     } catch (error) {
-      console.error('Error retrieving subscription:', error);
+      console.error('Error retrieving subscription details:', error);
       return res.status(500).json({ error: { message: error.message } });
     }
   } else {
