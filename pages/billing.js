@@ -42,14 +42,6 @@ export default function BillingPage() {
       </Head>
       <SectionWrapper>
         <Billing />
-        <button
-          onClick={handleCheckout}
-          disabled={loading}
-          className="btn-primary mt-4"
-        >
-          {loading ? 'Processing...' : 'Get a subscription to use CodeFlash! Only $6.99 a month.'}
-        </button>
-        
       </SectionWrapper>
       </SignedIn>
     </>
