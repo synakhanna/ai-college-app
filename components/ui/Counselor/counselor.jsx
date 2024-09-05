@@ -153,8 +153,7 @@ export default function Counselor() {
                         <button
                             onClick={sendMessage}
                             disabled={isLoading}
-                            className="p-2 text-white rounded-lg"
-                            style={{ backgroundColor: '#4600D1' }}
+                            className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
                         >
                             {isLoading ? 'Sending..' : 'Send'}
                         </button>

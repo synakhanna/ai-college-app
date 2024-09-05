@@ -318,7 +318,7 @@ const Profile = () => {
                             <button
                                 type="button"
                                 onClick={resetTuition}
-                                className="flex items-center justify-center gap-x-1 text-lg ml-5 text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
+                                className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
                                 >
                                 Reset
                             </button>
