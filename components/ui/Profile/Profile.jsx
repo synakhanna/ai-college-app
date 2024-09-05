@@ -17,7 +17,7 @@ const Profile = () => {
     });
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-    const helpOptions = ["essays", "extracurricular", "financialAid", "additionalCounseling"];
+    const helpOptions = ["Essays", "Extracurricular", "Financial Aid", "Additional Counseling"];
 
     const programOptions = [
         { value: "latest.academics.program_percentage.agriculture", label: "Agriculture, Agriculture Operations, And Related Sciences" },
