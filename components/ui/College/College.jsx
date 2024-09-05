@@ -97,7 +97,7 @@ export default function Table() {
                   onClick={handleToggleSaved}
                   className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
                 >
-                  {showSaved ? "See Full List" : "Go to Saved"}
+                  {showSaved ? "See Full List" : "Go to Favorites"}
                 </button>
               </div>
 
