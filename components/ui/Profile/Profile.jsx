@@ -274,10 +274,10 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-                    {/* Social Media Links */}
+                    {/* LinkedIn Link */}
                     <div>
                         <label className="block text-white text-lg font-semibold">
-                            Social Media Links
+                            LinkedIn Profile
                         </label>
                         {["LinkedIn URL"].map((placeholder, index) => (
                             <div key={index} className="mt-2">
