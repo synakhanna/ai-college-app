@@ -2,6 +2,7 @@ import SectionWrapper from "@/components/SectionWrapper";
 import Billing from "@/components/ui/Billing";
 import Head from "next/head";
 import { useState } from "react";
+import { SignedIn } from "@clerk/nextjs";
 
 export default function BillingPage() {
   const [loading, setLoading] = useState(false);
@@ -35,6 +36,7 @@ export default function BillingPage() {
 
   return (
     <>
+      <SignedIn>
       <Head>
         <title>Billing - CollegeGenie</title>
       </Head>
@@ -49,6 +51,7 @@ export default function BillingPage() {
         </button>
         
       </SectionWrapper>
+      </SignedIn>
     </>
   );
 }

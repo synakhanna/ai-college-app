@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { SignedIn } from '@clerk/nextjs';
 
 const Result = () => {
   const router = useRouter();
@@ -52,6 +53,7 @@ const Result = () => {
   }
 
   return (
+    <SignedIn>
     <div>
       {!subscriptionDetails ? (
         <div>
@@ -72,6 +74,7 @@ const Result = () => {
         </div>
       )}
     </div>
+    </SignedIn>
   );
 };
 
