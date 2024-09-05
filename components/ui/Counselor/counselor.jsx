@@ -11,56 +11,87 @@ export default function Counselor() {
     ]);
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isMounted, setIsMounted] = useState(false); // State to check if component is mounted
     const sentMessageColor = '#EDDCFF';
     const receivedMessageColor = '#4600D1';
 
+    useEffect(() => {
+        // Set the component as mounted
+        setIsMounted(true);
+
+        // Load messages from localStorage on mount, only if localStorage is available
+        const savedMessages = typeof window !== 'undefined' && localStorage.getItem('chatMessages');
+        if (savedMessages) {
+            setMessages(JSON.parse(savedMessages));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isMounted) {
+            // Store messages in localStorage when they are updated, only on the client side
+            localStorage.setItem('chatMessages', JSON.stringify(messages));
+        }
+    }, [messages, isMounted]);
+
     const sendMessage = async () => {
         if (!message.trim()) return;  // Don't send empty messages
-      
-        setMessage('')
-        setMessages((messages) => [
-          ...messages,
-          { role: 'user', content: message },
-          { role: 'assistant', content: '' },
-        ])
-      
-        try {
-          const response = await fetch('/api/collegeCounselor', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify([...messages, { role: 'user', content: message }]),
-          })
-      
-          if (!response.ok) {
-            throw new Error('Network response was not ok')
-          }
-      
-          const reader = response.body.getReader()
-          const decoder = new TextDecoder()
-      
-          while (true) {
-            const { done, value } = await reader.read()
-            if (done) break
-            const text = decoder.decode(value, { stream: true })
-            setMessages((messages) => {
-              let lastMessage = messages[messages.length - 1]
-              let otherMessages = messages.slice(0, messages.length - 1)
-              return [
-                ...otherMessages,
-                { ...lastMessage, content: lastMessage.content + text },
-              ]
-            })
-          }
-        } catch (error) {
-          console.error('Error:', error)
-          setMessages((messages) => [
+
+        const newMessages = [
             ...messages,
-            { role: 'assistant', content: "I'm sorry, but I encountered an error. Please try again later." },
-          ])
+            { role: 'user', content: message },
+            { role: 'assistant', content: '' },
+        ];
+        setMessage('');
+        setMessages(newMessages);
+
+        try {
+            const response = await fetch('/api/collegeCounselor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify([...messages, { role: 'user', content: message }]),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                const text = decoder.decode(value, { stream: true });
+                setMessages((messages) => {
+                    let lastMessage = messages[messages.length - 1];
+                    let otherMessages = messages.slice(0, messages.length - 1);
+                    return [
+                        ...otherMessages,
+                        { ...lastMessage, content: lastMessage.content + text },
+                    ];
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setMessages((messages) => [
+                ...messages,
+                { role: 'assistant', content: "I'm sorry, but I encountered an error. Please try again later." },
+            ]);
         }
-      }
+    };
+
+    const resetChat = () => {
+        const initialMessage = [
+            {
+                role: 'assistant',
+                content: 'Hi! I\'m your CollegeGenie AI Counselor, here to guide you through your college journey. How can I assist you today?',
+            },
+        ];
+        setMessages(initialMessage);
+        localStorage.setItem('chatMessages', JSON.stringify(initialMessage));
+    };
 
     const messagesEndRef = useRef(null);
 
@@ -80,23 +111,12 @@ export default function Counselor() {
     };
 
     function parseChatbotText(text) {
-        // Replace line breaks with <br> for HTML line breaks
         text = text.replace(/\n/g, '<br>');
-    
-        // Bold text by converting **text** to <strong>text</strong>
         text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    
-        // Italics text by converting *text* or _text_ to <em>text</em>
         text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
         text = text.replace(/_(.*?)_/g, '<em>$1</em>');
-    
-        // Inline code by converting `code` to <code>code</code>
         text = text.replace(/`(.*?)`/g, '<code>$1</code>');
-    
-        // Code blocks by converting ```code``` to <pre><code>code</code></pre>
         text = text.replace(/```(.*?)```/gs, '<pre><code>$1</code></pre>');
-    
-        // Return the formatted text
         return text;
     }
 
@@ -132,11 +152,8 @@ export default function Counselor() {
                                             ? 'white'
                                             : 'black',
                                 }}
-
-                            dangerouslySetInnerHTML={{ __html: parseChatbotText(message.content) }}    
+                                dangerouslySetInnerHTML={{ __html: parseChatbotText(message.content) }}
                             />
-                                
-                            
                         ))}
                         <div ref={messagesEndRef} />
                     </div>
@@ -156,6 +173,12 @@ export default function Counselor() {
                             className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
                         >
                             {isLoading ? 'Sending..' : 'Send'}
+                        </button>
+                        <button
+                            onClick={resetChat}
+                            className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
+                        >
+                            Reset
                         </button>
                     </div>
                 </div>
