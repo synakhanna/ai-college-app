@@ -1,38 +1,96 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# CollegeGenie 🧞
+
+Welcome to **CollegeGenie**, an AI-powered web application designed to help you find the right colleges, streamline applications, and achieve success in your college journey.
+
+## Features
+
+- **College Search & Matching**: Find the perfect college based on your interests, location, and academic goals using our AI-powered search.
+- **Personalized Application Assistance**: Receive personalized guidance and tips for every part of your application, from essays to recommendation letters.
+- **AI-Powered Essay Reviews**: Get feedback on your college essays from our AI tool that provides suggestions for improving clarity, tone, and impact.
+- **Scholarship Finder**: Discover scholarships that you qualify for based on your background and academic achievements.
+- **Interview Preparation**: Prepare for college interviews with AI-generated practice questions and tips to help you feel confident.
+- **Network**: Build your network by connecting with other fellow students.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- **Node.js** (v14.x or higher) and **npm** installed.
+- A Firebase project set up with Firestore enabled.
+- A Clerk account for authentication.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-username/ai-college-app.git
+   cd ai-college-app
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+2. **Install dependencies**:
+   npm install
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+3. **Set up environment variables:**
+   Create a .env.local file and add the following credentials:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+    COLLEGE_SCORECARD_API_KEY=
+    OPEN_API_KEY=
+    OPENAI_API_KEY=
+    PINECONE_API_KEY=
+    OPENROUTER_API_KEY=
+    HUGGINGFACE_API_KEY=
 
-## Learn More
+   Create a .env file and add the following credentials:
 
-To learn more about Next.js, take a look at the following resources:
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+    CLERK_SECRET_KEY=
+    NEXT_PUBLIC_STRIPE_PUBLIC_KEY=
+    STRIPE_SECRET_KEY=
+    COLLEGE_SCORECARD_API_KEY=
+    OPENAI_API_KEY=
+    MONGODB_URI=
+    PINECONE_API_KEY=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Run the app:**:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    npm run dev
 
-## Deploy on Vercel
+    The live server will be available at http://localhost:3000. 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Details
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Usage
+
+### Creating Profile
+ - 1. Sign up/Login to your account from the landing page.
+ - 2. Navigate to the "Profile" page.
+ - 3. Fill out the forum.
+
+### College Matching 
+ - Go to the "College" page to see all the colleges which best fit your profile.
+ - Like colleges to add to favorites
+
+ ### Counseling
+ - Go to the "Counselor" page to speak to your personalized Genie (counselor).
+ - Ask questions about essays, finances, extracurriculars, and more.
+
+### Networking
+ - Go to the "Network" page to view other users.
+ - Connect with them on LinkedIn.
+
+ ### Billing
+ - Go to the "Billing" page to see your account billing information.
+ - Subscribe/Unsubscribe to CollegeGenie.
+
+### Technologies Used 🛠️
+ - Next.js: Framework for building the app.
+ - Stripe: For payment transactions and subcription management.
+ - Clerk: Authentication service for secure user sign-in.
+ - React: For building interactive UI components.
+ - Tailwind CSS: For styling the app.
+
+## Contribution by 🤝
+
+### Fatima Riaz
+### Syna Khanna
+### Mukut Chowdhury
+### Tahmidur Rabb
