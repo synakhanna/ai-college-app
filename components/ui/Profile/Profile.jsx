@@ -281,7 +281,7 @@ const Profile = () => {
                         <label className="block text-white text-lg font-semibold">
                             Social Media Links
                         </label>
-                        {["LinkedIn URL", "Discord Username", "WhatsApp Number"].map((placeholder, index) => (
+                        {["LinkedIn URL"].map((placeholder, index) => (
                             <div key={index} className="mt-2">
                                 <input
                                     type="url"
