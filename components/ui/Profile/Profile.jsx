@@ -67,7 +67,7 @@ const Profile = () => {
                     if (response.status === 200) {
                         const data = response.data;
                         setFormData({
-                            // major: data.major || "",
+                           // major: data.major || "",
                             gpa: data.academicInfo.gpa || "",
                             satScore: data.academicInfo.satScore || "",
                             helpNeeded: data.help || [],
@@ -187,38 +187,44 @@ const Profile = () => {
 
         try {
 
-                const loc =  `{\"city\":\"${formData.preferredLocation.city}\",\"state\":\"${formData.preferredLocation.state}\"}`;
-                const collegeResponse = await axios.get('/api/colleges', {
-                        params: {
-                            location: decodeURI(loc),
-                            sortOrder: 'asc',
-                            limit: 500,
-                            major: formData.selectedProgram,
-                            fee_range: formData.tuition,
-                        },
-                    });
-    
-                console.log('Colleges:', collegeResponse.data);
-    
-            // Save the profile data
-            const saveResponse = await axios.post('/api/save_profile', {
-                clerkId: user.id,
-                fullName: user.fullName || user.username,
-                email: user.primaryEmailAddress.emailAddress,
-                academicTrack: formData.selectedProgram, // Mapping formData.selectedProgram to academicTrack
-                gpa: formData.gpa,
-                satScore: formData.satScore,
-                helpNeeded: formData.helpNeeded, // Mapping formData.helpNeeded to help
-                addresses: formData.preferredLocation, // Mapping formData.preferredLocation to addresses
-                tuition: formData.tuition, // Mapping formData.tuition to desiredTuition
-                suggestedColleges: collegeResponse.data,
-                socialMediaTags: formData.socialMediaTags.filter(tag => tag !== ""), // Filtering out empty tags
-            });
+        // Prepare params for the API request
+        let params = {
+            sortOrder: 'asc',
+            limit: 500,
+            major: formData.selectedProgram,
+            fee_range: formData.tuition
+        };
 
-        } catch (error) {
-            console.error('Error during the process:', error.message);
-            alert('An error occurred. Please try again.');
+        // If preferredLocation is available, add location data to params
+        if (formData.preferredLocation && formData.preferredLocation.city && formData.preferredLocation.state) {
+            const loc = `{\"city\":\"${formData.preferredLocation.city}\",\"state\":\"${formData.preferredLocation.state}\"}`;
+            params.location = decodeURI(loc);
         }
+
+        // Fetch suggested colleges
+        const collegeResponse = await axios.get('/api/colleges', { params });
+        console.log('Colleges:', collegeResponse.data);
+
+    
+
+        const saveResponse = await axios.post('/api/save_profile', {
+            clerkId: user.id,
+            fullName: user.fullName || user.username,
+            email: user.primaryEmailAddress.emailAddress,
+            academicTrack: formData.selectedProgram, // Mapping formData.selectedProgram to academicTrack
+            gpa: formData.gpa,
+            satScore: formData.satScore,
+            helpNeeded: formData.helpNeeded, // Mapping formData.helpNeeded to help
+            addresses: formData.preferredLocation ? formData.preferredLocation : null, // Sends null if preferredLocation is empty
+            tuition: formData.tuition, // Mapping formData.tuition to desiredTuition
+            suggestedColleges: collegeResponse.data,
+            socialMediaTags: formData.socialMediaTags.filter(tag => tag !== ""), // Filtering out empty tags
+        });
+
+    } catch (error) {
+        console.error('Error during the process:', error.message);
+        alert('An error occurred. Please try again.');
+    }
     };
     return (
         <section className="py-10 sm:py-20">
