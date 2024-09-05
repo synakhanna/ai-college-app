@@ -45,7 +45,7 @@ export default async function handler(req, res) {
               product_data: {
                 name: 'Pro subscription',
               },
-              unit_amount: 699, // Assuming $6.99/month
+              unit_amount: 199, // Assuming $6.99/month
               recurring: {
                 interval: 'month',
               },
