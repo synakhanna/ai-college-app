@@ -137,7 +137,7 @@ export default function Counselor() {
                         ))}
                         <div ref={messagesEndRef} />
                     </div>
-                    <div className="flex mt-4 space-x-2">
+                    <div className="flex flex-col sm:flex-row mt-4 space-x-0 space-y-2 sm:space-y-0 sm:space-x-2">
                         <input
                             type="text"
                             className="flex-grow p-2 text-white bg-black border-none rounded-lg placeholder-gray-500"

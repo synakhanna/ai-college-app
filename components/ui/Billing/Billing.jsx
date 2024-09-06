@@ -80,7 +80,13 @@ export default function Table() {
   return (
     <div className="custom-screen py-20">
       <div className="space-y-5 max-w-6xl mx-auto text-center">
-        <h1 className="text-4xl font-extrabold text-white mx-auto sm:text-6xl py-6">Billing Information</h1>
+      <h1 className="text-4xl bg-clip-text text-transparent bg-gradient-to-r font-extrabold mx-auto sm:text-6xl py-6"
+                        style={{
+                            backgroundImage: "linear-gradient(179.1deg, #FFFFFF 0.77%, rgba(255, 255, 255, 0) 182.09%)"
+                        }}
+                    >
+                        Billing Information
+                    </h1>
         
         <button
           onClick={handleCheckout}
