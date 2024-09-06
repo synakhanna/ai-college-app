@@ -89,7 +89,7 @@ const Network = () => {
                     </div>
                     )}
 
-                    <p className="text-gray-500 mt-4 text-xs">Date Created: {new Date(user.dateCreated).toLocaleDateString()}</p>
+                  
                 </div>
                 ))}
             </div>

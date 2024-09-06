@@ -23,12 +23,12 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
-      const { clerkId } = req.body;  // Assuming the frontend sends the user's clerkId
+      const { userId } = req.body;  // The frontend sends the user's Clerk ID as the userId
 
-      await connectDB(); // Ensure you're connected to MongoDB
+      await connectDB();  // Connect to MongoDB
 
-      // Find the user in the database
-      const user = await User.findOne({ clerkId });
+      // Find the user by Clerk userId (which is _id in your schema)
+      const user = await User.findOne({ _id: userId });
 
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
@@ -53,13 +53,12 @@ export default async function handler(req, res) {
             quantity: 1,
           },
         ],
-        // Use `req.headers.origin` to get the base URL and append the billing result page
-        success_url: `${req.headers.origin}/billing/session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${req.headers.origin}/billing?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin}/billing`,
-        client_reference_id: clerkId, // Reference the user in Stripe with clerkId
+        client_reference_id: userId,  // Reference the user in Stripe with their MongoDB _id (Clerk userId)
       });
 
-      // Update the user in MongoDB with the Stripe session ID
+      // Save the session ID in MongoDB (this will be saved temporarily for future reference)
       user.stripeId = session.id;
       await user.save();
 
@@ -73,8 +72,6 @@ export default async function handler(req, res) {
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
-
-
 
 
 

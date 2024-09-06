@@ -12,8 +12,11 @@ export default async function handler(req, res) {
   try {
     await connectDB();
 
-    // Find all users and return their fullName, email, academicTrack, academicInfo, dateCreated, and socialMediaTags
-    const users = await User.find({}, 'fullName email academicTrack academicInfo dateCreated socialMediaTags');
+    // Find all users where socialMediaTags exists and is not empty
+    const users = await User.find(
+      { socialMediaTags: { $exists: true, $ne: [] } }, // Filter users with socialMediaTags not empty
+      'fullName email academicTrack academicInfo socialMediaTags' // Return only specific fields
+    );
 
     if (!users.length) {
       return res.status(404).json({ message: 'No users found' });
