@@ -80,7 +80,7 @@ export default function Table() {
   return (
     <div className="custom-screen py-20">
       <div className="space-y-5 max-w-6xl mx-auto text-center">
-        <h1 className="text-4xl font-extrabold mx-auto sm:text-6xl py-6">Billing Information</h1>
+        <h1 className="text-4xl font-extrabold text-white mx-auto sm:text-6xl py-6">Billing Information</h1>
         
         <button
           onClick={handleCheckout}
