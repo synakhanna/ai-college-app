@@ -11,27 +11,8 @@ export default function Counselor() {
     ]);
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [isMounted, setIsMounted] = useState(false); // State to check if component is mounted
     const sentMessageColor = '#EDDCFF';
     const receivedMessageColor = '#4600D1';
-
-    useEffect(() => {
-        // Set the component as mounted
-        setIsMounted(true);
-
-        // Load messages from localStorage on mount, only if localStorage is available
-        const savedMessages = typeof window !== 'undefined' && localStorage.getItem('chatMessages');
-        if (savedMessages) {
-            setMessages(JSON.parse(savedMessages));
-        }
-    }, []);
-
-    useEffect(() => {
-        if (isMounted) {
-            // Store messages in localStorage when they are updated, only on the client side
-            localStorage.setItem('chatMessages', JSON.stringify(messages));
-        }
-    }, [messages, isMounted]);
 
     const sendMessage = async () => {
         if (!message.trim()) return;  // Don't send empty messages
@@ -90,7 +71,6 @@ export default function Counselor() {
             },
         ];
         setMessages(initialMessage);
-        localStorage.setItem('chatMessages', JSON.stringify(initialMessage));
     };
 
     const messagesEndRef = useRef(null);
