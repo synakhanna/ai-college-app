@@ -50,6 +50,12 @@ export default async function handler(req, res) {
         { upsert: true, new: true, setDefaultsOnInsert: true } // Upsert and create a new document if not existing
       );
 
+      // Ensure all colleges in suggestedColleges have isFavorite field
+      await User.updateMany(
+        { _id: userId, "suggestedColleges.isFavorite": { $exists: false } },
+        { $set: { "suggestedColleges.$[].isFavorite": false } }
+    );
+
       res.status(200).json({ success: true, message: 'Profile saved successfully.', user: newUser });
     } catch (error) {
       console.error(error);
