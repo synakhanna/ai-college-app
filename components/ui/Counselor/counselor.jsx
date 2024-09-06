@@ -15,7 +15,7 @@ export default function Counselor() {
     const receivedMessageColor = '#4600D1';
 
     const sendMessage = async () => {
-        if (!message.trim()) return;  // Don't send empty messages
+        if (!message.trim()) return;
 
         const newMessages = [
             ...messages,
@@ -71,6 +71,15 @@ export default function Counselor() {
             },
         ];
         setMessages(initialMessage);
+    };
+
+    const downloadChat = () => {
+        const chatContent = messages.map(message => `${message.role}: ${message.content}`).join('\n\n');
+        const blob = new Blob([chatContent], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'chat.txt';
+        link.click();
     };
 
     const messagesEndRef = useRef(null);
@@ -159,6 +168,12 @@ export default function Counselor() {
                             className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
                         >
                             Reset
+                        </button>
+                        <button
+                            onClick={downloadChat}
+                            className="flex items-center justify-center gap-x-1 text-lg text-white font-medium custom-btn-bg border border-gray-500 active:bg-gray-900 px-4 py-2 rounded-lg md:inline-flex"
+                        >
+                            Download Chat
                         </button>
                     </div>
                 </div>
