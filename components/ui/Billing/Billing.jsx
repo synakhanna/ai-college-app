@@ -9,12 +9,12 @@ export default function Table() {
   const { user } = useClerk();  // Get the current signed-in user
   const [account, setAccount] = useState({
     name: '',
-    dateJoined: '',
+    subscriptionStart: '',
+    subscriptionEnd: '',
     subscriptionStatus: '',
   });
   const [loading, setLoading] = useState(false);
 
-  // Checkout handler
   const handleCheckout = async () => {
     setLoading(true);
     try {
@@ -23,7 +23,6 @@ export default function Table() {
         return;
       }
 
-      // Create the checkout session for the user
       const response = await fetch('/api/checkout_session', {
         method: 'POST',
         headers: {
@@ -46,13 +45,11 @@ export default function Table() {
     }
   };
 
-  // Fetch subscription details
   useEffect(() => {
     const fetchSubscriptionDetails = async () => {
       try {
         if (!user) return;
 
-        // Fetch subscription details for the user
         const response = await fetch(`/api/get_subscription?userId=${user.id}`, {
           method: 'GET',
         });
@@ -62,7 +59,8 @@ export default function Table() {
           if (data.billingDetails) {
             setAccount({
               name: user.fullName || 'N/A',  // Clerk's fullName
-              dateJoined: new Date(user.createdAt).toLocaleDateString(),  // Clerk's createdAt
+              subscriptionStart: data.billingDetails.subscriptionStart,
+              subscriptionEnd: data.billingDetails.subscriptionEnd,
               subscriptionStatus: data.billingDetails.status,  // Stripe subscription status
             });
           }
@@ -110,10 +108,18 @@ export default function Table() {
                 </tr>
                 <tr className="hover:bg-gray-50">
                   <td className="px-6 py-4 align-middle text-sm text-left font-bold text-gray-700" style={{ width: '150px' }}>
-                    Date Joined
+                    Subscription Start
                   </td>
                   <td className="px-6 py-4 align-middle text-sm text-left text-gray-700">
-                    {account.dateJoined}
+                    {account.subscriptionStart}
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 align-middle text-sm text-left font-bold text-gray-700" style={{ width: '150px' }}>
+                    Subscription End
+                  </td>
+                  <td className="px-6 py-4 align-middle text-sm text-left text-gray-700">
+                    {account.subscriptionEnd}
                   </td>
                 </tr>
                 <tr className="hover:bg-gray-50">
