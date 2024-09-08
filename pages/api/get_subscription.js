@@ -9,51 +9,42 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-      const { userId } = req.query;  // Clerk userId (MongoDB _id) is passed in the query
+      const { userId } = req.query;
 
       if (!userId) {
         throw new Error('User ID is required');
       }
 
-      await connectDB();  // Connect to MongoDB
+      await connectDB();
 
-      // Find the user by Clerk userId (which is _id in your schema)
       const user = await User.findOne({ _id: userId });
 
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
 
-      // Check if the user has a Stripe session ID saved in MongoDB
       if (!user.stripeId) {
-        throw new Error('No Stripe session found for this user');
+        throw new Error('No Stripe customer found for this user');
       }
 
-      // Retrieve the Stripe checkout session
-      const checkoutSession = await stripe.checkout.sessions.retrieve(user.stripeId);
+      // Retrieve all subscriptions for this customer
+      const subscriptions = await stripe.subscriptions.list({
+        customer: user.stripeId,
+        status: 'all',  // Fetch all subscriptions, including canceled ones
+        expand: ['data.default_payment_method'],
+      });
 
-      // Get the subscription ID from the session
-      const subscriptionId = checkoutSession.subscription;
-
-      if (!subscriptionId) {
-        throw new Error('No subscription found for this session');
+      if (subscriptions.data.length === 0) {
+        throw new Error('No subscriptions found for this customer');
       }
 
-      // Retrieve the subscription details from Stripe using the subscription ID
-      const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+      const subscription = subscriptions.data[0];  // Assuming one active subscription
 
-      // If the user's `stripeId` hasn't been updated with the actual subscription ID, update it
-      if (user.stripeId !== subscriptionId) {
-        user.stripeId = subscriptionId;
-        await user.save();
-      }
-
-      // Return the subscription details
       return res.status(200).json({
         billingDetails: {
           email: subscription.customer_email || 'N/A',
-          subscriptionStart: subscription.current_period_start,
-          subscriptionEnd: subscription.current_period_end,
+          subscriptionStart: new Date(subscription.current_period_start * 1000).toLocaleDateString(), // Convert from Unix timestamp
+          subscriptionEnd: new Date(subscription.current_period_end * 1000).toLocaleDateString(), // Convert from Unix timestamp
           status: subscription.status,
           plan: subscription.items.data[0].plan.nickname,  // Assuming only one plan
         },

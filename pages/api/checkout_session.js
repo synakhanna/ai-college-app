@@ -23,9 +23,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
-      const { userId } = req.body;  // The frontend sends the user's Clerk ID as the userId
+      const { userId } = req.body;
 
-      await connectDB();  // Connect to MongoDB
+      await connectDB();
 
       // Find the user by Clerk userId (which is _id in your schema)
       const user = await User.findOne({ _id: userId });
@@ -34,8 +34,23 @@ export default async function handler(req, res) {
         return res.status(404).json({ message: 'User not found' });
       }
 
+      let customerId = user.stripeId;
+
+      // Create a new Stripe customer if user doesn't have one
+      if (!customerId) {
+        const customer = await stripe.customers.create({
+          email: user.email,
+          name: user.fullName,
+        });
+
+        customerId = customer.id;
+        user.stripeId = customerId;
+        await user.save();  // Save the Stripe customer ID in the user document
+      }
+
       // Create a new Stripe Checkout Session
       const session = await stripe.checkout.sessions.create({
+        customer: customerId,
         mode: 'subscription',
         payment_method_types: ['card'],
         line_items: [
@@ -45,7 +60,7 @@ export default async function handler(req, res) {
               product_data: {
                 name: 'Pro subscription',
               },
-              unit_amount: 199, // Assuming $1.99/month
+              unit_amount: 199, // $1.99/month
               recurring: {
                 interval: 'month',
               },
@@ -55,12 +70,7 @@ export default async function handler(req, res) {
         ],
         success_url: `${req.headers.origin}/billing?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin}/billing`,
-        client_reference_id: userId,  // Reference the user in Stripe with their MongoDB _id (Clerk userId)
       });
-
-      // Save the session ID in MongoDB (this will be saved temporarily for future reference)
-      user.stripeId = session.id;
-      await user.save();
 
       return res.status(200).json({ url: session.url });
     } catch (error) {
@@ -72,6 +82,7 @@ export default async function handler(req, res) {
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
+
 
 
 
