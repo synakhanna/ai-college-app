@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   },
   academicTrack: { type: String, required: true }, // Academic track (could be multiple)
   help: [{ type: String, required: true }], // Help options
-  desiredTuition: { type: Number, required: true },
+  desiredTuition: { type: Number, required: false },
   addresses: {
     city: {
       type: String,
