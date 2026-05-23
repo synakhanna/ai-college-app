@@ -93,7 +93,7 @@ Welcome to **CollegeGenie**, an AI-powered web application designed to help you 
 - React: For building interactive UI components.
 - Tailwind CSS: For styling the app.
 - MongoDB: Storing User information and displaying them in the network page.
-- Retrieval-Augmented Generation (RAG): AI framework used to retreive LLMs to produce better result so the counselor can respond more accurately.
+- Retrieval-Augmented Generation (RAG): AI framework used to retrieve LLMs to produce better result so the counselor can respond more accurately.
 - OpenAI: Used to create the counselor.
 - Postman: software application used to test each indivual APIs.
 
